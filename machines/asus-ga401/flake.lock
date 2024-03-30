@@ -166,6 +166,22 @@
         "type": "github"
       }
     },
+    "i3-layout": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1620766955,
+        "narHash": "sha256-0fKFlRW8GxAO/Y3MlkOna8Fp9hUX5+eTVvRVuB7O8IU=",
+        "owner": "eliep",
+        "repo": "i3-layouts",
+        "rev": "f74f1922052239851d502235fc09cefdd632a73e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "eliep",
+        "repo": "i3-layouts",
+        "type": "github"
+      }
+    },
     "nix-alien": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -383,6 +399,7 @@
       "inputs": {
         "hardware": "hardware",
         "home-manager": "home-manager",
+        "i3-layout": "i3-layout",
         "nix-alien": "nix-alien",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",

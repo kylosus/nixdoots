@@ -1,7 +1,11 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
+    # The most important
+    fish
+
     # nix related
     nix-index
+    home-manager
 
     # essential
     git
@@ -11,7 +15,7 @@
     vim
 
     # for errno
-    moreutils
+    # moreutils
 
     # archives
     gnutar
@@ -31,15 +35,15 @@
     tcpdump
 
     # misc
-    sl
-    lolcat
-    cowsay
-    file
-    which
-    tree
-    gnused
-    gawk
-    gnupg
+    # sl
+    # lolcat
+    # cowsay
+    # file
+    # which
+    # tree
+    # gnused
+    # gawk
+    # gnupg
 
     # monitoring
     htop

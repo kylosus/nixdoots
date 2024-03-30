@@ -39,5 +39,7 @@
     })
     config.nix.registry;
 
+  programs.command-not-found.enable = false;
+
   system.stateVersion = "23.05";
 }

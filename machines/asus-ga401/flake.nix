@@ -16,6 +16,11 @@
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    i3-layout = {
+      url = "github:eliep/i3-layouts";
+      flake = false;
+    };
+
     # For quick hardware configuration (asus ga401)
     hardware.url = "github:nixos/nixos-hardware";
   };
@@ -35,56 +40,71 @@
       system = "x86_64-linux";
       timeZone = "Europe/Istanbul";
 
-      hostname = "jassas";
-      username = "mkti";
-      fullname = "Mohammad KT. Issa";
+      hostname = "ok";
+      username = "user";
+      fullname = "Userly user 2";
 
       shell = "fish";
       terminal = "foot";
       fs = {
-        luksDisk = "/dev/disk/by-uuid/cc9817b5-da28-4c7b-b3db-e72432eec270";
-        btrfsDisk = "/dev/disk/by-uuid/7c9bc6f5-8a1d-4f21-afa0-a44f806eafba";
-        bootDisk = "/dev/disk/by-uuid/EFE3-A253";
-        rootSubvol = "nixos";
-        homeSubvol = "home";
-        swapSize = 16 * 1024;
+        luksDisk = "/dev/disk/by-uuid/357e2f86-0d91-4a42-8549-ca6213482783";
+        rootDisk = "/dev/disk/by-uuid/3f1683f0-41bd-4350-9383-f8e79a4aea5c";
+        bootDisk = "/dev/disk/by-uuid/E3BD-99A2";
       };
     };
-  in {
+
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+    systems = ["x86_64-linux"];
+
+    nixosModules = [
+      hardware.nixosModules.asus-zephyrus-ga401
+      ./modules/nixos
+    ];
+  in rec {
     formatter.${params.system} = nixpkgs.legacyPackages.${params.system}.alejandra;
 
     overlays = import ./overlays {inherit inputs;};
 
+    legacyPackages = forAllSystems (
+      system:
+        import nixpkgs {
+          system = params.system;
+          overlays = builtins.attrValues overlays;
+        }
+    );
+
+    # Hardware stuff
+    hardware.nvidia.prime.offload.enable = true;
+    hardware.nvidia.forceFullCompositionPipeline = true;
+
     # NixOS configuration entrypoint
     nixosConfigurations = {
       ${params.hostname} = nixpkgs.lib.nixosSystem {
+        # pkgs = legacyPackages."${params.system}";
         specialArgs = {inherit inputs outputs params;};
-        modules = [
-          hardware.nixosModules.asus-zephyrus-ga401
-
-          ./modules/nixos/nix.nix
-
-          ./modules/nixos/boot.nix
-          ./modules/nixos/filesystem.nix
-          ./modules/nixos/network.nix
-          ./modules/nixos/services.nix
-          ./modules/nixos/users.nix
-
-          ./modules/nixos/global-packages.nix
-        ];
+        modules =
+          nixosModules
+          ++ [
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {inherit inputs outputs params;};
+              home-manager.users."${params.username}".imports = [
+                ./modules/home-manager
+              ];
+            }
+          ];
       };
     };
 
-    # Standalone home-manager configuration entrypoint
-    homeConfigurations = {
-      "${params.username}@${params.hostname}" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs params;};
-        modules = [
-          ./modules/home-manager/home.nix
-          ./modules/home-manager/commandline.nix
-        ];
-      };
+    homeConfigurations."${params.username}" = home-manager.lib.homeManagerConfiguration {
+      pkgs = legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
+      modules = [
+        ./modules/home-manager
+        ./modules/home-manager/home.nix
+      ];
+      extraSpecialArgs = {inherit inputs outputs params;};
     };
   };
 }

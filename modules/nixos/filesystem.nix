@@ -10,23 +10,17 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  swapDevices = [
-    {
-      device = "/var/lib/swapfile";
-      size = params.fs.swapSize;
-    }
-  ];
+  # swapDevices = [
+  #   {
+  #     device = "/var/lib/swapfile";
+  #     size = params.fs.swapSize;
+  #   }
+  # ];
 
   fileSystems."/" = {
-    device = params.fs.btrfsDisk;
-    fsType = "btrfs";
-    options = ["subvol=${params.fs.rootSubvol}" "compress=zstd" "noatime"];
-  };
-
-  fileSystems."/home" = {
-    device = params.fs.btrfsDisk;
-    fsType = "btrfs";
-    options = ["subvol=${params.fs.homeSubvol}" "compress=zstd" "noatime"];
+    device = params.fs.rootDisk;
+    fsType = "ext4";
+    options = ["relatime"];
   };
 
   fileSystems."/boot" = {
