@@ -63,11 +63,11 @@
           PartOf = ["i3-session.target"];
           After = ["xrandr.service" "picom.service"];
         };
-       Service = {
-         # ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${config.xdg.userDirs.pictures}/wallpapers/wallpaper.png";
-         ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${files.wallpaper}";
-         RemainAfterExit = true;
-         Type = "oneshot";
+        Service = {
+          # ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${config.xdg.userDirs.pictures}/wallpapers/wallpaper.png";
+          ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${files.wallpaper}";
+          RemainAfterExit = true;
+          Type = "oneshot";
         };
         Install.WantedBy = ["i3-session.target"];
       };
