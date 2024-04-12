@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: {
   services.dunst = {
@@ -32,8 +33,8 @@
         word_wrap = "yes";
       };
       urgency_normal = {
-        background = "\${color0}";
-        foreground = "\${color7}";
+        background = "#0F161E";
+        foreground = "#89E2C2";
       };
     };
   };
