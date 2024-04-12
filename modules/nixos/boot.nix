@@ -1,6 +1,7 @@
 {
   params,
   modulesPath,
+  lib,
   ...
 }: {
   imports = [
@@ -14,15 +15,10 @@
   boot.extraModulePackages = [];
 
   boot.loader.systemd-boot.enable = true;
-  #  boot.loader.grub = {
-  #    enable = true;
-  #    device = "nodev";
-  #    useOSProber = true;
-  #  };
 
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices = {
+  boot.initrd.luks.devices = lib.mkDefault {
     root = {
       device = params.fs.luksDisk;
       preLVM = true;

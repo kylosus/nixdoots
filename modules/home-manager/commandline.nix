@@ -47,38 +47,11 @@
     };
   };
 
-  programs.kitty = {
-    enable = true;
-  };
-
-  programs.foot = {
-    enable = false;
-    server = {
-      enable = true;
-    };
-    settings = {
-      main = {
-        shell = params.shell;
-        font = "Iosevka Nerd Font Mono:size=12";
-        pad = "15x15center";
-      };
-      mouse = {
-        hide-when-typing = "yes";
-      };
-      csd = {
-        preferred = "none";
-      };
-      key-bindings = {
-        fullscreen = "F11";
-      };
-    };
-  };
-
   programs.fish = {
     enable = true;
 
     shellAliases = {
-      vim = "nvim";
+      vim = "${pkgs.neovim}/bin/nvim";
     };
 
     #    shellAbbrs = {
@@ -114,7 +87,6 @@
 
       set -gx EDITOR nvim
       set -gx BROWSER chromium
-      set -gx GOPATH $HOME/proj/go/
 
       fish_add_path -p $HOME/.local/bin
     '';

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  files,
   ...
 }: {
   imports = [
@@ -62,10 +63,11 @@
           PartOf = ["i3-session.target"];
           After = ["xrandr.service" "picom.service"];
         };
-        Service = {
-          ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${config.xdg.userDirs.pictures}/wallpapers/wallpaper.png";
-          RemainAfterExit = true;
-          Type = "oneshot";
+       Service = {
+         # ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${config.xdg.userDirs.pictures}/wallpapers/wallpaper.png";
+         ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${files.wallpaper}";
+         RemainAfterExit = true;
+         Type = "oneshot";
         };
         Install.WantedBy = ["i3-session.target"];
       };
@@ -91,7 +93,8 @@
           After = ["xrandr.service" "picom.service"];
         };
         Service = {
-          ExecStart = "${pkgs.pywal}/bin/wal -a 90 -i ${config.xdg.userDirs.pictures}/wallpapers/wallpaper.png";
+          ExecStart = "${pkgs.pywal}/bin/wal -a 90 -i ${files.wallpaper}";
+          # ExecStart = "${pkgs.pywal}/bin/wal -a 90 --theme ashes";
           RemainAfterExit = true;
           Type = "oneshot";
         };

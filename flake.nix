@@ -1,31 +1,92 @@
 {
-  description = "Bootstrapping Nix Config running shell";
+  description = "ok";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    # NixOS
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+
+    # Neovim in nix
+    # nixvim.url = "github:nix-community/nixvim/nixos-23.11";
+
+    # Run unpatched binaries
+    # nix-alien.url = "github:thiagokokada/nix-alien";
+
+    # Home manager
+    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Hardware configs
+    hardware.url = "github:nixos/nixos-hardware";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    ...
-  } @ inputs: let
-    systems = ["x86_64-linux"];
-    forAllSystems = function: nixpkgs.lib.genAttrs systems (system: function nixpkgs.legacyPackages.${system});
-  in {
-    formatter = forAllSystems (pkgs: pkgs.alejandra);
+  outputs = inputs: let
+    inherit (inputs.self) outputs;
 
-    devShells =
-      forAllSystems
-      (
-        pkgs: {
-          default = pkgs.mkShell {
-            NIX_CONFIG = "experimental-features = nix-command flakes";
-            nativeBuildInputs = with pkgs; [nix home-manager git];
-          };
-        }
-      );
+    files = import ./files;
+
+    mkNixosSystem = {
+      inputs,
+      outputs,
+      params,
+      ...
+    }:
+      inputs.nixpkgs.lib.nixosSystem {
+        # inherit system specialArgs;
+        specialArgs = {inherit inputs outputs files params;};
+        modules =
+          [./modules/nixos]
+          ++ params.imports
+          ++ [
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {inherit inputs outputs files params;};
+              home-manager.users."${params.username}".imports = [./modules/home-manager];
+            }
+          ];
+      };
+
+    mkHome = {
+      inputs,
+      outputs,
+      params,
+      ...
+    }: {
+      homeConfigurations."${params.username}" = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = inputs.nixpkgs.legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
+        modules = [
+          ./modules/home-manager
+          ./modules/home-manager/home.nix
+        ];
+        extraSpecialArgs = {inherit inputs outputs params;};
+      };
+    };
+
+    allSystems = ["x86_64-linux"];
+    forAllSystems = func: (inputs.nixpkgs.lib.genAttrs allSystems func);
+  in {
+    # formatter.x86_64-linux = inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    overlays = import ./overlays {inherit inputs;};
+
+    # Format the nix code in this flake
+    formatter = forAllSystems (
+      system: inputs.nixpkgs.legacyPackages.${system}.alejandra
+    );
+
+    packages = forAllSystems (
+      system: allSystems.${system}.packages or {}
+    );
+
+    nixosConfigurations = {
+      Yue = mkNixosSystem {
+        inherit inputs outputs;
+        params = import ./machines/asus-ga401 inputs;
+      };
+    };
+
+    # mkHome import ./machines/asus-ga401;
   };
 }

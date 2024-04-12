@@ -347,7 +347,6 @@
         format-volume = "mic <ramp-volume> <label-volume>";
         ramp-volume-foreground = foreground;
 
-
         ramp-volume-0 = "";
         ramp-volume-1 = "";
         ramp-volume-2 = "";

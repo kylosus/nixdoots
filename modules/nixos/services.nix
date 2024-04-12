@@ -11,6 +11,8 @@
   #  user = params.username;
   #};
 
+  services.displayManager.defaultSession = "none+i3";
+
   services.xserver = {
     enable = true;
 
@@ -35,7 +37,7 @@
 
     displayManager = {
       startx.enable = true;
-      defaultSession = "none+i3";
+      # defaultSession = "none+i3";
     };
 
     windowManager.i3 = {

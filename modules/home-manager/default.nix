@@ -10,7 +10,7 @@
   imports = [
     ./i3
     ./commandline.nix
-    ./neovim.nix
+    # ./neovim.nix
     ./wal.nix
   ];
 
@@ -20,6 +20,9 @@
     username = params.username;
     homeDirectory = "/home/${params.username}";
   };
+
+  # .xinitrc fix
+  home.file.".xinitrc".source = ./xinitrc;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
@@ -48,7 +51,8 @@
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
-    pinentryFlavor = "gnome3";
+    # Default is curses?
+    # pinentryPackage = "curses";
   };
 
   programs.git = {
@@ -104,6 +108,10 @@
     # transmission
     # wl-clipboard
 
+    xdg-user-dirs
+
+    discord
+
     # bear
     # tmux
 
@@ -121,6 +129,8 @@
 
     # glow
     # hyperfine
+
+    neovim
 
     # file
     # du-dust

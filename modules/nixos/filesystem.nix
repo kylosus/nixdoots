@@ -17,13 +17,13 @@
   #   }
   # ];
 
-  fileSystems."/" = {
+  fileSystems."/" = lib.mkDefault {
     device = params.fs.rootDisk;
     fsType = "ext4";
     options = ["relatime"];
   };
 
-  fileSystems."/boot" = {
+  fileSystems."/boot" = lib.mkDefault {
     device = params.fs.bootDisk;
     fsType = "vfat";
   };

@@ -7,13 +7,13 @@
     enable = true;
     settings = {
       global = {
-        browser = "${config.programs.firefox.package}/bin/firefox";
-        dmenu = "${config.programs.rofi.package}/bin/rofi -dmenu -p dunst";
+        # browser = "${config.programs.firefox.package}/bin/firefox";
+        # dmenu = "${config.programs.rofi.package}/bin/rofi -dmenu -p dunst";
         follow = "keyboard";
-        font = "monospace 10";
+        # font = "monospace 10";
         format = ''<b>%s</b>\n%b'';
-        frame_color = "#53BDFA";
-        frame_width = 1;
+        # frame_color = "#53BDFA";
+        frame_width = 2;
         geometry = "500x50-15+15";
         hide_duplicates_count = "yes";
         horizontal_padding = 6;
@@ -32,8 +32,8 @@
         word_wrap = "yes";
       };
       urgency_normal = {
-        background = "#0A0E14";
-        foreground = "#B3B1AD";
+        background = "\${color0}";
+        foreground = "\${color7}";
       };
     };
   };

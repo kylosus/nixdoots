@@ -26,7 +26,10 @@
           "${modifier}+k" = "focus up";
           "${modifier}+l" = "focus right";
           "${modifier}+x" = "exec --no-startup-id ${config.services.screen-locker.lockCmd}";
-          "${modifier}Print" = execSpawn "${pkgs.flameshot}/bin/flameshot gui";
+          "${modifier}+Print" = execSpawn "${pkgs.flameshot}/bin/flameshot gui";
+
+          # Dunst stuff
+          "Control+grave" = execSpawn "${pkgs.dunst}/bin/dunstctl history-pop";
 
           # Pulse Audio controls
           "XF86AudioRaiseVolume" = execSpawn "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
