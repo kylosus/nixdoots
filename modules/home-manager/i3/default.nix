@@ -42,7 +42,10 @@
 
   services = {
     flameshot.enable = true;
-    picom.enable = true;
+    picom = {
+      enable = true;
+      vSync = true;
+    };
   };
 
   systemd.user = {

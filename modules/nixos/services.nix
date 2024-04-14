@@ -18,6 +18,8 @@
 
     videoDrivers = ["nvidia"];
 
+    deviceSection = ''Option "TearFree" "true"'';
+
     libinput = {
       enable = true;
 
