@@ -19,20 +19,20 @@
 
     # Hardware configs
     hardware.url = "github:nixos/nixos-hardware";
+    hardware.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let
     inherit (inputs.self) outputs;
 
+    # Static file set
     files = import ./files;
 
-    mkNixosSystem = {
-      inputs,
-      outputs,
-      params,
-      ...
-    }:
-      inputs.nixpkgs.lib.nixosSystem {
+    mkNixosSystem = path: let
+      inherit inputs outputs;
+      params = import path inputs;
+    in {
+      "${params.hostname}" = inputs.nixpkgs.lib.nixosSystem {
         # inherit system specialArgs;
         specialArgs = {inherit inputs outputs files params;};
         modules =
@@ -48,6 +48,7 @@
             }
           ];
       };
+    };
 
     mkHome = {
       inputs,
@@ -67,6 +68,9 @@
 
     allSystems = ["x86_64-linux"];
     forAllSystems = func: (inputs.nixpkgs.lib.genAttrs allSystems func);
+
+    mkNixosSystemsAll' = acc: element: acc // (mkNixosSystem element);
+    mkNixosSystemsAll = paths: builtins.foldl' mkNixosSystemsAll' {} paths;
   in {
     # formatter.x86_64-linux = inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
     overlays = import ./overlays {inherit inputs;};
@@ -80,13 +84,6 @@
       system: allSystems.${system}.packages or {}
     );
 
-    nixosConfigurations = {
-      Yue = mkNixosSystem {
-        inherit inputs outputs;
-        params = import ./machines/asus-ga401 inputs;
-      };
-    };
-
-    # mkHome import ./machines/asus-ga401;
+    nixosConfigurations = mkNixosSystemsAll [./machines/asus-ga401];
   };
 }

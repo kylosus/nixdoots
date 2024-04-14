@@ -1,14 +1,16 @@
 {hardware, ...}: {
   imports = [
+    ./hardware.nix
     ./hardware-configuration.nix
     hardware.nixosModules.asus-zephyrus-ga401
+    ({pkgs, ...}: {environment.systemPackages = with pkgs; [f3d];})
   ];
 
   #  params = {
   system = "x86_64-linux";
   timeZone = "Europe/Istanbul";
 
-  hostname = "ok";
+  hostname = "Yue";
   username = "user";
   fullname = "Userly user 2";
 
