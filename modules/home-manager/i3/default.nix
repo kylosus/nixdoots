@@ -41,7 +41,14 @@
   xsession.enable = true;
 
   services = {
-    flameshot.enable = true;
+    flameshot = {
+      enable = true;
+      settings = {
+        General = {
+	  showStartupLaunchMessage = false; 
+	};
+      };
+    };
     picom = {
       enable = true;
       vSync = true;
