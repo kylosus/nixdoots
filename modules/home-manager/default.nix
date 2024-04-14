@@ -29,6 +29,7 @@
 
   xdg.userDirs = {
     enable = true;
+    createDirectories = true;
     # documents = "${config.home.homeDirectory}/docs";
     # desktop = "${config.home.homeDirectory}/desk";
     # download = "${config.home.homeDirectory}/down";
