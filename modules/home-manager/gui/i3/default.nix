@@ -12,7 +12,11 @@
     ./polybar.nix
     ./rofi.nix
     ./screen-locker.nix
+    ./wal.nix
   ];
+
+  # .xinitrc fix
+  home.file.".xinitrc".source = ./xinitrc;
 
   home.packages = with pkgs; [xclip xsel];
 
@@ -45,8 +49,8 @@
       enable = true;
       settings = {
         General = {
-	  showStartupLaunchMessage = false; 
-	};
+          showStartupLaunchMessage = false;
+        };
       };
     };
     picom = {

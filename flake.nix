@@ -27,50 +27,10 @@
 
     # Static file set
     files = import ./files;
-
-    mkNixosSystem = path: let
-      inherit inputs outputs;
-      params = import path inputs;
-    in {
-      "${params.hostname}" = inputs.nixpkgs.lib.nixosSystem {
-        # inherit system specialArgs;
-        specialArgs = {inherit inputs outputs files params;};
-        modules =
-          [./modules/nixos]
-          ++ params.imports
-          ++ [
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit inputs outputs files params;};
-              home-manager.users."${params.username}".imports = [./modules/home-manager];
-            }
-          ];
-      };
-    };
-
-    mkHome = {
-      inputs,
-      outputs,
-      params,
-      ...
-    }: {
-      homeConfigurations."${params.username}" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = inputs.nixpkgs.legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
-        modules = [
-          ./modules/home-manager
-          ./modules/home-manager/home.nix
-        ];
-        extraSpecialArgs = {inherit inputs outputs params;};
-      };
-    };
+    lib = import ./lib {inherit inputs outputs files;};
 
     allSystems = ["x86_64-linux"];
-    forAllSystems = func: (inputs.nixpkgs.lib.genAttrs allSystems func);
-
-    mkNixosSystemsAll' = acc: element: acc // (mkNixosSystem element);
-    mkNixosSystemsAll = paths: builtins.foldl' mkNixosSystemsAll' {} paths;
+    forAllSystems = lib.forAllSystems allSystems;
   in {
     # formatter.x86_64-linux = inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
     overlays = import ./overlays {inherit inputs;};
@@ -84,6 +44,18 @@
       system: allSystems.${system}.packages or {}
     );
 
-    nixosConfigurations = mkNixosSystemsAll [./machines/asus-ga401];
+    devShells = forAllSystems (
+      system: let
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
+      in {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            fish
+          ];
+        };
+      }
+    );
+
+    nixosConfigurations = lib.mkNixosSystemsAll [./machines/asus-ga401];
   };
 }

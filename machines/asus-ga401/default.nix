@@ -1,9 +1,14 @@
 {hardware, ...}: {
-  imports = [
+  nixosModules = [
     ./hardware.nix
     ./hardware-configuration.nix
     hardware.nixosModules.asus-zephyrus-ga401
     ({pkgs, ...}: {environment.systemPackages = with pkgs; [f3d];})
+  ];
+
+  homeModules = [
+    ../../modules/home-manager/gui
+    ../../modules/home-manager/gui/i3
   ];
 
   #  params = {

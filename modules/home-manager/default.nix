@@ -8,10 +8,7 @@
   ...
 }: {
   imports = [
-    ./i3
-    ./commandline.nix
     # ./neovim.nix
-    ./wal.nix
   ];
 
   programs.home-manager.enable = true;
@@ -21,23 +18,12 @@
     homeDirectory = "/home/${params.username}";
   };
 
-  # .xinitrc fix
-  home.file.".xinitrc".source = ./xinitrc;
-
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
-    # documents = "${config.home.homeDirectory}/docs";
-    # desktop = "${config.home.homeDirectory}/desk";
-    # download = "${config.home.homeDirectory}/down";
-    # music = "${config.home.homeDirectory}/media/aud/music";
-    # pictures = "${config.home.homeDirectory}/media/img";
-    # videos = "${config.home.homeDirectory}/media/vid";
-    # templates = "${config.home.homeDirectory}/docs/templates";
-    # publicShare = "${config.home.homeDirectory}/docs/public";
   };
 
   fonts.fontconfig.enable = true;
@@ -100,6 +86,74 @@
     enableFishIntegration = true;
   };
 
+  programs.chromium = {
+    package = pkgs.ungoogled-chromium;
+    enable = true;
+    # Apparently doesn't work for ungoogled
+    extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
+  };
+
+  programs.fish = {
+    enable = true;
+
+    shellAliases = {
+      vim = "${pkgs.neovim}/bin/nvim";
+    };
+
+    #    shellAbbrs = {
+    #      hm-switch = "home-manager switch --flake $HOME/docs/dots/machines/asus-ga401#mkti@jassas";
+    #      nixos-switch = "sudo nixos-rebuild switch --flake $HOME/docs/dots/machines/asus-ga401#jassas";
+    #    };
+
+    plugins = [
+      {
+        name = "theme-agnoster";
+        src = pkgs.fetchFromGitHub {
+          owner = "oh-my-fish";
+          repo = "theme-agnoster";
+          rev = "4c5518c89ebcef393ef154c9f576a52651400d27";
+          sha256 = "sha256-OFESuesnfqhXM0aij+79kdxjp4xgCt28YwTrcwQhFMU=";
+        };
+      }
+      {
+        name = "cd-ls";
+        src = pkgs.fetchFromGitHub {
+          owner = "fishingline";
+          repo = "cd-ls";
+          rev = "6133dcd09c53f9c39d0476bd4a58f4a05481e482";
+          sha256 = "sha256-/7VVGZYaPbaGH2HZHMhpyMzkzZoM9/1CehijAzUlCis=";
+        };
+      }
+    ];
+
+    shellInit = ''
+      set fish_greeting
+
+      # Temporary
+      set -gx TERM screen-256color
+
+      set -gx SHELL ${pkgs.fish}/bin/fish
+
+      set -gx EDITOR nvim
+      set -gx BROWSER chromium
+
+      fish_add_path -p $HOME/.local/bin
+    '';
+  };
+
+  programs.atuin = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      search_mode = "fuzzy";
+      style = "compact";
+      inline_height = 10;
+    };
+    flags = [
+      "--disable-up-arrow"
+    ];
+  };
+
   services.mpd = {
     enable = true;
     musicDirectory = "${config.xdg.userDirs.music}";
@@ -110,27 +164,26 @@
     theme = {
       name = "Catppuccin-Macchiato-Compact-Pink-Dark";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ "pink" ];
+        accents = ["pink"];
         size = "compact";
-        tweaks = [ "rimless" "black" ];
+        tweaks = ["rimless" "black"];
         variant = "macchiato";
       };
     };
   };
 
-# Now symlink the `~/.config/gtk-4.0/` folder declaratively:
-xdg.configFile = {
-  "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-  "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-  "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
-};
+  # Now symlink the `~/.config/gtk-4.0/` folder declaratively:
+  xdg.configFile = {
+    "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+    "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+    "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+  };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
     firefox
     # chromium
-    ungoogled-chromium
     # mpv
     # transmission
     # wl-clipboard
