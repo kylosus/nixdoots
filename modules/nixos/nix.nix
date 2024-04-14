@@ -41,5 +41,11 @@
 
   programs.command-not-found.enable = false;
 
+  # TODO: temporary
+  programs.ssh = {
+    # enable = true;
+    startAgent = true;
+  };
+
   system.stateVersion = "23.05";
 }
