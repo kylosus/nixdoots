@@ -38,6 +38,11 @@
 #              });
 #        };
 #    });
+
+    ranger = prev.ranger.overrideAttrs (old: {
+      propagatedBuildInputs = old.propagatedBuildInputs ++ [ final.screen ];
+    });
+
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
