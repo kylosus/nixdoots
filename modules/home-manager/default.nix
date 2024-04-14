@@ -43,6 +43,12 @@
   fonts.fontconfig.enable = true;
   programs.vscode.enable = true;
 
+  # TODO: temporary
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+  };
+
   programs.gpg = {
     enable = true;
     homedir = "${config.xdg.dataHome}/gnupg";

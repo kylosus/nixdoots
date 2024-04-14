@@ -43,11 +43,7 @@
 
   # TODO: temporary
   programs.ssh = {
-    # enable = true;
     startAgent = true;
-    extraConfig = ''
-      AddKeysToAgent yes
-    '';
   };
 
   system.stateVersion = "23.05";
