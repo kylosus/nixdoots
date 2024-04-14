@@ -40,6 +40,7 @@
 
       underlineURLs = true;
 
+      print-pipe = "cat > /dev/null";
       geometry = "80x-1";
 
       "perl-ext-common" = "resize-font";
