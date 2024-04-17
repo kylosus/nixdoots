@@ -11,7 +11,7 @@
         # browser = "${config.programs.firefox.package}/bin/firefox";
         # dmenu = "${config.programs.rofi.package}/bin/rofi -dmenu -p dunst";
         follow = "keyboard";
-        # font = "monospace 10";
+        font = "monospace 10";
         format = ''<b>%s</b>\n%b'';
         # frame_color = "#53BDFA";
         frame_width = 2;
