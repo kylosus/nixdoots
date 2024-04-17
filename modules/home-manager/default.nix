@@ -98,6 +98,12 @@
 
     shellAliases = {
       vim = "${pkgs.neovim}/bin/nvim";
+      # TODO: hardcoding cat?
+      ranger = "${lib.getExe pkgs.ranger} --choosedir=/tmp/.rangerdir; cd (cat /tmp/.rangerdir)";
+      l = "ls -lha";
+      rm = "rm -vI";
+      ls = "${lib.getExe pkgs.eza} --group-directories-first --icons --classify";
+      cp = "${lib.getExe pkgs.rsync} -azhvP";
     };
 
     #    shellAbbrs = {

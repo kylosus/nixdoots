@@ -93,7 +93,7 @@
           After = ["xrandr.service" "picom.target"];
         };
         Service = {
-          ExecStart = "${pkgs.rxvt-unicode}/bin/urxvtd -o -q";
+          ExecStart = "${config.programs.urxvt.package}/bin/urxvtd -o -q";
           RemainAfterExit = true;
           Type = "oneshot";
         };
