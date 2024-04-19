@@ -19,11 +19,13 @@
     ../../modules/home-manager/gui/i3
   ];
 
-  module = {pkgs, ...}: {
+  module = ({lib, ...}: {
     imports = [
-      ./hardware.nix
       ./hardware-configuration.nix
       hardware.nixosModules.asus-zephyrus-ga401
     ];
-  };
+
+    hardware.nvidia.prime.offload.enable = lib.mkForce true;
+    hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
+  });
 }
