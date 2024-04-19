@@ -52,9 +52,8 @@ in {
   };
 
   fileSystems."/tmp" = {
-    device = "/dev/disk/by-uuid/7e963d58-6c88-4356-ad29-dee80ac217d4";
-    fsType = "btrfs";
-    options = ["subvol=@/tmp"] ++ btrfsOptions;
+    device = "tmpfs";
+    fsType = "tmpfs";
   };
 
   fileSystems."/usr/local" = {
