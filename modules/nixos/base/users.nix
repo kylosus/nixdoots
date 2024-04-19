@@ -2,6 +2,7 @@
   params,
   pkgs,
   config,
+  files,
   ...
 }: {
   time.timeZone = params.timeZone;
@@ -15,7 +16,7 @@
       shell = pkgs.fish;
       hashedPasswordFile = config.sops.secrets.hashedPassword.path;
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [];
+      openssh.authorizedKeys.keyFiles = [files.ssh-authorized];
       extraGroups = ["wheel" params.username];
     };
   };
