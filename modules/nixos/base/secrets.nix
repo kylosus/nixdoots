@@ -2,7 +2,11 @@
 
 let
   inherit (params) hostName;
-  # hostsecrets = ../../hosts/${hostName}/secrets/secrets.yaml;
+
+  # I know this might be bad
+  hostSecretsFile = ../../hosts/${hostName}/secrets/secrets.yaml;
+  hostSecrets = if builtins.pathExists hostSecretsFile then {"${hostName}".sopsFile = hostSecretsFile;} else {};
+
   cfg = config.host.feature.secrets;
 in
   with lib;
@@ -33,27 +37,23 @@ in
 
     sops = {
       # age.sshKeyPaths = map getKeyPath keys;
-      # defaultSopsFile = ../../hosts/common/secrets/example.yaml;
+      defaultSopsFile = ../../../hosts/common/secrets.yaml;
       age = {
         keyFile = "/var/lib/sops-nix/key.txt";
-	generateKey = true;
+        generateKey = true;
       };
-      secrets = {
-        #${hostName} = {
-        #  sopsFile = hostsecrets;
-        #};
-        common = {
-          sopsFile = ../../../hosts/common/secrets.yaml;
-        };
+      secrets = hostSecrets // {
+        common = {};
+        hashedPassword = {};
       };
-      #templates = {
+      # templates = {
       #  example = {
       #    name = "example.cfg";
       #    content = ''
       #      example_info = "${config.sops.placeholder.common}"
       #    '';
       #  };
-      #};
+      # };
     };
   };
 }

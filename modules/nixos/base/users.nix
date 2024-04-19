@@ -1,6 +1,7 @@
 {
   params,
   pkgs,
+  config,
   ...
 }: {
   time.timeZone = params.timeZone;
@@ -12,7 +13,7 @@
     "${params.username}" = {
       description = params.fullname;
       shell = pkgs.fish;
-      initialHashedPassword = "$y$j9T$hXOJNQ9WNOtHa2HimSNVe0$NJ/XAZoVsZ69FvuUjSVwlkAp1XAK.x.g4enqrbjJNf6";
+      hashedPasswordFile = config.sops.secrets.hashedPassword.path;
       isNormalUser = true;
       openssh.authorizedKeys.keys = [];
       extraGroups = ["wheel" params.username];
