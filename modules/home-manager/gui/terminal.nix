@@ -4,11 +4,14 @@
   ...
 }: {
   home.packages = with pkgs; [
+    # (rxvt-unicode.overrideAttrs { emojiSupport = true; })
     (nerdfonts.override {fonts = ["DejaVuSansMono"];})
   ];
 
   programs.urxvt = {
     enable = true;
+
+    package = pkgs.rxvt-unicode-unwrapped-emoji;
 
     fonts = [
       # "xft:Iosevka Nerd font Mono:size=12"
