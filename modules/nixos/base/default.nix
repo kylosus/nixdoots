@@ -1,5 +1,6 @@
 {...}: {
-  imports = [./boot.nix
+  imports = [
+    ./boot.nix
     ./filesystem.nix
     ./global-packages.nix
     ./network.nix

@@ -30,9 +30,9 @@
     libinput = {
       enable = true;
 
-      # mouse = {
-      #  accelProfile = "flat";
-      # };
+      mouse = {
+        middleEmulation = true;
+      };
 
       touchpad = {
         accelProfile = "adaptive";

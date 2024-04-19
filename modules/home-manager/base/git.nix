@@ -1,33 +1,24 @@
-{...}: {
-    programs.git = {
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  programs.git = {
     enable = true;
-    # aliases = {
-    #   co = "checkout";
-    #   st = "status";
-    #   dc = "diff --cached";
-    #   di = "diff";
-    #   br = "branch";
-    #   amend = "commit --amend";
-    # };
+    userName = "kylosus";
+    userEmail = "jokersus.cava@gmail.com";
+    signing = {
+      key = "3F20398966883CBB154D52FBAAB80482FD6F2154";
+      signByDefault = true;
+    };
+
     includes = [
-      # {
-      #   contents = {
-      #     user = {
-      #       email = "mo.issa.ok@gmail.com";
-      #       name = "Mohammad Issa";
-      #       signingKey = "936DE6C552B5CDAF0A2DBD4428E0696214F6E298";
-      #     };
-      #     commit = {
-      #       gpgSign = true;
-      #     };
-      #     init = {
-      #       defaultBranch = "main";
-      #     };
-      #     push = {
-      #       autoSetupRemote = true;
-      #     };
-      #   };
-      # }
+      {
+        contents = {
+          commit.verbose = true;
+          merge.tool = "${lib.getBin pkgs.vim}/bin/vimdiff";
+        };
+      }
     ];
-    }
+  };
 }

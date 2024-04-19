@@ -18,7 +18,12 @@
   # .xinitrc fix
   home.file.".xinitrc".source = ./xinitrc;
 
-  home.packages = with pkgs; [xclip xsel gnome.nautilus];
+  home.packages = with pkgs; [
+    xclip
+    xsel
+    gnome.nautilus
+    font-awesome_6
+  ];
 
   programs.feh.enable = true;
 
