@@ -18,7 +18,7 @@
   # .xinitrc fix
   home.file.".xinitrc".source = ./xinitrc;
 
-  home.packages = with pkgs; [xclip xsel];
+  home.packages = with pkgs; [xclip xsel gnome.nautilus];
 
   programs.feh.enable = true;
 
