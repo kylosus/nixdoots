@@ -43,7 +43,7 @@ in
         #  sopsFile = hostsecrets;
         #};
         common = {
-          sopsFile = ../../hosts/common/secrets.yaml;
+          sopsFile = ../../../hosts/common/secrets.yaml;
         };
       };
       #templates = {

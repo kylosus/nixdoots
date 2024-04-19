@@ -9,9 +9,9 @@
   programs.fish.enable = true;
 
   users.users = {
-    ${params.username} = {
+    "${params.username}" = {
       description = params.fullname;
-      shell = pkgs."${params.shell}";
+      shell = pkgs.fish;
       initialHashedPassword = "$y$j9T$hXOJNQ9WNOtHa2HimSNVe0$NJ/XAZoVsZ69FvuUjSVwlkAp1XAK.x.g4enqrbjJNf6";
       isNormalUser = true;
       openssh.authorizedKeys.keys = [];

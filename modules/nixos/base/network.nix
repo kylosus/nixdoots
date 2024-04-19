@@ -4,7 +4,7 @@
   ...
 }: {
   networking.useDHCP = lib.mkDefault true;
-  networking.hostName = params.hostname;
+  networking.hostName = params.hostName;
   networking.networkmanager.enable = true;
 
   programs.nm-applet.enable = true;

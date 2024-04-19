@@ -6,21 +6,22 @@
 }: let
   mkNixosSystem = path: let
     inherit inputs outputs;
-    params = import path inputs;
+    host = import path inputs;
+    params = host.params;
   in {
-    "${params.hostname}" = inputs.nixpkgs.lib.nixosSystem {
+    "${params.hostName}" = inputs.nixpkgs.lib.nixosSystem {
       # inherit system specialArgs;
       specialArgs = {inherit inputs outputs files params;};
       modules =
         [../modules/nixos]
-        ++ params.nixosModules
+        ++ [host.module]
         ++ [
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs outputs files params;};
-            home-manager.users."${params.username}".imports = [../modules/home-manager] ++ params.homeModules;
+            home-manager.users."${params.username}".imports = [../modules/home-manager] ++ host.homeModules;
           }
         ];
     };
