@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     hardware.nixosModules.asus-zephyrus-ga401
     ({pkgs, ...}: {environment.systemPackages = with pkgs; [f3d];})
+    # ({config, ...}: { host.features.secrets.enable = true; })
   ];
 
   homeModules = [

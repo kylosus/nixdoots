@@ -20,6 +20,10 @@
     # Hardware configs
     hardware.url = "github:nixos/nixos-hardware";
     hardware.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Secrets
+    # agenix.url = "github:ryantm/agenix";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs = inputs: let
@@ -56,6 +60,6 @@
       }
     );
 
-    nixosConfigurations = lib.mkNixosSystemsAll [./machines/asus-ga401];
+    nixosConfigurations = lib.mkNixosSystemsAll [./hosts/yue];
   };
 }
