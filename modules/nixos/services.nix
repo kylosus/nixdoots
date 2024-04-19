@@ -13,6 +13,13 @@
 
   services.displayManager.defaultSession = "none+i3";
 
+  services.supergfxd.enable = true;
+
+  services.asusd = {
+    enable = true;
+    enableUserService = true;
+  };
+
   services.xserver = {
     enable = true;
 

@@ -42,6 +42,8 @@
 
   programs.command-not-found.enable = false;
 
+  programs.dconf.enable = true;
+
   # TODO: temporary
   programs.ssh = {
     startAgent = true;
