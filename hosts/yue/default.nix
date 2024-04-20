@@ -33,7 +33,7 @@
       ../../modules/home-manager/gui
 
       # Applications
-      ../../modules/home-manager/gui/applications/mpv.nix
+      ../../modules/home-manager/gui/applications/mpv
 
       # Extra features
       ../../modules/home-manager/gui/features/cursor.nix
