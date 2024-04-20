@@ -21,7 +21,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs outputs files params;};
-            home-manager.users."${params.username}".imports = [../modules/home-manager] ++ host.homeModules;
+            home-manager.users."${params.username}".imports = [../modules/home-manager] ++ [host.homeModule];
           }
         ];
     };
