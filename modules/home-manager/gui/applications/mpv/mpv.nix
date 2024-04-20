@@ -38,7 +38,7 @@
         "Anime4K_AutoDownscalePre_x4.glsl"
         "Anime4K_Upscale_CNN_x2_S.glsl"
       ];
-       
+
       fast_b = mkShaders [
         "Anime4K_Clamp_Highlights.glsl"
         "Anime4K_Restore_CNN_Soft_M.glsl"
@@ -47,7 +47,7 @@
         "Anime4K_AutoDownscalePre_x4.glsl"
         "Anime4K_Upscale_CNN_x2_S.glsl"
       ];
-      
+
       fast_c = mkShaders [
         "Anime4K_Clamp_Highlights.glsl"
         "Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
@@ -55,7 +55,7 @@
         "Anime4K_AutoDownscalePre_x4.glsl"
         "Anime4K_Upscale_CNN_x2_S.glsl"
       ];
-      
+
       fast_aa = mkShaders [
         "Anime4K_Clamp_Highlights.glsl"
         "Anime4K_Restore_CNN_M.glsl"
@@ -75,7 +75,7 @@
         "Anime4K_Restore_CNN_Soft_S.glsl"
         "Anime4K_Upscale_CNN_x2_S.glsl"
       ];
-      
+
       fast_ca = mkShaders [
         "Anime4K_Clamp_Highlights.glsl"
         "Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
@@ -91,7 +91,7 @@
       "CTRL+4" = ''${command} "${fast_aa}"; show-text "Anime4K: Mode A+A (Fast)"'';
       "CTRL+5" = ''${command} "${fast_bb}"; show-text "Anime4K: Mode B+B (Fast)"'';
       "CTRL+6" = ''${command} "${fast_ca}"; show-text "Anime4K: Mode C+A (Fast)"'';
-      "CTRL+0" =  ''no-osd change-list glsl-shaders clr ""; show-text "GLSL shaders cleared"'';
+      "CTRL+0" = ''no-osd change-list glsl-shaders clr ""; show-text "GLSL shaders cleared"'';
     };
 
     # The real stuff
@@ -111,9 +111,9 @@
       #spirv-compiler=shaderc
 
       ###GPU###
-      profile="high-quality";
+      profile = "high-quality";
       # https://github.com/mpv-player/mpv/wiki/GPU-Next-vs-GPU
-      vo="gpu-next";
+      vo = "gpu-next";
       #gpu-api=vulkan
       #hwdec=no
 
@@ -145,7 +145,7 @@
       demuxer-mkv-subtitle-preroll = "yes";
       sub-ass-vsfilter-blur-compat = "no";
       # Don't select subs with the same language as the audio
-      subs-with-matching-audio="no";
+      subs-with-matching-audio = "no";
       sub-fix-timing = "yes";
       sub-auto = "fuzzy";
 
@@ -179,17 +179,17 @@
       dither-depth = "auto";
       dither = "fruit";
       #dither=error-diffusion # Experimental; for high-end GPU's
-      error-diffusion="sierra-lite"; # Fast/decent results
+      error-diffusion = "sierra-lite"; # Fast/decent results
 
       ###Deband###
       # This shit broke
-      deband="yes";
-      deband-iterations="4";
-      deband-threshold="50";
-      deband-range="24";
+      deband = "yes";
+      deband-iterations = "4";
+      deband-threshold = "50";
+      deband-range = "24";
       #Dynamic Grain (More = More dynamic grain)
       #Set it to "0" in case you prefer the static grain shader or don't like grain
-      deband-grain="16";
+      deband-grain = "16";
 
       ###Grain & Resizer###
       # Luma
