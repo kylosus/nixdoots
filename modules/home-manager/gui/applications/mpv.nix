@@ -1,16 +1,22 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs.mpv = {
     enable = true;
-    scripts = with pkgs.mpvScripts; [
-      # mpv-discord
-      mpv-webm
-      # chapterskip
-      # statusline
-      youtube-quality
-    ];
+    scripts = with pkgs.mpvScripts;
+      [
+        # mpv-discord
+        mpv-webm
+        # chapterskip
+        # statusline
+        quality-menu
+      ]
+      ++ [pkgs.mpv-discordRPC];
 
     # TODO: will this work?
-    script-opts = {
+    scriptOpts = {
       # chapterskip = "prologue;ending;preview";
     };
 

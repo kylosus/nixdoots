@@ -66,6 +66,11 @@
     ranger = prev.ranger.overrideAttrs (old: {
       propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
     });
+
+    # https://nixos.wiki/wiki/MPV
+    mpv-unwrapped = prev.mpv-unwrapped.override {
+      lua = final.luajit;
+    };
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
