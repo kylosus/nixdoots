@@ -31,10 +31,10 @@
 
     # Static file set
     files = import ./files;
-    lib = import ./lib {inherit inputs outputs files;};
+    mylib = import ./lib {inherit inputs outputs files;};
 
     allSystems = ["x86_64-linux"];
-    forAllSystems = lib.forAllSystems allSystems;
+    forAllSystems = mylib.forAllSystems allSystems;
   in {
     # formatter.x86_64-linux = inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
     overlays = import ./overlays {inherit inputs;};
@@ -60,6 +60,6 @@
       }
     );
 
-    nixosConfigurations = lib.mkNixosSystemsAll [./hosts/yue];
+    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue];
   };
 }
