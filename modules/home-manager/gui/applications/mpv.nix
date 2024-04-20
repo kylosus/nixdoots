@@ -36,12 +36,15 @@
       #gpu-context=x11vk
       #spirv-compiler=shaderc
 
-      ao = "pulse";
-
       ###GPU###
-      #profile=gpu-hq
+      profile="high-quality";
+      # https://github.com/mpv-player/mpv/wiki/GPU-Next-vs-GPU
+      vo="gpu-next";
       #gpu-api=vulkan
       #hwdec=no
+
+      # Fixes some things
+      ao = "pulse";
 
       ###Misc###
       #save-position-on-quit=yes
@@ -50,65 +53,69 @@
       demuxer-readahead-secs = "1800";
 
       ###Tweaks###
-      cursor-autohide="100";
-      keep-open="no";
+      cursor-autohide = "100";
+      keep-open = "no";
 
       ###Priority###
-      slang="en,eng";
-      alang="ja,jp,jpn";
+      slang = "en,eng";
+      alang = "ja,jp,jpn";
 
       ###Audio###
-      volume-max=100;
-      audio-file-auto="fuzzy";
-      audio-exclusive="yes";
+      volume-max = 100;
+      audio-file-auto = "fuzzy";
+      audio-exclusive = "yes";
       #audio-delay=+0.084 # For TV
+      # af="acompressor=ratio=4,lournorm"
 
       ###Subs###
-      demuxer-mkv-subtitle-preroll="yes";
-      sub-ass-vsfilter-blur-compat="yes";
-      sub-fix-timing="yes";
-      sub-auto="fuzzy";
-
-      # af="acompressor=ratio=4,lournorm"
+      demuxer-mkv-subtitle-preroll = "yes";
+      sub-ass-vsfilter-blur-compat = "no";
+      # Don't select subs with the same language as the audio
+      subs-with-matching-audio="no";
+      sub-fix-timing = "yes";
+      sub-auto = "fuzzy";
 
       # Yellow subs stuff
       #sub-gauss=0.6
       #sub-gray=yes
 
-      # Sub overrides
+      # Sub overrides for the default Arial for .srt subtitles (or .ass if you force it)
       #sub-font=Andika New Basic Bold
       #sub-font=FOT-Greco Std
-      sub-font-size=52;
-      sub-blur=0.2;
-      sub-border-color="0.0/0.0/0.0/1.0";
-      sub-border-size="3.0";
-      sub-color="1.0/1.0/1.0/1.0";
-      sub-margin-x=100;
-      sub-margin-y=50;
-      sub-shadow-color="0.0/0.0/0.0/0.25";
-      sub-shadow-offset=0;
+      sub-font-size = 52;
+      sub-blur = 0.2;
+      sub-border-color = "0.0/0.0/0.0/1.0";
+      sub-border-size = "3.0";
+      sub-color = "1.0/1.0/1.0/1.0";
+      sub-margin-x = 100;
+      sub-margin-y = 50;
+      sub-shadow-color = "0.0/0.0/0.0/0.25";
+      sub-shadow-offset = 0;
+      # sub-ass-override = "force";
 
       ###Screenshot###
-      screenshot-format="png";
-      screenshot-high-bit-depth="yes";
-      screenshot-png-compression="1";
-      screenshot-jpeg-quality="100";
-      screenshot-directory= "${config.xdg.userDirs.pictures}}/mpv/";
-      screenshot-template="%f-%wH.%wM.%wS.%wT";
+      screenshot-format = "png";
+      screenshot-high-bit-depth = "yes";
+      screenshot-png-compression = "1";
+      screenshot-jpeg-quality = "100";
+      screenshot-directory = "${config.xdg.userDirs.pictures}}/mpv/";
+      screenshot-template = "%f-%wH.%wM.%wS.%wT-#%#00n";
 
       ###Dither###
-      dither-depth="auto";
-      dither="fruit";
+      dither-depth = "auto";
+      dither = "fruit";
       #dither=error-diffusion # Experimental; for high-end GPU's
-      #error-diffusion=sierra-lite # Fast/decent results
+      error-diffusion="sierra-lite"; # Fast/decent results
 
       ###Deband###
       # This shit broke
-      #deband=yes
-      #deband-iterations=4
-      #deband-threshold=50
-      #deband-range=16
-      #deband-grain=50
+      deband="yes";
+      deband-iterations="4";
+      deband-threshold="50";
+      deband-range="24";
+      #Dynamic Grain (More = More dynamic grain)
+      #Set it to "0" in case you prefer the static grain shader or don't like grain
+      deband-grain="16";
 
       ###Grain & Resizer###
       # Luma
@@ -128,11 +135,12 @@
       #cscale-window=blackman
       #cscale-radius=3
 
-      scale="ewa_lanczossharp";
+      scale = "ewa_lanczossharp";
       #cscale=ewa_lanczossharp
+      # scale-blur="0.981251";
 
       ###Playlist###
-      prefetch-playlist="yes"
+      prefetch-playlist = "yes";
 
       ###Interpolation###
       #blend-subtitles=yes
@@ -144,21 +152,6 @@
       #tscale-clamp=0.0
 
       #deinterlance=auto
-
-      ###Profiles###
-      #[AoD]
-      #profile-desc=cond:string.match(p.filename, "%[1080p%+%]")~=nil
-      #deband=no
-
-      #[WebDL]
-      #profile-desc=cond:string.match(p.filename, "%[Web%-DL%]")~=nil
-      #deband=yes
-
-      #[EraiRaws]
-      #profile-desc=cond:string.match(p.filename, "Erai%-raws")~=nil
-      #deband=yes
-
-      #script-opts=chapterskip-skip=prologue;ending;preview
     };
   };
 }
