@@ -33,5 +33,9 @@
       ../../modules/home-manager/gui
       ../../modules/home-manager/gui/applications/mpv.nix
     ];
+
+    config.host.i3 = {
+      monitors = ["HDMI-A-0" "eDP"];
+    };
   };
 }
