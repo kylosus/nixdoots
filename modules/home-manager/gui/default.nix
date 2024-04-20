@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   imports = [
+    ./i3
     ./terminal.nix
   ];
 
