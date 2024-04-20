@@ -34,6 +34,7 @@
 
       # Applications
       ../../modules/home-manager/gui/applications/mpv
+      ../../modules/home-manager/tui/applications/syncthing.nix
 
       # Extra features
       ../../modules/home-manager/gui/features/cursor.nix
