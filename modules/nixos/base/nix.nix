@@ -6,6 +6,7 @@
   config,
   ...
 }: {
+  # TODO: share between nixos and home-manager
   nixpkgs = {
     hostPlatform = lib.mkDefault params.system;
     overlays = [
@@ -49,5 +50,6 @@
     startAgent = true;
   };
 
-  system.stateVersion = "23.05";
+  # TODO: put this in vars.nix or something
+  system.stateVersion = "23.11";
 }

@@ -27,26 +27,32 @@
     };
   };
 
-  mkHome = {
-    inputs,
-    outputs,
-    params,
-    ...
-  }: {
-    homeConfigurations."${params.username}" = inputs.home-manager.lib.homeManagerConfiguration {
+  mkHome = path: let
+    inherit inputs outputs;
+    host = import path inputs;
+    params = host.params;
+  in {
+    "${params.username}@${params.hostName}" = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
-      modules = [
-        ../modules/home-manager
-        ../modules/home-manager/home.nix
-      ];
-      extraSpecialArgs = {inherit inputs outputs params;};
+      modules =
+        [
+          ../modules/home-manager
+          ../modules/home-manager/home.nix
+        ]
+        ++ [host.homeModule];
+      extraSpecialArgs = {inherit inputs outputs files params;};
     };
   };
 
   forAllSystems = allSystems: func: (inputs.nixpkgs.lib.genAttrs allSystems func);
+
   mkNixosSystemsAll' = acc: element: acc // (mkNixosSystem element);
-  mkNixosSystemsAll = paths: builtins.foldl' mkNixosSystemsAll' {} paths;
+  mkFuncAll = func: acc: element: acc // (func element);
+
+  mkNixosSystemsAll = paths: builtins.foldl' (mkFuncAll mkNixosSystem) {} paths;
+  mkHomeAll = paths: builtins.foldl' (mkFuncAll mkHome) {} paths;
 in {
   inherit forAllSystems;
   inherit mkNixosSystemsAll;
+  inherit mkHomeAll;
 }
