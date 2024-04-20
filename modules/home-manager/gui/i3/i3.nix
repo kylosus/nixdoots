@@ -41,8 +41,8 @@
           # bindsym XF86AudioPrev exec "mpc prev"
 
           # Brightness controls
-          "XF86MonBrightnessUp" = execSpawn "${lib.getExe pkgs.light} -A 10";
-          "XF86MonBrightnessDown" = execSpawn "${lib.getExe pkgs.light} light -U 10";
+          "XF86MonBrightnessUp" = execSpawn "${lib.getExe pkgs.brightnessctl} set +10";
+          "XF86MonBrightnessDown" = execSpawn "${lib.getExe pkgs.brightnessctl} set 10-";
         };
 
       startup = [
