@@ -31,7 +31,12 @@
   homeModule = {...}: {
     imports = [
       ../../modules/home-manager/gui
+
+      # Applications
       ../../modules/home-manager/gui/applications/mpv.nix
+
+      # Extra features
+      ../../modules/home-manager/gui/features/cursor.nix
     ];
 
     config.host.i3 = {
