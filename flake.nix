@@ -65,6 +65,6 @@
     );
 
     nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue];
-    homeConfigurations = mylib.mkHomeAll [./hosts/yue];
+    homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia];
   };
 }

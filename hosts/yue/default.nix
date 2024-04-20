@@ -29,16 +29,7 @@
   };
 
   homeModule = {...}: {
-    imports = [
-      ../../modules/home-manager/gui
-
-      # Applications
-      ../../modules/home-manager/gui/applications/mpv
-      ../../modules/home-manager/tui/applications/syncthing.nix
-
-      # Extra features
-      ../../modules/home-manager/gui/features/cursor.nix
-    ];
+    imports = [../common/desktop.nix];
 
     config.host.i3 = {
       monitors = ["HDMI-A-0" "eDP"];
