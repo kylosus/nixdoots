@@ -75,7 +75,6 @@
       };
     };
     services = {
-      # caffeine.Install.WantedBy = lib.mkForce [ "i3-session.target" ];
       feh = {
         Unit = {
           Description = "feh background";
@@ -83,7 +82,6 @@
           After = ["xrandr.service" "picom.service"];
         };
         Service = {
-          # ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${config.xdg.userDirs.pictures}/wallpapers/wallpaper.png";
           ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${files.wallpaper}";
           RemainAfterExit = true;
           Type = "oneshot";
@@ -99,8 +97,8 @@
         };
         Service = {
           ExecStart = "${config.programs.urxvt.package}/bin/urxvtd -o -q";
-          RemainAfterExit = true;
-          Type = "oneshot";
+          # RemainAfterExit = true;
+          Type = "simple";
         };
         Install.WantedBy = ["i3-session.target"];
       };
@@ -113,8 +111,6 @@
         };
         Service = {
           ExecStart = "${pkgs.pywal}/bin/wal -a 90 -i ${files.wallpaper}";
-          # ExecStart = "${pkgs.pywal}/bin/wal -a 90 --theme ashes";
-          RemainAfterExit = true;
           Type = "oneshot";
         };
         Install.WantedBy = ["i3-session.target"];
