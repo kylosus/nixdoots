@@ -31,7 +31,11 @@
   };
 
   homeModule = {...}: {
-    imports = [../common/desktop.nix];
+    imports = [
+      ../common/desktop.nix
+      # Extra features
+      ../../modules/home-manager/gui/features/cursor.nix
+    ];
 
     config.host.i3 = {
       monitors = ["HDMI-A-0" "eDP"];
