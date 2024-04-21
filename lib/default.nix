@@ -5,6 +5,7 @@
   ...
 }: let
   mkParams = import ./params.nix {inherit files;};
+  defaultSpecialArgs = {inherit inputs outputs files; secrets = inputs.secrets;};
 
   mkNixosSystem = path: let
     inherit inputs outputs;
@@ -13,7 +14,7 @@
   in {
     "${params.hostName}" = inputs.nixpkgs.lib.nixosSystem {
       # inherit system specialArgs;
-      specialArgs = {inherit inputs outputs files params;};
+      specialArgs = defaultSpecialArgs // {inherit params;};
       modules =
         [../modules/nixos]
         ++ [host.module]
@@ -22,7 +23,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs outputs files params;};
+            home-manager.extraSpecialArgs = defaultSpecialArgs // {inherit params;};
             home-manager.users."${params.userName}".imports = [../modules/home-manager] ++ [host.homeModule];
           }
         ];
@@ -42,7 +43,7 @@
           ../modules/home-manager/home.nix
         ]
         ++ [host.homeModule];
-      extraSpecialArgs = {inherit inputs outputs files params;};
+      extraSpecialArgs = defaultSpecialArgs // {inherit params;};
     };
   };
 

@@ -28,6 +28,10 @@
     # Maybe later
     # haumea.url = "github:nix-community/haumea/v0.2.2";
     # haumea.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Some "secrets"
+    # secrets.url = "git+file:////home/user/Documents/nix/nixdoots-secret";
+    secrets.url = "git+ssh://git@github.com/kylosus/nixdoots-secret.git?ref=main";
   };
 
   outputs = inputs: let
