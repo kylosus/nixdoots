@@ -1,6 +1,7 @@
 {
   config,
   outputs,
+  lib,
   ...
 }: {
   nixpkgs = {
@@ -16,6 +17,15 @@
       allowUnfreePredicate = _: true;
     };
   };
+
+  home.activation.installPackages = {
+    data = lib.mkForce "";
+    before = lib.mkForce [];
+    after = lib.mkForce [];
+  };
+
+  # home.packages = lib.mkForce [];
+  # home.profileDirectory = lib.mkForce "${config.home.homeDirectory}/.home-profile";
 
   home.stateVersion = "23.11";
 }

@@ -18,7 +18,9 @@
       in
         lib.mkOptionDefault {
           "${modifier}+Return" = execSpawn terminal;
-          "${modifier}+d" = execSpawn "${lib.getExe pkgs.rofi} -show drun";
+          # This is necessary on Arch. System applications don't show up otherwise
+          "${modifier}+d" = execSpawn "rofi -show drun";
+          # "${modifier}+d" = execSpawn "${lib.getExe pkgs.rofi} -show drun";
           "${modifier}+Shift+h" = "move left";
           "${modifier}+Shift+j" = "move down";
           "${modifier}+Shift+k" = "move up";

@@ -54,6 +54,9 @@
       set -gx BROWSER chromium
 
       fish_add_path -p $HOME/.local/bin
+
+      # Use system packages on Arch
+      set PATH $PATH $HOME/.nix-profile/bin
     '';
   };
 
