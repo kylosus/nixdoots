@@ -19,6 +19,13 @@
         path = "${config.users.users."${params.userName}".home}/.config/rclone";
         devices = ["Emilia"];
       };
+
+      "ssh_hosts" = {
+        path = "${config.users.users."${params.userName}".home}/.ssh/hosts.d";
+        devices = ["Emilia"];
+      };
     };
   };
+
+  programs.ssh.extraConfig = "include ${config.services.syncthing.settings.folders.ssh_hosts.path}";
 }
