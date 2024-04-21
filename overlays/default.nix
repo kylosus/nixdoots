@@ -43,19 +43,19 @@
     #   emojiSupport = true;
     # });
 
-    #pywal = prev.pywal.overrideAttrs (old: {
-    #  src = prev.fetchFromGitHub {
-    #   owner = "dylanaraps";
-    #   repo = "pywal";
-    #   rev = "master";
-    #   hash = "sha256-La6ErjbGcUbk0D2G1eriu02xei3Ki9bjNme44g4jAF0=";
-    # };
-    # patches = [];
-    # doCheck = false;
-    # doInstallCheck = false;
-    #
-    #     propagatedBuildInputs = old.propagatedBuildInputs ++ [final.imagemagick];
-    #    });
+    pywal = prev.pywal.overrideAttrs (old: {
+      src = prev.fetchFromGitHub {
+        owner = "dylanaraps";
+        repo = "pywal";
+        rev = "master";
+        hash = "sha256-La6ErjbGcUbk0D2G1eriu02xei3Ki9bjNme44g4jAF0=";
+      };
+      patches = [];
+      doCheck = false;
+      doInstallCheck = false;
+
+      propagatedBuildInputs = old.propagatedBuildInputs ++ [final.imagemagick];
+    });
 
     #    pywal = inputs.nixpkgs.legacyPackages.x86_64-linux.pkgs.python3.override {
     #      packageOverrides = self: super: {

@@ -5,7 +5,7 @@
   userName ? "user",
   fullName ? "User",
   wallpaper ? files.wallpaper,
-  fs ? {}
+  fs ? {},
 }: {
   inherit system;
   inherit timeZone;
