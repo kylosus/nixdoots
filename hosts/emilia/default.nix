@@ -6,6 +6,8 @@
     hostName = "Emilia";
     username = "jokersus";
     fullname = "jokersus";
+
+    wallpaper = ./wallpaper.png;
   };
 
   homeModule = {...}: {

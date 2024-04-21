@@ -3,6 +3,7 @@
   lib,
   pkgs,
   files,
+  params,
   ...
 }: {
   imports = [
@@ -82,7 +83,7 @@
           After = ["xrandr.service" "picom.service"];
         };
         Service = {
-          ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${files.wallpaper}";
+          ExecStart = "${pkgs.feh}/bin/feh --bg-fill ${params.wallpaper}";
           RemainAfterExit = true;
           Type = "oneshot";
         };
@@ -110,7 +111,7 @@
           After = ["xrandr.service" "picom.service"];
         };
         Service = {
-          ExecStart = "${pkgs.pywal}/bin/wal -a 90 -i ${files.wallpaper}";
+          ExecStart = "${pkgs.pywal}/bin/wal -a 90 -i ${params.wallpaper}";
           Type = "oneshot";
         };
         Install.WantedBy = ["i3-session.target"];
