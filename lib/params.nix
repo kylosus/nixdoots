@@ -5,7 +5,7 @@
   userName ? "user",
   fullName ? "User",
   wallpaper ? files.wallpaper,
-  fs,
+  fs ? {}
 }: {
   inherit system;
   inherit timeZone;
@@ -15,9 +15,11 @@
   inherit fullName;
   inherit wallpaper;
 
-  fs = {
-    inherit (fs) luksDisk;
-    inherit (fs) rootDisk;
-    inherit (fs) bootDisk;
-  };
+  inherit fs;
+
+  # fs = {
+  #  inherit (fs) luksDisk;
+  #  inherit (fs) rootDisk;
+  #  inherit (fs) bootDisk;
+  #};
 }
