@@ -15,8 +15,8 @@
   programs.home-manager.enable = true;
 
   home = {
-    username = params.username;
-    homeDirectory = "/home/${params.username}";
+    username = params.userName;
+    homeDirectory = "/home/${params.userName}";
   };
 
   # Nicely reload system units when changing configs

@@ -4,8 +4,8 @@
     timeZone = "Europe/Istanbul";
 
     hostName = "Emilia";
-    username = "jokersus";
-    fullname = "jokersus";
+    userName = "jokersus";
+    fullName = "jokersus";
   };
 
   homeModule = {...}: {
