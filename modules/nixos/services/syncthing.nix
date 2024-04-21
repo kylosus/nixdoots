@@ -16,6 +16,13 @@
       devices = {
         "Emilia" = {id = secrets.syncthing.Emilia;};
       };
+
+      folders = {
+        "keepass" = {
+          path = "${dataDir}/keepass";
+          devices = ["Emilia"];
+        };
+      };
     };
   };
 }
