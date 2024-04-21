@@ -4,10 +4,12 @@
   files,
   ...
 }: let
+  mkParams = import ./params.nix {inherit files;};
+
   mkNixosSystem = path: let
     inherit inputs outputs;
     host = import path inputs;
-    params = host.params;
+    params = mkParams host.params;
   in {
     "${params.hostName}" = inputs.nixpkgs.lib.nixosSystem {
       # inherit system specialArgs;
@@ -21,7 +23,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs outputs files params;};
-            home-manager.users."${params.username}".imports = [../modules/home-manager] ++ [host.homeModule];
+            home-manager.users."${params.userName}".imports = [../modules/home-manager] ++ [host.homeModule];
           }
         ];
     };
@@ -30,9 +32,9 @@
   mkHome = path: let
     inherit inputs outputs;
     host = import path inputs;
-    params = host.params;
+    params = mkParams host.params;
   in {
-    "${params.username}@${params.hostName}" = inputs.home-manager.lib.homeManagerConfiguration {
+    "${params.userName}@${params.hostName}" = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
       modules =
         [

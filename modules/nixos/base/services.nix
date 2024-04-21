@@ -8,7 +8,7 @@
   # services.xserver.displayManager.gdm.enable = true;
   #services.xserver.displayManager.autoLogin = {
   #  enable = true;
-  #  user = params.username;
+  #  user = params.userName;
   #};
 
   services.displayManager.defaultSession = "none+i3";

@@ -4,8 +4,8 @@
     timeZone = "Europe/Istanbul";
 
     hostName = "Yue";
-    username = "user";
-    fullname = "Userly user 2";
+    userName = "user";
+    fullName = "Userly user 2";
 
     fs = {
       luksDisk = "/dev/disk/by-uuid/9f73becc-0b35-4338-a287-7517bb0d8d19";
