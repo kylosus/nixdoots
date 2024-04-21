@@ -32,7 +32,7 @@
 
   programs.gpg = {
     enable = true;
-    homedir = "${config.xdg.dataHome}/gnupg";
+    # homedir = "${config.xdg.userHome}/.gnupg";
   };
 
   services.gpg-agent = {
