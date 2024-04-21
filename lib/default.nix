@@ -5,7 +5,10 @@
   ...
 }: let
   mkParams = import ./params.nix {inherit files;};
-  defaultSpecialArgs = {inherit inputs outputs files; secrets = inputs.secrets;};
+  defaultSpecialArgs = {
+    inherit inputs outputs files;
+    secrets = inputs.secrets;
+  };
 
   mkNixosSystem = path: let
     inherit inputs outputs;

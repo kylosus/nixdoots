@@ -1,17 +1,21 @@
-{params, ...}: {
-  services.syncthing = {
+{
+  config,
+  params,
+  secrets,
+  ...
+}: {
+  services.syncthing = rec {
     enable = true;
     user = params.userName;
-    dataDir = "${config.xdg.userDirs.documents}/Syncthing";
+    dataDir = "${config.users.users."${user}".home}/Syncthing";
     overrideDevices = true;
     overrideFolders = true;
 
-    settinigs = {
+    settings = {
+      # This is really stupid
       devices = {
-        "device1" = { id = "123"; };
+        "Emilia" = {id = secrets.syncthing.Emilia;};
       };
     };
   };
-
-  sops.secrets.syncthing-keys = {};
 }

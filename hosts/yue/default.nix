@@ -24,6 +24,9 @@
       hardware.nixosModules.asus-zephyrus-ga401
       # Specific config
       ../common/autorandr.nix
+
+      # Extra services
+      ../../modules/nixos/services/syncthing.nix
     ];
 
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
@@ -33,6 +36,7 @@
   homeModule = {...}: {
     imports = [
       ../common/desktop.nix
+
       # Extra features
       ../../modules/home-manager/gui/features/cursor.nix
     ];
