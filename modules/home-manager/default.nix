@@ -109,6 +109,8 @@
     zstd
     ranger
 
+    rclone
+
     jq
     gron
 

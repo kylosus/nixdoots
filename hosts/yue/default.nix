@@ -27,6 +27,7 @@
 
       # Extra services
       ../../modules/nixos/services/syncthing.nix
+      ./syncthing.nix
     ];
 
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
