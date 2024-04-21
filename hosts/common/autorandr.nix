@@ -1,0 +1,42 @@
+{...}: let
+  fingerprints = {
+    eDP = "00ffffffffffff004d10231500000000351e0104a51f117807de50a3544c99260f5054000000010101010101010101010101010101015a8780a070384d403020350035ae10000018653880a070384d403020350035ae10000018000000fd003090a7a7230100000000000000000000fc004c513134304d314a5734390a200077";
+    HDMI-A-0 = "00ffffffffffff0010ac91a04c50433012180103803c2278ea1df5ae4f35b3250d5054a54b008100b300714fa9408180d1c001010101565e00a0a0a029503020350055502100001a000000ff00433646304b3434533043504c0a000000fc0044454c4c205532373133480a20000000fd0031561d711c000a2020202020200123020325f15090050403020716010611121513141f2023091f0767030c001000083183010000023a801871382d40582c450055502100001e011d8018711c1620582c250055502100009e011d007251d01e206e28550055502100001e8c0ad08a20e02d10103e9600555021000018000000000000000000000000000000000000d6";
+  };
+
+  configs = {
+    eDP = {
+      enable = true;
+      primary = true;
+      mode = "1920x1080";
+      position = "320x1440";
+    };
+    HDMI-A-0 = {
+      enable = true;
+      crtc = 1;
+      mode = "2560x1440";
+      position = "0x0";
+    };
+  };
+in {
+  services.autorandr = {
+    enable = true;
+    profiles = {
+      regular = {
+        fingerprint = {inherit (fingerprints) eDP;};
+        config.eDP = {
+          enable = true;
+          primary = true;
+        };
+      };
+      work = {
+        fingerprint = {inherit (fingerprints) eDP HDMI-A-0;};
+        config = configs;
+      };
+    };
+
+    # hooks = {
+    #   postswitch = {};
+    # };
+  };
+}

@@ -22,6 +22,8 @@
     imports = [
       ./hardware-configuration.nix
       hardware.nixosModules.asus-zephyrus-ga401
+      # Specific config
+      ../common/autorandr.nix
     ];
 
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
