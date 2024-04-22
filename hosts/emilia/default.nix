@@ -11,7 +11,16 @@
   };
 
   homeModule = {...}: {
-    imports = [../common/desktop.nix];
+    imports = [
+      ../common/desktop.nix
+      ({pkgs, ...}: {
+        home.pointerCursor = {
+          name = "Vanilla-DMZ";
+          package = pkgs.vanilla-dmz;
+          size = 64;
+        };
+      })
+    ];
 
     config.host.i3 = {
       monitors = ["HDMI-A-0" "eDP"];
