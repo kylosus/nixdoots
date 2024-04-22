@@ -28,7 +28,8 @@
         radius = 0;
         fixed-center = true;
 
-        monitor = "\${env:MONITOR:}";
+        # monitor = "\${env:MONITOR:}";
+        monitor = "eDP";
         # https://en.wikipedia.org/wiki/Thin_space
         separator = "|";
         inherit background foreground;
@@ -400,10 +401,12 @@
       };
     };
 
-    script = ''
-      for m in $(polybar --list-monitors | ${pkgs.coreutils-full}/bin/cut -d":" -f1); do
-          MONITOR=$m polybar --reload bottom &
-      done
-    '';
+    #script = ''
+    #  for m in $(polybar --list-monitors | ${pkgs.coreutils-full}/bin/cut -d":" -f1); do
+    #      MONITOR=$m polybar --reload bottom &
+    #  done
+    #'';
+
+    script = "polybar --reload bottom &";
   };
 }
