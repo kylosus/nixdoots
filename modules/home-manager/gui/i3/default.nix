@@ -50,12 +50,21 @@
 
   xsession.enable = true;
 
+  # TODO: This can be better
+  xdg.userDirs.extraConfig = {
+    XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
+  };
+
   services = {
     flameshot = {
       enable = true;
       settings = {
         General = {
           showStartupLaunchMessage = false;
+          savePath = "${config.xdg.userDirs.pictures}/Screenshots";
+        };
+        Shortcuts = {
+          TYPE_COPY = "Return";
         };
       };
     };
