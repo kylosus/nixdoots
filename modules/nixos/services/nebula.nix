@@ -22,26 +22,15 @@ in {
         description = "Whether this host is a lighthouse or not";
       };
 
-      # keys = lib.mkOption {
-      #   # default = ["eDP"];
-      #   type = lib.types.attrsOf lib.types.path;
-      #   description = "Node key and cert";
-      #   example = ''{ key = /path/to/key; cert = /path/to/cert; }'';
-      # };
-
       keys = lib.mkOption {
-        # default = ["eDP"];
         type = lib.types.submodule {
           options = {
             key = lib.mkOption {
-              # TODO: bad types
-              # type = lib.types.attrsOf lib.types.anything;
               type = lib.types.path;
               description = "Path for the host key";
             };
 
             cert = lib.mkOption {
-              # type = lib.types.attrsOf lib.types.anything;
               type = lib.types.path;
               description = "Path for host cert";
             };
@@ -58,24 +47,21 @@ in {
     sopsKey = "${params.hostName}-nebula-key";
     sopsCert = "${params.hostName}-nebula-cert";
     owner = config.systemd.services."nebula@mesh".serviceConfig.User;
+
+    mkSecret = sopsFile: {
+      format = "binary";
+      inherit sopsFile;
+      inherit owner;
+    };
   in {
     environment.systemPackages = with pkgs; [nebula];
-    sops.secrets.nebula-ca = {
-      format = "binary";
-      sopsFile = ../../../secrets/nebula/ca.yaml;
-    };
 
-    sops.secrets."${sopsKey}" = {
-      format = "binary";
-      sopsFile = cfg.keys.key;
-      inherit owner;
-    };
+    # Global secreet
+    sops.secrets.nebula-ca = mkSecret ../../../secrets/nebula/ca.yaml;
 
-    sops.secrets."${sopsCert}" = {
-      format = "binary";
-      sopsFile = cfg.keys.cert;
-      inherit owner;
-    };
+    # Host-specific secrets
+    sops.secrets."${sopsKey}" = mkSecret cfg.keys.key;
+    sops.secrets."${sopsCert}" = mkSecret cfg.keys.cert;
 
     services.nebula.networks.mesh = {
       enable = true;
@@ -115,18 +101,6 @@ in {
       cert = config.sops.secrets."${sopsCert}".path;
     };
 
-    sops.secrets.nebula-ca.owner = config.systemd.services."nebula@mesh".serviceConfig.User;
-
-    # sops.secrets."${sopsKey}".owner = config.systemd.services."nebula@mesh".serviceConfig.User;
-    # sops.secrets."${sopsCert}".owner = config.systemd.services."nebula@mesh".serviceConfig.User;
-
-    # sops.secrets."${cfg.keys.key.name}".owner = config.systemd.services."nebula@mesh".serviceConfig.User;
-
-    # cfg.keys.key.owner = config.systemd.services."nebula@mesh".serviceConfig.User;
-    # cfg.keys.cert.owner = config.systemd.services."nebula@mesh".serviceConfig.User;
-
-    # systemd.services."nebula@mesh".After = [ "sops-nix.service" ];
-    # systemd.services."nebula@mesh".Unit = [];
     systemd.services."nebula@mesh".after = ["sops-nix.service"];
   };
 }
