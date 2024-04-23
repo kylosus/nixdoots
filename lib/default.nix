@@ -5,6 +5,8 @@
   ...
 }: let
   mkParams = import ./params.nix {inherit files;};
+  # mkNebulaHost = import ./nebula.nix {inherit files;};
+
   defaultSpecialArgs = {
     inherit inputs outputs files;
     secrets = inputs.secrets;

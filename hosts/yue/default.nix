@@ -25,9 +25,13 @@
       # Specific config
       ../common/autorandr.nix
 
-      # Extra services
+      # Syncthing
       ../../modules/nixos/services/syncthing.nix
       ./syncthing.nix
+
+      # Nebula
+      # ../../modules/nixos/services/nebula.nix
+      ./nebula
     ];
 
     hardware.nvidia.prime.offload.enable = lib.mkForce true;

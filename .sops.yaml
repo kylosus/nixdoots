@@ -8,3 +8,13 @@ creation_rules:
       - age:
         - *host_yue
         - *host_emilia
+  - path_regex: secrets/nebula/.*.yaml
+    key_groups:
+      - age:
+        - *host_yue
+        - *host_emilia
+
+  - path_regex: hosts/yue/nebula/.*.yaml
+    key_groups:
+      - age:
+        - *host_yue
