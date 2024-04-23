@@ -4,6 +4,8 @@
   secrets,
   ...
 }: {
+  imports = [../../modules/nixos/services/syncthing.nix];
+
   services.syncthing.settings = {
     devices = {
       "Emilia" = {id = secrets.syncthing.Emilia;};

@@ -20,13 +20,14 @@
     ...
   }: {
     imports = [
+      # Hardware
       ./hardware-configuration.nix
       hardware.nixosModules.asus-zephyrus-ga401
+
       # Specific config
       ../common/autorandr.nix
 
       # Syncthing
-      ../../modules/nixos/services/syncthing.nix
       ./syncthing.nix
     ];
 
@@ -45,7 +46,7 @@
       ../../modules/home-manager/gui/features/cursor.nix
     ];
 
-    config.host.i3 = {
+    host.i3 = {
       monitors = ["HDMI-A-0" "eDP"];
     };
   };
