@@ -7,4 +7,8 @@
     addKeysToAgent = "yes";
     extraConfig = "include ${config.sops.secrets.ssh-hosts.path}";
   };
+
+  services.ssh-agent = {
+    enable = true;
+  };
 }
