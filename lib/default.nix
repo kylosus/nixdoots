@@ -5,7 +5,6 @@
   ...
 }: let
   mkParams = import ./params.nix {inherit files;};
-  # mkNebulaHost = import ./nebula.nix {inherit files;};
 
   defaultSpecialArgs = {
     inherit inputs outputs files;
@@ -19,7 +18,12 @@
   in {
     "${params.hostName}" = inputs.nixpkgs.lib.nixosSystem {
       # inherit system specialArgs;
-      specialArgs = defaultSpecialArgs // {inherit params;};
+      specialArgs =
+        defaultSpecialArgs
+        // {
+          inherit params;
+          hostPath = path;
+        };
       modules =
         [../modules/nixos]
         ++ [host.module]
@@ -28,7 +32,12 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = defaultSpecialArgs // {inherit params;};
+            home-manager.extraSpecialArgs =
+              defaultSpecialArgs
+              // {
+                inherit params;
+                hostPath = path;
+              };
             home-manager.users."${params.userName}".imports = [../modules/home-manager] ++ [host.homeModule];
           }
         ];
@@ -48,7 +57,12 @@
           ../modules/home-manager/home.nix
         ]
         ++ [host.homeModule];
-      extraSpecialArgs = defaultSpecialArgs // {inherit params;};
+      extraSpecialArgs =
+        defaultSpecialArgs
+        // {
+          inherit params;
+          hostPath = path;
+        };
     };
   };
 

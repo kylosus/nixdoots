@@ -28,14 +28,13 @@
       # Syncthing
       ../../modules/nixos/services/syncthing.nix
       ./syncthing.nix
-
-      # Nebula
-      # ../../modules/nixos/services/nebula.nix
-      ./nebula
     ];
 
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
+
+    # Optional modules
+    host.nebula.enable = true;
   };
 
   homeModule = {...}: {
