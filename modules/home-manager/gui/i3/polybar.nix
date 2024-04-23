@@ -11,7 +11,8 @@
       githubSupport = true;
     };
     config = let
-      background = "\${xrdb:color0:#222}";
+      # background = "\${xrdb:color0:#222}";
+      background = "#00000000";
       background-alt = "\${xrdb:color0:#222}";
       foreground = "\${xrdb:color7:#222}";
       foreground-alt = "\${xrdb:color7:#222}";
