@@ -5,7 +5,10 @@
   programs.ssh = {
     enable = true;
     addKeysToAgent = "yes";
-    extraConfig = "include ${config.sops.secrets.ssh-hosts.path}";
+    extraConfig = ''
+      include ${config.sops.secrets.ssh-hosts.path}
+      include ${config.home.homeDirectory}/.ssh/hosts.d/hosts
+    '';
   };
 
   services.ssh-agent = {
