@@ -1,19 +1,24 @@
 {
   params,
   lib,
+  config,
   ...
-}: {
-  networking = {
-    useDHCP = lib.mkDefault true;
-    hostName = params.hostName;
-    networkmanager.enable = true;
+}: let
+  cfg = config.host.global;
+in {
+  config = {
+    # Add nm-applet if desktop-y
+    programs.nm-applet.enable = cfg.desktop;
 
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [22];
+    networking = {
+      useDHCP = lib.mkDefault true;
+      hostName = params.hostName;
+      networkmanager.enable = true;
+
+      firewall = {
+        enable = true;
+        allowedTCPPorts = [22];
+      };
     };
   };
-
-  # TODO: Should this be here?
-  programs.nm-applet.enable = true;
 }

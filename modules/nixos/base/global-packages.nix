@@ -3,36 +3,44 @@
     # The most important
     fish
 
-    # nix related
-    nix-index
-    home-manager
-
     # essential
     git
     wget
     curl
-    tmux
-    vim
-
-    # for errno
-    # moreutils
-
-    # archives
-    gnutar
-    zip
-    zstd
-    xz
+    neovim
 
     # utils
     ripgrep
     du-dust
-    jq
     fd
 
+    # monitoring
+    htop
+    lsof
+
+    # For later
+    # nix-index
+    # iotop
+    # iftop
+    # strace
+    # ltrace
+    # sysstat
+    # lm_sensors
+    # ethtool
+    # usbutils
+    # pciutils
+
+    # jq
+
+    # gnutar
+    # zip
+    # zstd
+    # xz
+
     # networking tools
-    dnsutils
-    nmap
-    tcpdump
+    # dnsutils
+    # nmap
+    # tcpdump
 
     # misc
     # sl
@@ -44,18 +52,5 @@
     # gnused
     # gawk
     # gnupg
-
-    # monitoring
-    htop
-    iotop
-    iftop
-    strace
-    ltrace
-    lsof
-    sysstat
-    lm_sensors
-    ethtool
-    pciutils
-    usbutils
   ];
 }

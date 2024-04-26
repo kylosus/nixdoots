@@ -34,6 +34,15 @@
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
+    # Asus stuff
+    services = {
+      supergfxd.enable = true;
+      asusd = {
+        enable = true;
+        enableUserService = true;
+      };
+    };
+
     # Optional modules
     host.nebula.enable = true;
   };
