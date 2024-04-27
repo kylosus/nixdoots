@@ -41,10 +41,9 @@
     files = import ./files;
     mylib = import ./lib {inherit inputs outputs files;};
 
-    allSystems = ["x86_64-linux"];
+    allSystems = ["x86_64-linux" "aarch64-linux"];
     forAllSystems = mylib.forAllSystems allSystems;
-  in {
-    # formatter.x86_64-linux = inputs.nixpkgs.legacyPackages.x86_64-linux.alejandra;
+  in rec {
     overlays = import ./overlays {inherit inputs;};
 
     # Format the nix code in this flake
@@ -52,9 +51,9 @@
       system: inputs.nixpkgs.legacyPackages.${system}.alejandra
     );
 
-    packages = forAllSystems (
-      system: allSystems.${system}.packages or {}
-    );
+    #packages = forAllSystems (
+    #  system: allSystems.${system}.packages or {}
+    #);
 
     devShells = forAllSystems (
       system: let
@@ -68,7 +67,14 @@
       }
     );
 
-    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue];
-    homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia];
+    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue ./hosts/opium];
+    # homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium];
+
+    nixpkgs.buildPlatform.system = "x86_64-linux";
+    nixpkgs.hostPlatform.system = "aarch64-linux";
+
+    images = {
+      opium-sd = outputs.nixosConfigurations.Opium.config.system.build.sdImage;
+    };
   };
 }

@@ -38,16 +38,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1713537308,
-        "narHash": "sha256-XtTSSIB2DA6tOv+l0FhvfDMiyCmhoRbNB+0SeInZkbk=",
-        "owner": "nixos",
+        "lastModified": 1714081647,
+        "narHash": "sha256-0IEH0DjTxFcx1QIBb6L7a24fGEMYg9fvjn9hcvfiP3M=",
+        "owner": "kylosus",
         "repo": "nixpkgs",
-        "rev": "5c24cf2f0a12ad855f444c30b2421d044120c66f",
+        "rev": "fba4b80acba62d40049101f261d32bcb8d4f625a",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
+        "owner": "kylosus",
+        "ref": "uboot-patch",
         "repo": "nixpkgs",
         "type": "github"
       }

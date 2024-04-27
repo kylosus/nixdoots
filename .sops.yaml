@@ -1,6 +1,7 @@
 keys:
   - &host_yue age1ase0m6n0w9vm2asx5katrth4j68lnm88d9tfru4q0u0qw27q5akq8ua93y
   - &host_emilia age1tcph57s2h2xz448f45fnlrw7fwakuka9xvq4fflgufpu2utjquyquphj0c
+  - &host_opium age1dy03srzujl0s96xmkye8wadr8vldq9z49wwycvwkcxmhl3dsadnq0vl6t6
 
 creation_rules:
   - path_regex: secrets/.*.yaml
@@ -8,6 +9,7 @@ creation_rules:
       - age:
         - *host_yue
         - *host_emilia
+        - *host_opium
   - path_regex: secrets/nebula/.*.yaml
     key_groups:
       - age:
@@ -18,3 +20,8 @@ creation_rules:
     key_groups:
       - age:
         - *host_yue
+
+  - path_regex: hosts/opium/nebula/.*.yaml
+    key_groups:
+      - age:
+        - *host_opium

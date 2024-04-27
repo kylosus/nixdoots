@@ -9,15 +9,15 @@
   #   (modulesPath + "/profiles/all-hardware.nix")
   # ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage"];
-  boot.kernelModules = ["kvm-amd"];
+  boot.initrd.availableKernelModules = lib.mkDefault ["xhci_pci" "nvme" "usbhid" "usb_storage"];
+  boot.kernelModules = lib.mkDefault ["kvm-amd"];
 
-  boot.initrd.kernelModules = ["xhci_pci" "usbhid" "usb_storage"];
-  boot.extraModulePackages = [];
+  boot.initrd.kernelModules = lib.mkDefault ["xhci_pci" "usbhid" "usb_storage"];
+  boot.extraModulePackages = lib.mkDefault [];
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkDefault true;
 
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
   boot.initrd.luks.devices = lib.mkDefault {
     root = {

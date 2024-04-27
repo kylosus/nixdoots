@@ -17,6 +17,8 @@
     params = mkParams host.params;
   in {
     "${params.hostName}" = inputs.nixpkgs.lib.nixosSystem {
+      system = params.system;
+      # system = "x86_64-linux";
       # inherit system specialArgs;
       specialArgs =
         defaultSpecialArgs

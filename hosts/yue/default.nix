@@ -17,6 +17,7 @@
   module = {
     lib,
     modules,
+    params,
     ...
   }: {
     imports = [
