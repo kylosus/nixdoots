@@ -2,7 +2,7 @@
   pkgs,
   buildUBoot,
 }:
-buildUBoot rec {
+(buildUBoot rec {
   version = "2021.07-sunxi";
   modDirVersion = "2021.07-sunxi";
   src = fetchGit {
@@ -11,7 +11,7 @@ buildUBoot rec {
     rev = "6fe17fac388aad17490cf386578b7532975e567f";
   };
 
-  patches = [
+  extraPatches = [
     ./version-hardcode.patch
   ];
 
@@ -19,4 +19,8 @@ buildUBoot rec {
   defconfig = "orangepi_zero3_defconfig";
   filesToInstall = ["u-boot-sunxi-with-spl.bin"];
   extraMeta.platforms = ["aarch64-linux"];
-}
+})
+.overrideAttrs (old: {
+  # Thanks, https://github.com/ryan4yin/nixos-rk3588/blob/main/pkgs/u-boot-radxa/build-from-source.nix
+  patches = [];
+})

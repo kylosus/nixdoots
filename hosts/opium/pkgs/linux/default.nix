@@ -3,10 +3,11 @@
   ubootTools,
   ...
 }:
-linuxManualConfig {
+(linuxManualConfig {
   version = "6.1.31-sun50iw9";
   modDirVersion = "6.1.31";
 
+  # TODO: change to fetchFromGithub
   src = fetchGit {
     url = "https://github.com/orangepi-xunlong/linux-orangepi.git";
     rev = "f23614d875ba18f7eb5d4818fd0e92f9e536a99f";
@@ -33,4 +34,9 @@ linuxManualConfig {
   # enables several nixos-specific kernel features and properly enables wifi driver modules.
   configfile = ./sun50iw9_defconfig;
   allowImportFromDerivation = true;
-}
+})
+.overrideAttrs (old: {
+  # Thanks, https://github.com/ryan4yin/nixos-rk3588/blob/main/pkgs/kernel/vendor.nix
+  name = "k";
+  nativeBuildInputs = old.nativeBuildInputs ++ [ubootTools];
+})
