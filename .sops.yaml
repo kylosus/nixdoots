@@ -10,11 +10,12 @@ creation_rules:
         - *host_yue
         - *host_emilia
         - *host_opium
-  - path_regex: secrets/nebula/.*.yaml
+  - path_regex: secrets/nebula/.*.json
     key_groups:
       - age:
         - *host_yue
         - *host_emilia
+        - *host_opium
 
   - path_regex: hosts/yue/nebula/.*.yaml
     key_groups:

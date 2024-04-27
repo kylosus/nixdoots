@@ -55,10 +55,6 @@ in
           // {
             common = {};
             hashedPassword = {};
-            nebula-ca = {
-              format = "binary";
-              sopsFile = ../../../secrets/nebula/ca.yaml;
-            };
           };
         # templates = {
         #  example = {

@@ -59,7 +59,7 @@ in {
       environment.systemPackages = with pkgs; [nebula];
 
       # Global secreet
-      sops.secrets.nebula-ca = mkSecret ../../../secrets/nebula/ca.yaml;
+      sops.secrets.nebula-ca = mkSecret ../../../secrets/nebula/ca.json;
 
       # Host-specific secrets
       sops.secrets."${sopsKey}" = mkSecret "${hostPath}/nebula/key.yaml";
