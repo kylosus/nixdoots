@@ -34,6 +34,9 @@
       ./syncthing.nix
     ];
 
+    # For crross-compiling. See https://github.com/nix-community/nixos-generators
+    boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
