@@ -11,7 +11,7 @@ in {
   config = {
     # For locate and updatedb
     services.locate = {
-      enable = true;
+      enable = has_desktop;
       localuser = null;
     };
 
@@ -53,14 +53,11 @@ in {
 
       displayManager = {
         startx.enable = true;
-        # defaultSession = "none+i3";
       };
 
+      # TODO: Is this this duplicated with home-manager?
       windowManager.i3 = {
         enable = true;
-        extraPackages = with pkgs; [
-          dmenu
-        ];
       };
     };
 
