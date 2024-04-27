@@ -4,6 +4,7 @@
   hostName,
   userName ? "user",
   fullName ? "User",
+  desktop ? false,
   wallpaper ? files.wallpaper,
   fs ? {},
 }: {
@@ -13,6 +14,7 @@
   inherit hostName;
   inherit userName;
   inherit fullName;
+  inherit desktop;
   inherit wallpaper;
 
   inherit fs;

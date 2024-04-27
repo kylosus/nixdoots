@@ -11,6 +11,12 @@
     secrets = inputs.secrets;
   };
 
+  # Everyone else reads from param directly, yet we have this here
+  desktopConfigModule = {params, ...}: {host.global.desktop = params.desktop;};
+
+  # For both nixos, and home-manager
+  globalModules = [../modules desktopConfigModule];
+
   mkNixosSystem = path: let
     inherit inputs outputs;
     host = import path inputs;
@@ -27,7 +33,8 @@
           hostPath = path;
         };
       modules =
-        [../modules/nixos]
+        globalModules
+        ++ [../modules/nixos]
         ++ [host.module]
         ++ [
           inputs.home-manager.nixosModules.home-manager
@@ -40,7 +47,7 @@
                 inherit params;
                 hostPath = path;
               };
-            home-manager.users."${params.userName}".imports = [../modules/home-manager] ++ [host.homeModule];
+            home-manager.users."${params.userName}".imports = globalModules ++ [../modules/home-manager] ++ [host.homeModule];
           }
         ];
     };
@@ -54,7 +61,8 @@
     "${params.userName}@${params.hostName}" = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${params.system}; # Home-manager requires 'pkgs' instance
       modules =
-        [
+        globalModules
+        ++ [
           ../modules/home-manager
           ../modules/home-manager/home.nix
         ]

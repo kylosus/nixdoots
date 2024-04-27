@@ -17,16 +17,6 @@ in {
     ./secrets.nix
   ];
 
-  options = {
-    host.global = {
-      desktop = lib.mkOption {
-        default = false;
-        type = lib.types.bool;
-        description = "Enable graphical stuff";
-      };
-    };
-  };
-
   config = lib.mkIf cfg.desktop {
     programs.dconf.enable = true;
   };

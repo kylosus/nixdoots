@@ -1,6 +1,7 @@
 # My desktop for machines with desktops
 {...}: {
   imports = [
+    # Load up gui
     ../../modules/home-manager/gui
 
     # Applications

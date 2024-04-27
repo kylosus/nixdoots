@@ -3,6 +3,8 @@
     system = "aarch64-linux";
     timeZone = "Europe/Istanbul";
 
+    desktop = false;
+
     hostName = "Opium";
     userName = "user";
     fullName = "Cockley";
@@ -52,7 +54,7 @@
     systemd.services.iwd.serviceConfig.restart = "always";
 
     # Mac authentication at uni
-    networking.interfaces.end0.macAddress = "";
+    # networking.interfaces.end0.macAddress = "";
 
     networking.networkmanager = {
       enable = lib.mkForce true;

@@ -7,6 +7,8 @@
     userName = "jokersus";
     fullName = "jokersus";
 
+    desktop = true;
+
     wallpaper = ./wallpaper.png;
   };
 

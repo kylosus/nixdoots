@@ -69,9 +69,6 @@ in {
       jack.enable = true;
     };
 
-    environment.systemPackages = with pkgs;
-      lib.optional has_desktop [
-        pavucontrol
-      ];
+    environment.systemPackages = lib.optional has_desktop pkgs.pavucontrol;
   };
 }
