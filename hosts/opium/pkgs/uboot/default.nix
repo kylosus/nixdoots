@@ -11,10 +11,6 @@
     rev = "6fe17fac388aad17490cf386578b7532975e567f";
   };
 
-  extraPatches = [
-    ./version-hardcode.patch
-  ];
-
   BL31 = "${pkgs.armTrustedFirmwareAllwinnerH616}/bl31.bin";
   defconfig = "orangepi_zero3_defconfig";
   filesToInstall = ["u-boot-sunxi-with-spl.bin"];
@@ -22,5 +18,7 @@
 })
 .overrideAttrs (old: {
   # Thanks, https://github.com/ryan4yin/nixos-rk3588/blob/main/pkgs/u-boot-radxa/build-from-source.nix
-  patches = [];
+  patches = [
+    ./version-hardcode.patch
+  ];
 })
