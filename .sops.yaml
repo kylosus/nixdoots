@@ -17,12 +17,12 @@ creation_rules:
         - *host_emilia
         - *host_opium
 
-  - path_regex: hosts/yue/nebula/.*.yaml
+  - path_regex: hosts/yue/nebula/.*.json
     key_groups:
       - age:
         - *host_yue
 
-  - path_regex: hosts/opium/nebula/.*.yaml
+  - path_regex: hosts/opium/nebula/.*.json
     key_groups:
       - age:
         - *host_opium

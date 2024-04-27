@@ -62,8 +62,8 @@ in {
       sops.secrets.nebula-ca = mkSecret ../../../secrets/nebula/ca.json;
 
       # Host-specific secrets
-      sops.secrets."${sopsKey}" = mkSecret "${hostPath}/nebula/key.yaml";
-      sops.secrets."${sopsCert}" = mkSecret "${hostPath}/nebula/cert.yaml";
+      sops.secrets."${sopsKey}" = mkSecret "${hostPath}/nebula/key.json";
+      sops.secrets."${sopsCert}" = mkSecret "${hostPath}/nebula/cert.json";
 
       services.nebula.networks.mesh = {
         enable = true;
