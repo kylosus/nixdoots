@@ -8,6 +8,9 @@
     ./layouts.nix
   ];
 
+  # Needed because we don't use pkgs.rofi below
+  home.packages = with pkgs; [rofi];
+
   xsession.windowManager.i3 = {
     enable = true;
     package = pkgs.i3-gaps;
@@ -21,6 +24,7 @@
           # This is necessary on Arch. System applications don't show up otherwise
           "${modifier}+d" = execSpawn "rofi -show drun";
           # "${modifier}+d" = execSpawn "${lib.getExe pkgs.rofi} -show drun";
+          "${modifier}+Shift+d" = execSpawn "rofi -show widow";
           "${modifier}+Shift+h" = "move left";
           "${modifier}+Shift+j" = "move down";
           "${modifier}+Shift+k" = "move up";
