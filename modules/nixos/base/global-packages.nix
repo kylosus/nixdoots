@@ -7,6 +7,7 @@
     git
     wget
     curl
+    vim
     neovim
 
     # utils

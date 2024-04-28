@@ -49,7 +49,6 @@ in {
   # environment.
   home.packages = with pkgs; [
     xdg-user-dirs
-    neovim
 
     ripgrep
     fd
