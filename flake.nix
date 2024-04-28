@@ -70,9 +70,6 @@
     nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue ./hosts/opium];
     # homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium];
 
-    nixpkgs.buildPlatform.system = "x86_64-linux";
-    nixpkgs.hostPlatform.system = "aarch64-linux";
-
     images = {
       opium-sd = outputs.nixosConfigurations.Opium.config.system.build.sdImage;
     };
