@@ -11,9 +11,11 @@
   };
 
   module = {
+    inputs,
     lib,
     modules,
     params,
+    secrets,
     pkgs,
     modulesPath,
     ...
@@ -32,6 +34,8 @@
       (final: super: {makeModulesClosure = x: super.makeModulesClosure (x // {allowMissing = true;});})
     ];
 
+    # nixpkgs.config.pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform;
+
     nixpkgs.buildPlatform.system = "x86_64-linux";
     nixpkgs.hostPlatform.system = params.system;
 
@@ -39,7 +43,7 @@
     systemd.services.iwd.serviceConfig.restart = "always";
 
     # Mac authentication at uni
-    # networking.interfaces.end0.macAddress = "";
+    networking.interfaces.end0.macAddress = secrets.hosts.titan.macAddress;
 
     networking.networkmanager = {
       enable = lib.mkForce true;
