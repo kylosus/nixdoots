@@ -6,11 +6,10 @@
   ...
 }: let
   cfg = config.host.global;
-  has_desktop = cfg.desktop;
 in {
   config = {
     # For locate and updatedb
-    services.locate = lib.mkIf has_desktop {
+    services.locate = lib.mkIf cfg.desktop {
       enable = true;
       localuser = null;
     };
@@ -23,12 +22,12 @@ in {
       };
     };
 
-    services.displayManager = lib.mkIf has_desktop {
+    services.displayManager = lib.mkIf cfg.desktop {
       enable = true;
       defaultSession = "none+i3";
     };
 
-    services.xserver = lib.mkIf has_desktop {
+    services.xserver = lib.mkIf cfg.desktop {
       enable = true;
 
       videoDrivers = ["nvidia"];
@@ -62,7 +61,7 @@ in {
     };
 
     # TODO: not sure if I need to set all of them
-    services.pipewire = lib.mkIf has_desktop {
+    services.pipewire = lib.mkIf cfg.desktop {
       enable = true;
       wireplumber.enable = true;
       alsa.enable = true;
@@ -70,6 +69,6 @@ in {
       jack.enable = true;
     };
 
-    environment.systemPackages = lib.optional has_desktop pkgs.pavucontrol;
+    environment.systemPackages = lib.optional cfg.desktop pkgs.pavucontrol;
   };
 }
