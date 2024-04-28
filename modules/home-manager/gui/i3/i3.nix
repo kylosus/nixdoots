@@ -3,7 +3,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  terminal = "${config.programs.urxvt.package}/bin/urxvtc";
+in {
   imports = [
     ./layouts.nix
   ];
@@ -17,6 +19,7 @@
     config = {
       keybindings = let
         execSpawn = cmd: "exec --no-startup-id ${cmd}";
+        rofiSort = "rofi -dmenu -sorting-method fzf -i -sort";
         inherit (config.xsession.windowManager.i3.config) modifier terminal;
       in
         lib.mkOptionDefault {
@@ -24,7 +27,7 @@
           # This is necessary on Arch. System applications don't show up otherwise
           "${modifier}+d" = execSpawn "rofi -show drun";
           # "${modifier}+d" = execSpawn "${lib.getExe pkgs.rofi} -show drun";
-          "${modifier}+Shift+d" = execSpawn "rofi -show widow";
+          "${modifier}+Shift+d" = execSpawn "rofi -show window";
           "${modifier}+Shift+h" = "move left";
           "${modifier}+Shift+j" = "move down";
           "${modifier}+Shift+k" = "move up";
@@ -35,6 +38,9 @@
           "${modifier}+l" = "focus right";
           "${modifier}+x" = "exec --no-startup-id ${config.services.screen-locker.lockCmd}";
           "${modifier}+Print" = execSpawn "${lib.getBin pkgs.flameshot}/bin/flameshot gui";
+
+          "Mod1+d" = execSpawn ''${lib.getExe pkgs.fd} --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
+          "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminal} -cd "{}"'';
 
           # Dunst stuff
           "Control+grave" = execSpawn "${lib.getBin pkgs.dunst}/bin/dunstctl history-pop";
@@ -78,7 +84,8 @@
       ];
 
       # terminal = "${lib.getExe config.programs.kitty.package} -1";
-      terminal = "${config.programs.urxvt.package}/bin/urxvtc";
+      # terminal = "${config.programs.urxvt.package}/bin/urxvtc";
+      inherit terminal;
 
       window.commands = [
         {
