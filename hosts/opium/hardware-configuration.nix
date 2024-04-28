@@ -12,17 +12,36 @@
 in {
   imports = [
     (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
+    (modulesPath + "/profiles/minimal.nix")
+    (modulesPath + "/profiles/headless.nix")
   ];
 
   # Custom linux kernel
   # Custom packages - Linux, firmware, etc.
   hardware.firmware = [opi-zero3.armbianFirmware];
-  boot.kernelPackages = pkgs.linuxPackagesFor (opi-zero3.linux);
 
-  # TODO
-  boot.initrd.luks.devices = lib.mkForce {};
+  boot = let
+    kernelModules = ["sprdwl_ng"];
+    supportedFilesystems = lib.mkForce ["ext4" "vfat"];
+  in {
+    initrd.luks.devices = lib.mkForce {};
+    inherit kernelModules;
+    initrd.systemd.enable = false;
+    initrd.availableKernelModules = kernelModules;
 
-  sdImage.postBuildCommands = ''dd if=${opi-zero3.uboot}}/u-boot-sunxi-with-spl.bin of=$img bs=8 seek=1024 conv=notrunc'';
+    kernelPackages = pkgs.linuxPackagesFor (opi-zero3.linux);
+    kernelParams = ["console=tty1" "console=ttyS0,115200"];
+    inherit supportedFilesystems;
+    initrd.supportedFilesystems = supportedFilesystems;
+
+    loader = {
+      grub.enable = lib.mkForce false;
+      systemd-boot.enable = false;
+      efi.canTouchEfiVariables = false;
+    };
+  };
+
+  sdImage.postBuildCommands = ''dd if=${opi-zero3.uboot}/u-boot-sunxi-with-spl.bin of=$img bs=8 seek=1024 conv=notrunc'';
   sdImage.compressImage = false;
 
   fileSystems = lib.mkForce {
