@@ -8,12 +8,11 @@
   ...
 }: let
   cfg = config.host.global;
-  has_desktop = cfg.desktop;
 in {
   imports = [
     ./base
     ./secrets.nix
-  ]; # (lib.optional has_desktop ./gui);
+  ]; # (lib.optional cfg.desktop ./gui);
 
   programs.home-manager.enable = true;
 
@@ -30,12 +29,12 @@ in {
     createDirectories = true;
   };
 
-  programs.gpg = {
-    enable = has_desktop;
+  programs.gpg = lib.mkIf cfg.desktop {
+    enable = true;
   };
 
-  services.gpg-agent = {
-    enable = has_desktop;
+  services.gpg-agent = lib.mkIf cfg.desktop {
+    enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
     pinentryPackage = pkgs.pinentry-curses;

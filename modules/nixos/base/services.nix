@@ -10,8 +10,8 @@
 in {
   config = {
     # For locate and updatedb
-    services.locate = {
-      enable = has_desktop;
+    services.locate = lib.mkIf has_desktop {
+      enable = true;
       localuser = null;
     };
 
@@ -23,13 +23,13 @@ in {
       };
     };
 
-    services.displayManager = {
-      enable = has_desktop;
+    services.displayManager = lib.mkIf has_desktop {
+      enable = true;
       defaultSession = "none+i3";
     };
 
-    services.xserver = {
-      enable = has_desktop;
+    services.xserver = lib.mkIf has_desktop {
+      enable = true;
 
       videoDrivers = ["nvidia"];
       deviceSection = ''Option "TearFree" "true"'';
@@ -61,8 +61,9 @@ in {
       };
     };
 
-    services.pipewire = {
-      enable = has_desktop;
+    # TODO: not sure if I need to set all of them
+    services.pipewire = lib.mkIf has_desktop {
+      enable = true;
       wireplumber.enable = true;
       alsa.enable = true;
       pulse.enable = true;

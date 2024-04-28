@@ -63,9 +63,15 @@
     #      };
     #    };
 
-    ranger = prev.ranger.overrideAttrs (old: {
-      propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
-    });
+    ranger =
+      (prev.ranger.overrideAttrs (old: {
+        propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
+        sixelPreviewSupport = false;
+      }))
+      .override {
+        # For aarch64-linux
+        sixelPreviewSupport = false;
+      };
 
     # https://nixos.wiki/wiki/MPV
     mpv-unwrapped = prev.mpv-unwrapped.override {

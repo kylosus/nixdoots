@@ -37,7 +37,6 @@ in
       environment.systemPackages = with pkgs; [
         age
         gnupg
-        pinentry.out
         ssh-to-age
         ssh-to-pgp
         sops
@@ -54,7 +53,6 @@ in
           hostSecrets
           // {
             common = {};
-            hashedPassword = {};
           };
         # templates = {
         #  example = {

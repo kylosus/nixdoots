@@ -1,13 +1,16 @@
 {
   pkgs,
   lib,
+  config,
   ...
-}: {
+}: let
+  cfg = config.host.global;
+in {
   programs.fish = {
     enable = true;
 
     shellAliases = {
-      vim = "${pkgs.neovim}/bin/nvim";
+      vim = lib.getExe pkgs.neovim;
       # TODO: hardcoding cat?
       ranger = "${lib.getExe pkgs.ranger} --choosedir=/tmp/.rangerdir; cd (cat /tmp/.rangerdir)";
       l = "ls -lha";
@@ -60,7 +63,8 @@
     '';
   };
 
-  programs.atuin = {
+  # Atuin only on desktop systems (TODO)
+  programs.atuin = lib.mkIf cfg.desktop {
     enable = true;
     enableFishIntegration = true;
     settings = {
