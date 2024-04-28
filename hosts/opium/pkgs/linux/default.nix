@@ -26,8 +26,8 @@
       patch = ./uwe5622-unisocwcn-Makefile-remove-monkeying.patch;
     }
     {
-      name = "uwe5622-unisocwcn-wcn_boot.c-remove-monkeying";
-      patch = ./uwe5622-unisocwcn-wcn_boot.c-remove-monkeying.patch;
+      name = "uwe5622-firmware";
+      patch = ./lib-firmware.patch;
     }
   ];
 
