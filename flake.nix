@@ -71,7 +71,7 @@
     # homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium];
 
     images = {
-      opium-sd = outputs.nixosConfigurations.Opium.config.system.build.sdImage;
+      Opium = outputs.nixosConfigurations.Opium.config.system.build.sdImage;
     };
   };
 }
