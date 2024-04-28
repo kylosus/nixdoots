@@ -17,7 +17,8 @@ in {
     services.openssh = {
       enable = true;
       settings = {
-        PermitRootLogin = "no";
+        # For deploy-rs
+        PermitRootLogin = "yes";
         PasswordAuthentication = false;
       };
     };
