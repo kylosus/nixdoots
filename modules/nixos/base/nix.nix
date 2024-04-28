@@ -23,6 +23,16 @@
   nix.settings = {
     experimental-features = "nix-command flakes";
     auto-optimise-store = true;
+    log-lines = lib.mkDefault 25;
+
+    substituters = [
+      "https://nix-community.cachix.org"
+      "https://cache.nixos.org"
+    ];
+
+    trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   # This will add each flake input as a registry
@@ -32,6 +42,10 @@
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
   nix.nixPath = ["/etc/nix/path"];
+
+  nix.daemonCPUSchedPolicy = lib.mkDefault "batch";
+  nix.daemonIOSchedClass = lib.mkDefault "idle";
+  nix.daemonIOSchedPriority = lib.mkDefault 7;
 
   environment.etc =
     lib.mapAttrs'
