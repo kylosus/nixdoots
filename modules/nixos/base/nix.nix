@@ -25,6 +25,9 @@
     auto-optimise-store = true;
     log-lines = lib.mkDefault 25;
 
+    # Needed for remote deploys
+    trusted-users = ["@wheel"];
+
     substituters = [
       "https://nix-community.cachix.org"
       "https://cache.nixos.org"
