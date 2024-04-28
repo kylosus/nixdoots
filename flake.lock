@@ -148,11 +148,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1713901083,
-        "narHash": "sha256-V76kd9kPs1a3MzTm2rmFvYTKujKxoH+aKEIL+iqYpFc=",
+        "lastModified": 1714309898,
+        "narHash": "sha256-HURz59SQHYZh5JgsJRrgZo8Juwbhuvlr+tV73r866U4=",
         "ref": "main",
-        "rev": "2192981ed3d0540a2e138e7a4a7fc0aea785959f",
-        "revCount": 3,
+        "rev": "f3221dd6060e5f635f703687266085270a8ec6ad",
+        "revCount": 5,
         "type": "git",
         "url": "ssh://git@github.com/kylosus/nixdoots-secret.git"
       },
