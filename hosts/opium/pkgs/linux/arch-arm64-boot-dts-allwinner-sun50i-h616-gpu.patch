@@ -1,0 +1,27 @@
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 2cd542d2a3ea..b88d8e248a30 100755
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -184,10 +184,12 @@ gpu: gpu@1800000 {
+ 			interrupt-names = "job", "mmu", "gpu";
+ 			clocks = <&ccu CLK_GPU0>, <&ccu CLK_BUS_GPU>;
+ 			clock-names = "core", "bus";
++			dmas = <&dma 22>, <&dma 22>;
++			dma_names = "rx", "tx";
+ 			resets = <&ccu RST_BUS_GPU>;
+ 			//operating-points-v2 = <&gpu_opp_table>;
+ 			//#cooling-cells = <2>;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		video-codec@1c0e000 {
+@@ -688,7 +690,7 @@ codec: codec@05096000 {
+ 			resets = <&ccu RST_BUS_AUDIO_CODEC>;
+ 			dmas = <&dma 6>;
+ 			dma-names = "tx";
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		ahub_dam_plat:ahub_dam_plat@5097000 {

@@ -4,7 +4,7 @@
   ...
 }:
 (linuxManualConfig {
-  version = "6.1.31-sun50iw9";
+  version = "6.1.31-sun50iw9-gpu";
   modDirVersion = "6.1.31";
 
   # TODO: change to fetchFromGithub
@@ -25,9 +25,25 @@
       name = "uwe5622-unisocwcn-Makefile-remove-monkeying";
       patch = ./uwe5622-unisocwcn-Makefile-remove-monkeying.patch;
     }
+    # {
+    #   name = "uwe5622-firmware";
+    #   patch = ./lib-firmware.patch;
+    # }
+    # {
+    #   name = "enable-gpu-mali";
+    #   patch = ./enable-gpu-mali.patch;
+    # }
+    # {
+    #   name = "arch-arm64-boot-dts-allwinner-sun50i-h616-gpu";
+    #   patch = ./arch-arm64-boot-dts-allwinner-sun50i-h616-gpu
+    # }
+    # {
+    #   name = "arch-arm64-boot-dts-allwinner-sun50i-h616-gpu";
+    #   patch = ./arch-arm64-boot-dts-allwinner-sun50i-h616-gpu
+    # }
     {
-      name = "uwe5622-firmware";
-      patch = ./lib-firmware.patch;
+      name = "everything";
+      patch = ./megapatch.patch;
     }
   ];
 
