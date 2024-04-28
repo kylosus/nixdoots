@@ -9,6 +9,7 @@
     curl
     vim
     neovim
+    rsync
 
     # utils
     ripgrep
