@@ -21,9 +21,11 @@
   };
 
   nix.settings = {
-    experimental-features = "nix-command flakes";
+    experimental-features = "nix-command flakes cgroups";
     auto-optimise-store = true;
     log-lines = lib.mkDefault 25;
+
+    use-cgroups = true;
 
     # Needed for remote deploys
     trusted-users = ["@wheel"];
