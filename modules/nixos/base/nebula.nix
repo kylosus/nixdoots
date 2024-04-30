@@ -65,12 +65,17 @@ in {
       sops.secrets."${sopsKey}" = mkSecret "${hostPath}/nebula/key.json";
       sops.secrets."${sopsCert}" = mkSecret "${hostPath}/nebula/cert.json";
 
-      services.nebula.networks.mesh = {
+      services.nebula.networks.mesh = let
+        lighthouseIps = map (x: x.routable-ip) secrets.nebula.lighthouses;
+      in {
         enable = true;
         # TODO
         isLighthouse = cfg.isLighthouse;
         lighthouses = [secrets.nebula.ip];
-        staticHostMap = {"${secrets.nebula.ip}" = map (x: x.routable-ip) secrets.nebula.lighthouses;};
+        staticHostMap = {"${secrets.nebula.ip}" = lighthouseIps;};
+
+        # isRelay = isLighthouse;
+        relays = [secrets.nebula.ip];
 
         firewall.outbound = [
           {
