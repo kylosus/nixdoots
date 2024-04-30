@@ -7,40 +7,53 @@
 }: let
   cfg = config.host.global;
 in {
-  config = {
-    # For locate and updatedb
-    services.locate = lib.mkIf cfg.desktop {
-      enable = true;
-      localuser = null;
-    };
+  # TODO: for now
+  hardware.bluetooth = lib.mkIf cfg.desktop {
+    enable = true;
+  };
 
-    services.openssh = {
-      enable = true;
-      settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = false;
+  services =
+    {
+      openssh = {
+        enable = true;
+        settings = {
+          PermitRootLogin = "no";
+          PasswordAuthentication = false;
+        };
       };
-    };
+    }
+    // lib.mkIf cfg.desktop {
+      blueman.enable = true;
 
-    # TODO: for now
-    hardware.bluetooth = lib.mkIf cfg.desktop {
-      enable = true;
-    };
+      # For locate and updatedb
+      locate = {
+        enable = true;
+        localuser = null;
+      };
 
-    services.blueman = lib.mkIf cfg.desktop {
-      enable = true;
-    };
+      displayManager = {
+        enable = true;
+        defaultSession = "none+i3";
+      };
 
-    services.displayManager = lib.mkIf cfg.desktop {
-      enable = true;
-      defaultSession = "none+i3";
-    };
+      xserver = {
+        enable = true;
+        videoDrivers = ["nvidia"];
+        deviceSection = ''Option "TearFree" "true"'';
 
-    services.xserver = lib.mkIf cfg.desktop {
-      enable = true;
+        desktopManager = {
+          xterm.enable = false;
+        };
 
-      videoDrivers = ["nvidia"];
-      deviceSection = ''Option "TearFree" "true"'';
+        displayManager = {
+          startx.enable = true;
+        };
+
+        # TODO: Is this this duplicated with home-manager?
+        windowManager.i3 = {
+          enable = true;
+        };
+      };
 
       libinput = {
         enable = true;
@@ -55,29 +68,14 @@ in {
         };
       };
 
-      desktopManager = {
-        xterm.enable = false;
-      };
-
-      displayManager = {
-        startx.enable = true;
-      };
-
-      # TODO: Is this this duplicated with home-manager?
-      windowManager.i3 = {
+      pipewire = {
         enable = true;
+        wireplumber.enable = true;
+        alsa.enable = true;
+        pulse.enable = true;
+        jack.enable = true;
       };
     };
 
-    # TODO: not sure if I need to set all of them
-    services.pipewire = lib.mkIf cfg.desktop {
-      enable = true;
-      wireplumber.enable = true;
-      alsa.enable = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
-
-    environment.systemPackages = lib.optional cfg.desktop pkgs.pavucontrol;
-  };
+  environment.systemPackages = lib.optional cfg.desktop pkgs.pavucontrol;
 }
