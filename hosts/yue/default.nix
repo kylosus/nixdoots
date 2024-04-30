@@ -51,6 +51,7 @@
 
     # Optional modules
     host.nebula.enable = true;
+    host.podman.enable = true;
   };
 
   homeModule = {...}: {

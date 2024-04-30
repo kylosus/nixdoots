@@ -12,6 +12,7 @@ in {
     ./nebula.nix
     ./network.nix
     ./nix.nix
+    ./podman.nix
     ./services.nix
     ./users.nix
     ./secrets.nix
