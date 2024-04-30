@@ -19,7 +19,7 @@ in {
     config = {
       keybindings = let
         execSpawn = cmd: "exec --no-startup-id ${cmd}";
-        rofiSort = "rofi -dmenu -sorting-method fzf -i -sort";
+        rofiSort = "rofi -dmenu -sorting-method fzf -i -sort -refilter-timeout-limit 999999";
         inherit (config.xsession.windowManager.i3.config) modifier terminal;
       in
         lib.mkOptionDefault {
@@ -39,8 +39,8 @@ in {
           "${modifier}+x" = "exec --no-startup-id ${config.services.screen-locker.lockCmd}";
           "${modifier}+Print" = execSpawn "${lib.getBin pkgs.flameshot}/bin/flameshot gui";
 
-          "Mod1+d" = execSpawn ''${lib.getExe pkgs.fd} --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
-          "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminal} -cd "{}"'';
+          "Mod1+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
+          "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminal} -cd "{}"'';
 
           # Dunst stuff
           "Control+grave" = execSpawn "${lib.getBin pkgs.dunst}/bin/dunstctl history-pop";
