@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  secrets,
   ...
 }: let
   cfg = config.host.global;
@@ -71,6 +72,10 @@ in {
       search_mode = "fuzzy";
       style = "compact";
       inline_height = 10;
+
+      auto_sync = true;
+      sync_frequency = "5m";
+      sync_address = "http://${secrets.nebula.ip}:8888";
     };
     flags = [
       "--disable-up-arrow"
