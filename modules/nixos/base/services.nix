@@ -22,6 +22,15 @@ in {
       };
     };
 
+    # TODO: for now
+    hardware.bluetooth = lib.mkIf cfg.desktop {
+      enable = true;
+    };
+
+    services.blueman = lib.mkIf cfg.desktop {
+      enable = true;
+    };
+
     services.displayManager = lib.mkIf cfg.desktop {
       enable = true;
       defaultSession = "none+i3";
