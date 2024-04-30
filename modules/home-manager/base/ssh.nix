@@ -6,7 +6,7 @@
     enable = true;
     addKeysToAgent = "yes";
     extraConfig = ''
-      include ${config.sops.secrets.ssh-hosts.path}
+      # include ${config.sops.secrets.ssh-hosts.path}
       include ${config.home.homeDirectory}/.ssh/hosts.d/hosts
     '';
   };
