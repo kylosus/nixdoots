@@ -23,12 +23,6 @@
       ./hardware-configuration.nix
     ];
 
-    networking.networkmanager = {
-      enable = lib.mkForce true;
-      plugins = lib.mkForce [];
-      ensureProfiles = {};
-    };
-
     # Optional modules
     host.nebula = {
       enable = true;
