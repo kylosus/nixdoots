@@ -12,70 +12,68 @@ in {
     enable = true;
   };
 
-  services =
-    {
-      openssh = {
-        enable = true;
-        settings = {
-          PermitRootLogin = "no";
-          PasswordAuthentication = false;
-        };
-      };
-    }
-    // lib.mkIf cfg.desktop {
-      blueman.enable = true;
-
-      # For locate and updatedb
-      locate = {
-        enable = true;
-        localuser = null;
-      };
-
-      displayManager = {
-        enable = true;
-        defaultSession = "none+i3";
-      };
-
-      xserver = {
-        enable = true;
-        videoDrivers = ["nvidia"];
-        deviceSection = ''Option "TearFree" "true"'';
-
-        desktopManager = {
-          xterm.enable = false;
-        };
-
-        displayManager = {
-          startx.enable = true;
-        };
-
-        # TODO: Is this this duplicated with home-manager?
-        windowManager.i3 = {
-          enable = true;
-        };
-      };
-
-      libinput = {
-        enable = true;
-
-        mouse = {
-          middleEmulation = true;
-        };
-
-        touchpad = {
-          accelProfile = "adaptive";
-          naturalScrolling = true;
-        };
-      };
-
-      pipewire = {
-        enable = true;
-        wireplumber.enable = true;
-        alsa.enable = true;
-        pulse.enable = true;
-        jack.enable = true;
+  services = {
+    openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
       };
     };
+
+    blueman.enable = cfg.desktop;
+
+    # For locate and updatedb
+    locate = lib.mkIf cfg.desktop {
+      enable = false;
+      localuser = null;
+    };
+
+    displayManager = lib.mkIf cfg.desktop {
+      enable = true;
+      defaultSession = "none+i3";
+    };
+
+    xserver = lib.mkIf cfg.desktop {
+      enable = true;
+      videoDrivers = ["nvidia"];
+      deviceSection = ''Option "TearFree" "true"'';
+
+      desktopManager = lib.mkIf cfg.desktop {
+        xterm.enable = false;
+      };
+
+      displayManager = lib.mkIf cfg.desktop {
+        startx.enable = true;
+      };
+
+      # TODO: Is this this duplicated with home-manager?
+      windowManager.i3 = lib.mkIf cfg.desktop {
+        enable = true;
+      };
+    };
+
+    libinput = lib.mkIf cfg.desktop {
+      enable = true;
+
+      mouse = {
+        middleEmulation = true;
+      };
+
+      touchpad = {
+        accelProfile = "adaptive";
+        naturalScrolling = true;
+      };
+    };
+
+    pipewire = lib.mkIf cfg.desktop {
+      enable = true;
+      wireplumber.enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
+  };
 
   environment.systemPackages = lib.optional cfg.desktop pkgs.pavucontrol;
 }
