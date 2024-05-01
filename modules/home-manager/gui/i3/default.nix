@@ -70,7 +70,7 @@
     };
     picom = {
       enable = true;
-      vSync = true;
+      vSync = false;
     };
   };
 
