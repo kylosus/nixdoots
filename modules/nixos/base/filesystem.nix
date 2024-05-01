@@ -23,8 +23,8 @@
     options = ["relatime"];
   };
 
-  fileSystems."/boot" = lib.mkDefault {
+  fileSystems."/boot" = lib.mkIf (builtins.hasAttr "bootDisk" params.fs) (lib.mkDefault {
     device = params.fs.bootDisk;
     fsType = "vfat";
-  };
+  });
 }
