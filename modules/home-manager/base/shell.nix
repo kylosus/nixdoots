@@ -64,6 +64,8 @@ in {
     '';
   };
 
+  sops.secrets.atuin-key = {};
+
   # Atuin only on desktop systems (TODO)
   programs.atuin = lib.mkIf cfg.desktop {
     enable = true;
@@ -76,6 +78,8 @@ in {
       auto_sync = true;
       sync_frequency = "5m";
       sync_address = "http://${secrets.nebula.ip}:8888";
+
+      key_path = config.sops.secrets.atuin-key.path;
     };
     flags = [
       "--disable-up-arrow"
@@ -84,7 +88,7 @@ in {
 
   programs.fzf = {
     enable = true;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
+    enableBashIntegration = false;
+    enableFishIntegration = false;
   };
 }
