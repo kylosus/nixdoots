@@ -67,8 +67,8 @@
       }
     );
 
-    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue ./hosts/opium];
-    homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium];
+    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue ./hosts/opium ./hosts/trauma];
+    homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium ./hosts/trauma];
 
     images = {
       Opium = outputs.nixosConfigurations.Opium.config.system.build.sdImage;

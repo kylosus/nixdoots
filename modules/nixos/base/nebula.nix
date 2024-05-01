@@ -67,14 +67,14 @@ in {
 
       services.nebula.networks.mesh = let
         lighthouseIps = map (x: x.routable-ip) secrets.nebula.lighthouses;
-      in {
+      in rec {
         enable = true;
         # TODO
         isLighthouse = cfg.isLighthouse;
         lighthouses = [secrets.nebula.ip];
         staticHostMap = {"${secrets.nebula.ip}" = lighthouseIps;};
 
-        # isRelay = isLighthouse;
+        isRelay = isLighthouse;
         relays = [secrets.nebula.ip];
 
         firewall.outbound = [
