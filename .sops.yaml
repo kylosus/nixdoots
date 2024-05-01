@@ -2,6 +2,7 @@ keys:
   - &host_yue age1ase0m6n0w9vm2asx5katrth4j68lnm88d9tfru4q0u0qw27q5akq8ua93y
   - &host_emilia age1tcph57s2h2xz448f45fnlrw7fwakuka9xvq4fflgufpu2utjquyquphj0c
   - &host_opium age16hqvkw3yl6za6msdl76r20lf50paffqc8k3tcdjhhzgmanf6s5uq0p0msu
+  - &host_trauma age1uj6xaamtwv4ty9z3exjr7xutyzshhq6v4aj69cje7h3fx22sdswq9zmkhz
 
 creation_rules:
   - path_regex: secrets/.*.yaml
@@ -10,12 +11,14 @@ creation_rules:
         - *host_yue
         - *host_emilia
         - *host_opium
+        - *host_trauma
   - path_regex: secrets/nebula/.*.json
     key_groups:
       - age:
         - *host_yue
         - *host_emilia
         - *host_opium
+        - *host_trauma
 
   - path_regex: hosts/yue/nebula/.*.json
     key_groups:
@@ -27,3 +30,9 @@ creation_rules:
       - age:
         - *host_yue
         - *host_opium
+
+  - path_regex: hosts/trauma/nebula/.*.json
+    key_groups:
+      - age:
+        - *host_yue
+        - *host_trauma
