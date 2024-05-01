@@ -13,7 +13,10 @@ in {
     networking = {
       useDHCP = lib.mkDefault true;
       hostName = params.hostName;
-      networkmanager.enable = true;
+      networkmanager = {
+        enable = true;
+        plugins = lib.mkForce [];
+      };
 
       firewall = {
         enable = true;
