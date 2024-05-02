@@ -24,7 +24,7 @@ in {
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
-  xdg.userDirs = {
+  xdg.userDirs = lib.mkIf cfg.desktop {
     enable = true;
     createDirectories = true;
   };
