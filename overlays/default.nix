@@ -77,6 +77,10 @@
     mpv-unwrapped = prev.mpv-unwrapped.override {
       lua = final.luajit;
     };
+
+    networkmanager = prev.networkmanager.override {
+      openconnect = null;
+    };
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
