@@ -54,6 +54,8 @@ in {
       inherit sopsFile;
       inherit owner;
     };
+
+    lighthouses = [secrets.nebula.ip];
   in
     lib.mkIf (cfg.enable) {
       environment.systemPackages = with pkgs; [nebula];
@@ -71,7 +73,7 @@ in {
         enable = true;
         # TODO
         isLighthouse = cfg.isLighthouse;
-        lighthouses = [secrets.nebula.ip];
+        inherit lighthouses;
         staticHostMap = {"${secrets.nebula.ip}" = lighthouseIps;};
 
         isRelay = isLighthouse;
@@ -107,6 +109,9 @@ in {
         key = config.sops.secrets."${sopsKey}".path;
         cert = config.sops.secrets."${sopsCert}".path;
       };
+
+      # DNS
+      networking.nameservers = lighthouses;
 
       systemd.services."nebula@mesh".after = ["sops-nix.service"];
     };
