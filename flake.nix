@@ -39,7 +39,8 @@
 
     # Static file set
     files = import ./files;
-    mylib = import ./lib {inherit inputs outputs files;};
+    vars = import ./vars.nix;
+    mylib = import ./lib {inherit inputs outputs files vars;};
 
     allSystems = ["x86_64-linux" "aarch64-linux"];
     forAllSystems = mylib.forAllSystems allSystems;
