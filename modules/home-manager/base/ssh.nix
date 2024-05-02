@@ -5,7 +5,7 @@
   programs.ssh = {
     enable = true;
     addKeysToAgent = "yes";
-    controlMaster = "yes";
+    controlMaster = "no";
     controlPersist = "10m";
     extraConfig = ''
       # include ${config.sops.secrets.ssh-hosts.path}
