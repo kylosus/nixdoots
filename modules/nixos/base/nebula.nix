@@ -79,6 +79,13 @@ in {
         isRelay = isLighthouse;
         relays = [secrets.nebula.ip];
 
+        settings = {
+          lighthouse.dns = lib.mkIf cfg.isLighthouse {
+            host = "0.0.0.0";
+            port = 53;
+          };
+        };
+
         firewall.outbound = [
           {
             port = "any";
