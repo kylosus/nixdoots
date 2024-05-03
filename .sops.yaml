@@ -2,7 +2,7 @@ keys:
   - &host_yue age1ase0m6n0w9vm2asx5katrth4j68lnm88d9tfru4q0u0qw27q5akq8ua93y
   - &host_emilia age1tcph57s2h2xz448f45fnlrw7fwakuka9xvq4fflgufpu2utjquyquphj0c
   - &host_opium age16hqvkw3yl6za6msdl76r20lf50paffqc8k3tcdjhhzgmanf6s5uq0p0msu
-  - &host_trauma age1uj6xaamtwv4ty9z3exjr7xutyzshhq6v4aj69cje7h3fx22sdswq9zmkhz
+  - &host_trauma age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s
 
 creation_rules:
   - path_regex: secrets/.*.yaml
