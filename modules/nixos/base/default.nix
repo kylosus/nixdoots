@@ -18,7 +18,8 @@ in {
     ./secrets.nix
   ];
 
-  config = lib.mkIf cfg.desktop {
-    programs.dconf.enable = true;
+  config = {
+    programs.dconf.enable = cfg.desktop;
+    documentation.man.enable = cfg.desktop;
   };
 }

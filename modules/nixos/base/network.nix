@@ -2,6 +2,7 @@
   params,
   lib,
   config,
+  services,
   ...
 }: let
   cfg = config.host.global;
@@ -20,7 +21,7 @@ in {
 
       firewall = {
         enable = true;
-        allowedTCPPorts = [22];
+        allowedTCPPorts = [22] ++ lib.optional config.services.caddy.enable [80 443];
       };
     };
   };
