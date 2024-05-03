@@ -36,3 +36,9 @@ creation_rules:
       - age:
         - *host_yue
         - *host_trauma
+
+  - path_regex: containers/*/.*
+    key_groups:
+      - age:
+        - *host_yue
+        - *host_trauma
