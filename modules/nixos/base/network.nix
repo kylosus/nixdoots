@@ -15,7 +15,7 @@ in {
       hostName = params.hostName;
       networkmanager = {
         enable = true;
-        plugins = lib.mkForce [];
+        # plugins = lib.mkForce [];
       };
 
       firewall = {
