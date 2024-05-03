@@ -21,6 +21,9 @@
 
       # Hardware
       ./hardware-configuration.nix
+
+      # Services
+      ../../containers/gotify
     ];
 
     # Optional modules
@@ -28,6 +31,8 @@
       enable = true;
       isLighthouse = true;
     };
+
+    host.podman.enable = true;
   };
 
   homeModule = {...}: {

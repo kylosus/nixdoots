@@ -2,12 +2,13 @@
   inputs,
   outputs,
   files,
+  vars,
   ...
 }: let
   mkParams = import ./params.nix {inherit files;};
 
   defaultSpecialArgs = {
-    inherit inputs outputs files;
+    inherit inputs outputs files vars;
     secrets = inputs.secrets;
   };
 
