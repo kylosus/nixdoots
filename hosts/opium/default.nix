@@ -32,6 +32,8 @@
     # Some kind of fix for acpid
     nixpkgs.overlays = [
       (final: super: {makeModulesClosure = x: super.makeModulesClosure (x // {allowMissing = true;});})
+      # Hopefully lock it in so I don't have to keep compiling
+      # (final: super: { pkgs = import inputs.nixpkgs-stable {}; })
     ];
 
     # nixpkgs.config.pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform;
