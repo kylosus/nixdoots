@@ -111,6 +111,13 @@ in {
             proto = "tcp";
             groups = ["personal"];
           }
+
+          # Just in case
+          {
+            port = "22";
+            proto = "tcp";
+            groups = ["personal"];
+          }
         ];
 
         # Default ca for everyone
