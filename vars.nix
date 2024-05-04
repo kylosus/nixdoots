@@ -4,4 +4,8 @@
     networkWithSubnet = "${network}.0.0/16";
     networkName = "container-private-network";
   };
+
+  nebula = {
+    name = "mesh";
+  };
 }

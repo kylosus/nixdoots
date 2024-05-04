@@ -5,6 +5,7 @@
   params,
   secrets,
   hostPath,
+  vars,
   ...
 }: let
   cfg = config.host.nebula;
@@ -45,9 +46,11 @@ in {
 
   # config = lib.mkIf (cfg.enable) {
   config = let
+    name = vars.nebula.name;
+
     sopsKey = "${params.hostName}-nebula-key";
     sopsCert = "${params.hostName}-nebula-cert";
-    owner = config.systemd.services."nebula@mesh".serviceConfig.User;
+    owner = config.systemd.services."nebula@${name}".serviceConfig.User;
 
     mkSecret = sopsFile: {
       format = "binary";
@@ -67,7 +70,7 @@ in {
       sops.secrets."${sopsKey}" = mkSecret "${hostPath}/nebula/key.json";
       sops.secrets."${sopsCert}" = mkSecret "${hostPath}/nebula/cert.json";
 
-      services.nebula.networks.mesh = let
+      services.nebula.networks."${name}" = let
         lighthouseIps = map (x: x.routable-ip) secrets.nebula.lighthouses;
       in rec {
         enable = true;
@@ -120,6 +123,6 @@ in {
       # DNS
       networking.nameservers = lighthouses;
 
-      systemd.services."nebula@mesh".after = ["sops-nix.service"];
+      systemd.services."nebula@${name}".after = ["sops-nix.service"];
     };
 }
