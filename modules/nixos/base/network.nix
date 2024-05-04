@@ -21,7 +21,7 @@ in {
 
       firewall = {
         enable = true;
-        allowedTCPPorts = [22] ++ lib.optional config.services.caddy.enable [80 443];
+        allowedTCPPorts = [22] ++ lib.optionals config.services.caddy.enable [80 443];
       };
     };
   };
