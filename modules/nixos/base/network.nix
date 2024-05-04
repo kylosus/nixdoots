@@ -22,7 +22,8 @@ in {
 
       firewall = {
         enable = true;
-        allowedTCPPorts = [vars.ssh.port] ++ lib.optionals config.services.caddy.enable [80 443];
+        # 22 for the tarpit
+        allowedTCPPorts = [22 vars.ssh.port] ++ lib.optionals config.services.caddy.enable [80 443];
       };
     };
   };
