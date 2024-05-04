@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   cfg = config.host.global;
@@ -16,6 +17,22 @@ in {
       message = "`desktop` parameter, or the `host.global.desktop` option must be set to load this module";
     }
   ];
+
+  # Extra files we want to place
+  # For configs without configs
+  home.file = {
+    # How dumb is this?
+    # Maybe it shuld be an override
+    "${config.xdg.configHome}/keepassxc/keepassxc.ini" = lib.mkIf (builtins.elem pkgs.keepassxc config.home.packages) {
+      text = ''
+        [General]
+        ConfigVersion=2
+        GlobalAutoTypeKey=86
+        GlobalAutoTypeModifiers=201326592
+      '';
+      recursive = true;
+    };
+  };
 
   fonts.fontconfig.enable = true;
   programs.vscode.enable = true;
