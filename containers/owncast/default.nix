@@ -10,17 +10,26 @@
   rtmpPort = "1935";
   name = "owncast";
   volume = "${name}-data";
+  user = "101";
 in {
   sops.secrets.owncast-db = {
     format = "binary";
     sopsFile = ./owncast.db;
-    mode = "0777";
   };
 
   # This will spin up an Alpine container with the named module and copy some filees over
   systemd.services.owncast-copy-db = {
     # https://github.com/moby/moby/issues/25245
-    script = ''${lib.getExe pkgs.docker} run --rm --v ${volume}:/dest alpine cp ${config.sops.secrets.owncast-db.path} ${./logo.png} /dest/'';
+    # This is insane
+    script = ''
+      ${lib.getExe pkgs.docker} run --rm \
+      -v ${./logo.png}:/src/logo.png \
+      -v ${config.sops.secrets.owncast-db.path}:/src/owncast.db \
+      -v ${volume}:/dest alpine \
+      sh -c "cp ./src/* /dest/;\
+      chown ${user} -R /dest;\
+      chmod 700 -R /dest"
+    '';
     path = [pkgs.docker];
   };
 
@@ -28,6 +37,7 @@ in {
     "${name}" = {
       autoStart = true;
       image = "ghcr.io/kylosus/owncast:latest";
+      inherit user;
       # TODO
       ports = ["${rtmpPort}:${rtmpPort}"];
       volumes = ["owncast-data:/app/data"];
@@ -38,8 +48,12 @@ in {
     };
   };
 
-  systemd.services."${config.virtualisation.oci-containers.backend}-${name}" = {
-    after = [config.systemd.services.owncast-copy-db.name];
+  systemd.services."${config.virtualisation.oci-containers.backend}-${name}" = let
+    dep = [config.systemd.services.owncast-copy-db.name];
+  in {
+    after = dep;
+    wants = dep;
+    # requires = dep;
   };
 
   services.caddy = {
