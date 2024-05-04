@@ -1,0 +1,24 @@
+{
+	"data": "ENC[AES256_GCM,data:2JNAVw7JAJ5RYrlUaDrZ/j/hBqCXr9ibyy/jlk5g0w6hnajFo5aqvfjQ29Ovb2plSPyDitthzaHajD3kFO5gTwEjUMwADZDfAeMTzNlNdsBHJY797l3qr06dK4G0Nt233G7OvIjPMyo9PPY6yx16kaaCuN1IfBn/GG/Bc8XvTs953vZ1SSRFB7EfviCftiTZI9W+yJNeIsYmWcf6ymnRS8RgCKPUbr83w0WB8/+U1PixMtD49EsRzXNZckxSHLpNLWyPKnODyymEs5TSJQbKqa06ygFtqRljJ+LFG/Brln2KXY+yplwWknRr9psfk92DyFUYUH5Vrcq4+Y1SLtE2HfQfKF9uStSAJsvpZbe1BqURBJo3je9GpWfkI5pU7w/5kZy+5g==,iv:7hcbz1nCFeuV4Lr8tPChqr1drLiQKGp56LGYCJndR1Q=,tag:J4AKYppOzE4qASLLjfQodQ==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": null,
+		"azure_kv": null,
+		"hc_vault": null,
+		"age": [
+			{
+				"recipient": "age1ase0m6n0w9vm2asx5katrth4j68lnm88d9tfru4q0u0qw27q5akq8ua93y",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5eXBWWjhqUzZwdFlBVllX\nZmFtRXRZRnpaUUpMazlPN1c5Q013YXE2UHpzCjhvMEZOMTB6UERCdTNiM2RNOG9Z\nc1pmKzlyaU1UbmFobjVNRUdPVWdNaWMKLS0tIEhKSjM2aXdEUEdDSlNXV1RLY2x4\nQXFOUW1NdmJZQndyMCt4SUlwMWtoclEKL+RdW4KTRmxzm2AvTmOjldkYeaODjqRp\nC5f4t4QpotH53SJZZuXFnx5KGd6H1RlwLIULXFjJWKfIDvg3x3KG8Q==\n-----END AGE ENCRYPTED FILE-----\n"
+			},
+			{
+				"recipient": "age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBRd3N1UEhSVytVU0Ezc1VI\nSlhhTVBpNDB2SFpGc3F5V2dtSTM0R1RndENzClJxQytJcVRHdVdwMU1FSHRzZTRO\nMVZYbEdrZWVOVDZwQXhVbE9wWnRGMWMKLS0tIEdzUFhaWDNiMFJTMU1sT2Q0OHJF\nQy9aUmFlZDhJTUYzdEI2b1JVcnl2ZGMKNF2a2Et381me6DafNCP/cIj7IAFN+Ru9\nCIoDIsgH04mkCx8/CZtI5cGj56/TOtEAfGWT4D9aWYCriGb3kGOhvg==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2024-05-04T15:02:07Z",
+		"mac": "ENC[AES256_GCM,data:+YnjvHIDsnTqaHJpKreaVjucTxmEz0lhbso5nT9bYG6xOvHqcLEH2B+mXVDY3hxxccxozZMhs9ZBhdM+lAKn/PuaYHzLgxIt2jEMzXfvH/pELRsqeUQInTCtMGzxakPbvmI+9mzcUaNNXg0jWa4jaRXF4wYMwV5Gk46BD54RDXU=,iv:YBcqSezT1+e2R5jvSmc9WLJ47flgTERhuMfrVYjOiAY=,tag:fmdjojK58TXA+VTQHT9qFA==,type:str]",
+		"pgp": null,
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.8.1"
+	}
+}

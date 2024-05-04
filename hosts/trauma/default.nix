@@ -24,6 +24,7 @@
 
       # Services
       ../../containers/gotify
+      ../../containers/musicbot
     ];
 
     # Optional modules
