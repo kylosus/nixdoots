@@ -44,7 +44,7 @@ in {
 
   services.caddy = {
     enable = true;
-    virtualHosts."${secrets.services.gotify.host}".extraConfig = ''
+    virtualHosts."${secrets.services.owncast.host}".extraConfig = ''
       reverse_proxy ${ip}:8080
     '';
   };
