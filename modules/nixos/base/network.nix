@@ -3,6 +3,7 @@
   lib,
   config,
   services,
+  vars,
   ...
 }: let
   cfg = config.host.global;
@@ -21,7 +22,7 @@ in {
 
       firewall = {
         enable = true;
-        allowedTCPPorts = [22] ++ lib.optionals config.services.caddy.enable [80 443];
+        allowedTCPPorts = [vars.ssh.port] ++ lib.optionals config.services.caddy.enable [80 443];
       };
     };
   };

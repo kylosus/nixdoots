@@ -3,6 +3,7 @@
   pkgs,
   config,
   lib,
+  vars,
   ...
 }: let
   cfg = config.host.global;
@@ -13,8 +14,15 @@ in {
   };
 
   services = {
+    # SSH tarpit
+    endlessh-go = {
+      enable = true;
+      port = 22;
+    };
+
     openssh = {
       enable = true;
+      ports = [vars.ssh.port];
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;

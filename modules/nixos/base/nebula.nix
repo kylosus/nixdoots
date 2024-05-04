@@ -107,6 +107,13 @@ in {
 
           # Allow ssh among personal devices
           {
+            port = builtins.toString vars.ssh.port;
+            proto = "tcp";
+            groups = ["personal"];
+          }
+
+          # Just in case
+          {
             port = "22";
             proto = "tcp";
             groups = ["personal"];
