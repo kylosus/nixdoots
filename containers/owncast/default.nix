@@ -6,7 +6,7 @@
   secrets,
   ...
 }: let
-  ip = "${vars.container.network}.0.2";
+  ip = "${vars.container.network}.0.3";
   rtmpPort = "1935";
   name = "owncast";
   volume = "${name}-data";

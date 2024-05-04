@@ -4,8 +4,7 @@
   secrets,
   ...
 }: let
-  ip = "${vars.container.network}.0.1";
-  port = "8001";
+  ip = "${vars.container.network}.0.2";
 in {
   sops.secrets.gotify-config = {
     format = "dotenv";
@@ -21,7 +20,6 @@ in {
     gotify = {
       autoStart = true;
       image = "docker.io/gotify/server:latest";
-      ports = ["${ip}:${port}:80"];
       volumes = [
         "gotify-data:/app/data"
         "${config.sops.secrets.gotify-db.path}:/app/data/gotify.db"
@@ -31,6 +29,7 @@ in {
       ];
       extraOptions = [
         "--net=${vars.container.networkName}"
+        "--ip=${ip}"
       ];
     };
   };
@@ -38,7 +37,7 @@ in {
   services.caddy = {
     enable = true;
     virtualHosts."${secrets.services.gotify.host}".extraConfig = ''
-      reverse_proxy ${ip}:${port}
+      reverse_proxy ${ip}:80
     '';
   };
 }
