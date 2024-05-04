@@ -16,8 +16,6 @@
   };
 
   services.endlessh-go = {
-    enable = true;
-    port = 23;
     prometheus = {
       enable = true;
       port = 9003;
