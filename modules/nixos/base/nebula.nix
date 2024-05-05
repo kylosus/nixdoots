@@ -109,14 +109,14 @@ in {
           {
             port = builtins.toString vars.ssh.port;
             proto = "tcp";
-            groups = ["personal"];
+            groups = [vars.nebula.trustedGroup];
           }
 
           # Just in case
           {
             port = "22";
             proto = "tcp";
-            groups = ["personal"];
+            groups = [vars.nebula.trustedGroup];
           }
         ];
 

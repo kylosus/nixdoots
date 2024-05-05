@@ -1,9 +1,11 @@
 {
   config,
   lib,
+  vars,
   ...
 }: let
   cfg = config.host.monitoring;
+  grafanaPort = 3000;
 in {
   options = {
     host.monitoring = {
@@ -21,7 +23,7 @@ in {
       settings = {
         server = {
           http_addr = "127.0.0.1";
-          http_port = 3000;
+          http_port = grafanaPort;
         };
 
         # security = {
@@ -62,5 +64,22 @@ in {
         }
       ];
     };
+
+    # Expose grafana port if we are the frontend
+    services.nebula.networks."${vars.nebula.name}".firewall.inbound = let
+      ports = [
+        9001 # Prometheus
+        9002 # Prometheus node exporter
+        9003 # Endlessh exporter
+      ];
+    in
+      map (x: {
+        port = x;
+        proto = "tcp";
+        groups = [vars.nebula.trustedGroup];
+      })
+      ports
+      # Expose grafana if we are the frontend
+      ++ lib.optionals cfg.isGrafana [grafanaPort];
   };
 }

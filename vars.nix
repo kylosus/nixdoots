@@ -11,5 +11,6 @@
 
   nebula = {
     name = "mesh";
+    trustedGroup = "personal";
   };
 }
