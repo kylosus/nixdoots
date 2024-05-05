@@ -92,6 +92,8 @@
           wrapProgram $out/bin/endlessh-go --add-flags -geoip_supplier --add-flags ip-api
         '';
     });
+
+    nebula = prev.nebula-master;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
