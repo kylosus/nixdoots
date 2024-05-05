@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.host.monitoring;
-  grafanaPort = 3000;
+  grafanaPort = "3000";
 in {
   options = {
     host.monitoring = {
@@ -19,11 +19,11 @@ in {
 
   config = {
     services.grafana = lib.mkIf cfg.isGrafana {
-      enable = false;
+      enable = true;
       settings = {
         server = {
           http_addr = "127.0.0.1";
-          http_port = grafanaPort;
+          http_port = builtins.toInt grafanaPort;
         };
 
         # security = {
@@ -68,9 +68,9 @@ in {
     # Expose grafana port if we are the frontend
     services.nebula.networks."${vars.nebula.name}".firewall.inbound = let
       ports = [
-        9001 # Prometheus
-        9002 # Prometheus node exporter
-        9003 # Endlessh exporter
+        "9001" # Prometheus
+        "9002" # Prometheus node exporter
+        "9003" # Endlessh exporter
       ];
     in
       map (x: {
