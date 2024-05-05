@@ -78,8 +78,6 @@ in {
         proto = "tcp";
         groups = [vars.nebula.trustedGroup];
       })
-      ports
-      # Expose grafana if we are the frontend
-      ++ lib.optionals cfg.isGrafana [grafanaPort];
+      (ports ++ lib.optionals cfg.isGrafana [grafanaPort]);
   };
 }
