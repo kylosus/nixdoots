@@ -81,6 +81,17 @@
     networkmanager = prev.networkmanager.override {
       openconnect = null;
     };
+
+    endlessh-go = prev.endlessh-go.overrideAttrs (oldAttrs: {
+      nativeBuildInputs = oldAttrs.nativeBuildInputs or [] ++ [final.makeWrapper];
+
+      postInstall =
+        oldAttrs.postInstall
+        or ""
+        + ''
+          wrapProgram $out/bin/endlessh-go --add-flags -geoip_supplier --add-flags ip-api
+        '';
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
