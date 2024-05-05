@@ -23,6 +23,9 @@
     imports = [
       # Hardware
       ./hardware-configuration.nix
+
+      # Services
+      ../../modules/nixos/services/monitoring.nix
     ];
 
     # Probably not necessary
