@@ -23,7 +23,7 @@ in {
       settings = {
         server = {
           http_addr = "127.0.0.1";
-          http_port = builtins.toInt grafanaPort;
+          http_port = lib.toInt grafanaPort;
         };
 
         # security = {

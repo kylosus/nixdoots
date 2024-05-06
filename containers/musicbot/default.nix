@@ -31,16 +31,19 @@ in {
   sops.secrets.musicbot-config = {
     format = "binary";
     sopsFile = ./config.txt;
+    owner = vars.container.user;
   };
 
   sops.secrets.musicbot-serversettings = {
     format = "binary";
     sopsFile = ./serversettings.json;
+    owner = vars.container.user;
   };
 
   virtualisation.oci-containers.containers = {
     musicbot = {
       autoStart = true;
+      user = vars.container.uid;
       image = "${name}:${tag}";
       inherit imageFile;
 
@@ -51,4 +54,11 @@ in {
       ];
     };
   };
+
+  # systemd.services."${config.virtualisation.oci-containers.backend}-musicbot" = {
+  #   serviceConfig = {
+  #     User = "1000";
+  #     Group = "100";
+  #   };
+  # };
 }

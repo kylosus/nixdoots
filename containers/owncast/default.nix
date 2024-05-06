@@ -10,6 +10,7 @@
   rtmpPort = "1935";
   name = "owncast";
   volume = "${name}-data";
+  # uid hardcoded in owncast Dockerfile
   user = "101";
 in {
   sops.secrets.owncast-db = {
@@ -17,7 +18,7 @@ in {
     sopsFile = ./owncast.db;
   };
 
-  # This will spin up an Alpine container with the named module and copy some filees over
+  # This will spin up an Alpine container with the named module and copy some files over
   systemd.services.owncast-copy-db = {
     # https://github.com/moby/moby/issues/25245
     # This is insane
