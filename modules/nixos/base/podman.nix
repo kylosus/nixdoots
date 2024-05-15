@@ -31,6 +31,16 @@ in {
     virtualisation.containers.enable = true;
     virtualisation.oci-containers.backend = cfg.backend;
 
+    # User to launch containers as and drop permissions (?)
+    users.groups."${vars.container.user}" = {};
+    users.users."${vars.container.user}" = {
+      shell = null;
+      uid = lib.toInt vars.container.uid;
+      extraGroups = lib.mkForce [];
+      isNormalUser = true;
+      group = vars.container.user;
+    };
+
     # WHY IS NIXOS LIKE THIS
     # https://github.com/NixOS/nixpkgs/issues/259770
     # https://github.com/NixOS/nixpkgs/issues/207050
@@ -82,7 +92,7 @@ in {
       ${dockerBin} network inspect ${networkName} >/dev/null 2>&1 || ${dockerBin} network create ${networkName} --subnet ${networkSubnet}
     '';
 
-    users.extraGroups.docker.members = [params.userName];
+    # users.extraGroups.docker.members = [params.userName];
 
     environment.systemPackages = with pkgs; [
       dive # look into docker image layers

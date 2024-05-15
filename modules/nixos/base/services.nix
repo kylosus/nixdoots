@@ -15,7 +15,7 @@ in {
 
   services = {
     # SSH tarpit
-    endlessh-go = {
+    endlessh-go = lib.mkIf cfg.endlessh {
       enable = true;
       port = 22;
     };
