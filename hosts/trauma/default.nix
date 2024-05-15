@@ -31,6 +31,9 @@
       ../../containers/owncast
     ];
 
+    # Just in case
+    networking.networkmanager.enable = lib.mkForce false;
+
     # Optional modules
     host.nebula = {
       enable = true;
