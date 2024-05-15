@@ -3,10 +3,13 @@
   pkgs,
   ...
 }: {
+  home.packages = with pkgs; [i3lock];
+
   services.screen-locker = {
     enable = true;
     inactiveInterval = 5;
-    lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
+    # Pure Home-manager compatibility
+    lockCmd = "i3lock";
     xautolock.extraOptions = ["-lockaftersleep"];
   };
 
