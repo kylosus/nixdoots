@@ -22,6 +22,9 @@
       # Hardware
       ./hardware-configuration.nix
 
+      # From nixos-infect
+      ./networking.nix
+
       # Services
       ../../containers/gotify
       ../../containers/musicbot
