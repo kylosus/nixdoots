@@ -5,6 +5,13 @@ keys:
   - &host_trauma age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s
 
 creation_rules:
+  - path_regex: secrets/files/.*
+    key_groups:
+      - age:
+        - *host_yue
+        - *host_emilia
+        - *host_opium
+        - *host_trauma
   - path_regex: secrets/.*.yaml
     key_groups:
       - age:
