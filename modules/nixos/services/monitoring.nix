@@ -62,6 +62,16 @@ in {
             }
           ];
         }
+        lib.mkIf
+        config.host.endlessh
+        {
+          job_name = "endlessh";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:${builtins.toString config.services.endlessh-go.prometheus.port}"];
+            }
+          ];
+        }
       ];
     };
 
