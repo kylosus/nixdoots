@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {
@@ -118,9 +122,22 @@
         toggle-off-foreground = "#55";
       };
 
-      "module/battery" = {
+      "module/battery" = let
+        # Kinda jank
+        # { ACAD = "..."; BATT = "..."; } => [ "ACAD" "BATT" ] => ... => { adapter = "ACAD"; battery = "BATT"; }
+        systemBattery = builtins.sort (a: b: a < b) (builtins.attrNames (builtins.readDir /sys/class/power_supply));
+        batteryConfig = builtins.listToAttrs (builtins.map (u: {
+          name = u.fst;
+          value = u.snd;
+        }) (lib.zipLists ["adapter" "battery"] systemBattery));
+      in {
         type = "internal/battery";
         full-at = 99;
+
+        inherit (batteryConfig) adapter battery;
+
+        #adapter = systemBattery.0;
+        # battery = systemBattery.1;
 
         time-format = "%H:%M";
         format-charging = "<animation-charging> <label-charging>";
