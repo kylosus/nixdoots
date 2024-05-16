@@ -31,6 +31,10 @@
         sixelPreviewSupport = false;
       };
 
+    w3m = prev.w3m.override {
+      graphicsSupport = false;
+    };
+
     # https://nixos.wiki/wiki/MPV
     mpv-unwrapped = prev.mpv-unwrapped.override {
       lua = final.luajit;
@@ -38,6 +42,18 @@
 
     networkmanager = prev.networkmanager.override {
       openconnect = null;
+    };
+
+    #python3Packages.dbus-python = prev.python3Packages.dbus-python.overrideAttrs(old: {
+    #  # nativeBuildInputs = old.nativeBuildInputs ++ [ prev.dbus ];
+    #});
+
+    python3 = prev.python3.override {
+      packageOverrides = self: super: {
+        dbus-python = super.dbus-python.overrideAttrs (oldAttrs: {
+          nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [prev.dbus];
+        });
+      };
     };
   };
 
