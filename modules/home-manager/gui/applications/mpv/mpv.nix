@@ -103,7 +103,7 @@
       screenshot-high-bit-depth = "yes";
       screenshot-png-compression = "1";
       screenshot-jpeg-quality = "100";
-      screenshot-directory = "${config.xdg.userDirs.pictures}}/mpv/";
+      screenshot-directory = "${config.xdg.userDirs.pictures}/mpv/";
       screenshot-template = "%f-%wH.%wM.%wS.%wT-#%#00n";
 
       ###Dither###
