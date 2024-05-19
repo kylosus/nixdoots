@@ -35,6 +35,9 @@
 
       # Wine
       ../../modules/nixos/features/wine.nix
+
+      # TODO:
+      # ../../containers/deluge_exporter
     ];
 
     # For crross-compiling. See https://github.com/nix-community/nixos-generators
@@ -56,7 +59,7 @@
     host.nebula.enable = true;
     host.podman = {
       enable = true;
-      backend = "podman";
+      # backend = "podman";
     };
   };
 
