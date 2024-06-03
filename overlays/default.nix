@@ -11,38 +11,6 @@
     # ...
     # });
 
-    #asusctl = prev.asusctl.override (old: {
-    #  rustPlatform =
-    #    old.rustPlatform
-    #    // {
-    #      buildRustPackage = args:
-    #       old.rustPlatform.buildRustPackage (args
-    #          // {
-    #            src = final.fetchFromGitLab {
-    #              owner = "asus-linux";
-    #              repo = "asusctl";
-    #              rev = "5.0.10";
-    #              hash = "sha256-H8x3nfOFRv9DkbDkFw+LO1tdHiVyU3SzetqED4twPSk=";
-    #            };
-    #            # cargoHash = "sha256-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=";
-    #            # cargoHash = "sha256-753560b6ae8edf72a4a9c6f0e5b187590184b1106375634ac2a95ad245c47275";
-    #            cargoHash = "sha256-H8x3nfOFRv9DkbDkFw+LO1tdHiVyU3SzetqED4twPSk=";
-    #            cargoLock = {
-    #             lockFile = ./Cargo.lock;
-    #              outputHashes = {
-    #                "ecolor-0.21.0" = "sha256-m7eHX6flwO21umtx3dnIuVUnNsEs3ZCyOk5Vvp/lVfI=";
-    #                "notify-rust-4.6.0" = "sha256-jhCgisA9f6AI9e9JQUYRtEt47gQnDv5WsdRKFoKvHJs=";
-    #                "supergfxctl-5.1.2" = "sha256-WDbUgvWExk5cs2cpjo88CiROdEbc01o2DELhRi9gju4=";
-    #              };
-    #            };
-    #          });
-    #    };
-    #});
-
-    # rxvt-unicode = prev.rxvt-unicode.overrideAttrs (old: {
-    #   emojiSupport = true;
-    # });
-
     pywal = prev.pywal.overrideAttrs (old: {
       src = prev.fetchFromGitHub {
         owner = "dylanaraps";
@@ -57,21 +25,10 @@
       propagatedBuildInputs = old.propagatedBuildInputs ++ [final.imagemagick];
     });
 
-    #    pywal = inputs.nixpkgs.legacyPackages.x86_64-linux.pkgs.python3.override {
-    #      packageOverrides = self: super: {
-    #
-    #      };
-    #    };
-
-    ranger =
-      (prev.ranger.overrideAttrs (old: {
-        propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
-        sixelPreviewSupport = false;
-      }))
-      .override {
-        # For aarch64-linux
-        sixelPreviewSupport = false;
-      };
+    # We need screen support, I guess
+    ranger = prev.ranger.overrideAttrs (old: {
+      propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
+    });
 
     # https://nixos.wiki/wiki/MPV
     mpv-unwrapped = prev.mpv-unwrapped.override {
