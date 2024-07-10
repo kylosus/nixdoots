@@ -9,5 +9,5 @@
     ../../modules/home-manager/tui/applications/syncthing.nix
   ];
 
-  home.packages = with pkgs; [discord neovim];
+  home.packages = with pkgs; [discord];
 }

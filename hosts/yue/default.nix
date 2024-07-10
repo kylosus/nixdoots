@@ -61,6 +61,9 @@
     imports = [
       ../common/desktop.nix
 
+      # Applications
+      ../../modules/home-manager/tui/applications/neovim
+
       # Extra features
       ../../modules/home-manager/gui/features/cursor.nix
     ];
