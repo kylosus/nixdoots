@@ -52,6 +52,10 @@
       };
     };
 
+    services.udisks2 = {
+      enable = true;
+    };
+
     # Optional modules
     host.nebula.enable = true;
     host.podman.enable = true;
@@ -64,6 +68,10 @@
       # Extra features
       ../../modules/home-manager/gui/features/cursor.nix
     ];
+
+    services.udiskie = {
+      enable = true;
+    };
 
     host.i3 = {
       monitors = ["HDMI-A-0" "eDP"];
