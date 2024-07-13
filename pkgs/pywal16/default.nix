@@ -14,14 +14,14 @@
 }:
 buildPythonPackage rec {
   pname = "pywal16";
-  version = "3.5.0";
+  version = "3.5.4";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "eylles";
     repo = pname;
     rev = version;
-    sha256 = "sha256-BazZdSf6N3kPE5/3RGpkyp01DSaIxtcgq4lK3kv2ilU";
+    sha256 = "sha256-14xl0E4zpUCjW8rkqWA87TGsDy8lgqOQm9GeE9JIsVk=";
   };
 
   build-system = [
