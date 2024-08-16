@@ -22,7 +22,7 @@
   home.packages = with pkgs; [
     xclip
     xsel
-    gnome.nautilus
+    nautilus
     font-awesome_6
   ];
 
