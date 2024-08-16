@@ -60,7 +60,6 @@
 
     networking.networkmanager = {
       enable = lib.mkForce true;
-      plugins = lib.mkForce [];
       ensureProfiles = {};
       plugins = lib.mkForce [];
     };
