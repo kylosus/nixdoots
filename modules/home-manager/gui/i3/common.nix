@@ -16,10 +16,14 @@ in {
     };
   };
 
-  config = {
+  config = let
+    # Windows key
+    modifier = "Mod4";
+    # alt
+    altModifier = "Mod1";
+  in {
     xsession.windowManager.i3.config = rec {
-      # Windows key
-      modifier = "Mod4";
+      inherit modifier;
 
       defaultWorkspace = "1";
 
@@ -39,18 +43,32 @@ in {
         # smartGaps = true;
       };
 
-      keybindings = lib.mkOptionDefault {
-        "${modifier}+0" = "workspace 10";
-        "${modifier}+Shift+0" = "move container to workspace 10";
-        "${modifier}+comma" = "workspace prev";
-        "${modifier}+period" = "workspace next";
-        "Mod1+Tab" = "workspace next";
-        "Mod4+Tab" = "workspace prev";
-      };
+      keybindings = lib.mkOptionDefault ({
+          "${modifier}+0" = "workspace 10";
+          "${modifier}+Shift+0" = "move container to workspace 10";
+          "${modifier}+comma" = "workspace prev";
+          "${modifier}+period" = "workspace next";
+          "Mod1+Tab" = "workspace next";
+          "Mod4+Tab" = "workspace prev";
+
+          # Handle this one separately
+          "${altModifier}+0" = "workspace 20";
+          "${altModifier}+Shift+0" = "move container to workspace 20";
+        }
+        // lib.mergeAttrsList (map (x: let
+          xStr = builtins.toString x;
+          workspace = builtins.toString (x + 10);
+        in {
+          "${altModifier}+${xStr}" = "workspace ${workspace}";
+          "${altModifier}+Shift+${xStr}" = "move container to workspace ${workspace}";
+        }) (lib.range 1 10)));
 
       # This language is awful
       workspaceOutputAssign = let
-        monitors = lib.zipLists cfg.monitors [(lib.range 1 5) (lib.range 6 10)];
+        monitors = lib.zipLists cfg.monitors [
+          ((lib.range 1 5) ++ (lib.range 11 15))
+          ((lib.range 6 10) ++ (lib.range 16 20))
+        ];
         mkWorkspace = monitor: range:
           map (x: {
             workspace = builtins.toString x;

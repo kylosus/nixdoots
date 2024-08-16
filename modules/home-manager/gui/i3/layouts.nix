@@ -1,23 +1,16 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   home.packages = with pkgs; [i3-layouts];
 
-  # Can probably be done better
-  xsession.windowManager.i3.extraConfig = ''
-    set $i3l autosplit to workspace 1
-    set $i3l autosplit to workspace 2
-    set $i3l autosplit to workspace 3
-    set $i3l autosplit to workspace 4
-    set $i3l autosplit to workspace 5
-    set $i3l autosplit to workspace 6
-    set $i3l autosplit to workspace 7
-    set $i3l autosplit to workspace 8
-    set $i3l autosplit to workspace 9
-    set $i3l autosplit to workspace 10
-  '';
+  xsession.windowManager.i3.extraConfig = let
+    workspaces = map (x: x.workspace) config.xsession.windowManager.i3.config.workspaceOutputAssign;
+    workspacesConfig = map (x: "set $i3l autosplit to workspace ${x}") workspaces;
+  in
+    lib.concatStringsSep "\n" workspacesConfig;
 
   xsession.windowManager.i3.config.startup = [
     {
