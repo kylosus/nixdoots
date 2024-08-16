@@ -50,7 +50,7 @@
     nixpkgs.hostPlatform.system = params.system;
 
     # Some kind of fix for wifi
-    systemd.services.iwd.serviceConfig.restart = "always";
+    # systemd.services.iwd.serviceConfig.restart = "always";
 
     # Mac authentication at uni
     networking.interfaces.end0.macAddress = secrets.hosts.titan.macAddress;
@@ -58,6 +58,7 @@
     networking.networkmanager = {
       enable = lib.mkForce true;
       ensureProfiles = {};
+      plugins = lib.mkForce [];
     };
 
     # Optional modules
