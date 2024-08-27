@@ -40,7 +40,7 @@ in {
   # Should be inn gui
   programs.chromium = {
     enable = true;
-    package = pkgs.ungoogled-chromium;
+    package = pkgs.stable.ungoogled-chromium;
     # Apparently doesn't work for ungoogled
     extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
   };
