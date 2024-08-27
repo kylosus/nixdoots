@@ -4,5 +4,6 @@
   # newpackage = pkgs.callPackage ./newpackage { };
   i3-layouts = pkgs.python3Packages.callPackage ./i3-layouts {};
   mpv-discordRPC = pkgs.mpvScripts.callPackage ./mpv-discordRPC {};
+  nebula-master = pkgs.callPackage ./nebula {};
   # pywal = pkgs.python3Packages.callPackage ./pywal16 {};
 }

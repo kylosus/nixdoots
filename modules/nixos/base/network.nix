@@ -16,12 +16,12 @@ in {
       useDHCP = lib.mkDefault true;
       hostName = params.hostName;
       networkmanager = {
-        enable = true;
-        # plugins = lib.mkForce [];
+        enable = lib.mkDefault true;
+        plugins = lib.mkForce [];
       };
 
       firewall = {
-        enable = true;
+        enable = lib.mkForce true;
         # 22 for the tarpit
         allowedTCPPorts = [22 vars.ssh.port] ++ lib.optionals config.services.caddy.enable [80 443];
       };

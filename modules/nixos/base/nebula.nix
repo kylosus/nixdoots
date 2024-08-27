@@ -47,6 +47,7 @@ in {
   # config = lib.mkIf (cfg.enable) {
   config = let
     name = vars.nebula.name;
+    tunDevice = "nebula.${name}";
 
     sopsKey = "${params.hostName}-nebula-key";
     sopsCert = "${params.hostName}-nebula-cert";
@@ -59,6 +60,16 @@ in {
     };
 
     lighthouses = [secrets.nebula.ip];
+
+    accumulatePorts = acc: item: let
+      proto = item.proto;
+      port = item.port;
+      existingPorts =
+        if acc ? ${proto}
+        then acc.${proto}
+        else [];
+    in
+      acc // {${proto} = existingPorts ++ [(lib.toInt port)];};
   in
     lib.mkIf (cfg.enable) {
       environment.systemPackages = with pkgs; [nebula];
@@ -81,6 +92,11 @@ in {
 
         isRelay = isLighthouse;
         relays = [secrets.nebula.ip];
+
+        tun = {
+          # disable = lib.mkForce true;
+          device = tunDevice;
+        };
 
         settings = {
           lighthouse.dns = lib.mkIf cfg.isLighthouse {
@@ -109,14 +125,14 @@ in {
           {
             port = builtins.toString vars.ssh.port;
             proto = "tcp";
-            groups = ["personal"];
+            groups = [vars.nebula.trustedGroup];
           }
 
           # Just in case
           {
             port = "22";
             proto = "tcp";
-            groups = ["personal"];
+            groups = [vars.nebula.trustedGroup];
           }
         ];
 
@@ -129,6 +145,15 @@ in {
 
       # DNS
       networking.nameservers = lighthouses;
+
+      # Open the chosen ports
+      networking.firewall.interfaces."${tunDevice}" = let
+        filteredPorts = lib.unique (builtins.filter (x: x.port != "any") config.services.nebula.networks."${name}".firewall.inbound);
+        ports = builtins.foldl' accumulatePorts {} filteredPorts;
+      in {
+        allowedTCPPorts = ports.tcp or [];
+        allowedUDPPorts = ports.udp or [];
+      };
 
       systemd.services."nebula@${name}".after = ["sops-nix.service"];
     };

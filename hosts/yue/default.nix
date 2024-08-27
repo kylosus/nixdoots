@@ -58,7 +58,10 @@
 
     # Optional modules
     host.nebula.enable = true;
-    host.podman.enable = true;
+    host.podman = {
+      enable = true;
+      backend = "podman";
+    };
   };
 
   homeModule = {...}: {

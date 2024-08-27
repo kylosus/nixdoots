@@ -7,16 +7,19 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.host.global;
-in {
-  options = {
-    host.global = {
-      desktop = lib.mkOption {
-        default = false;
-        type = lib.types.bool;
-        description = "Enable graphical stuff";
-      };
+}: {
+  options.host.global = {
+    desktop = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+      description = "Enable graphical stuff";
+    };
+
+    # Probably shouldn't be "global"
+    endlessh = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+      description = "Enables endlessh. For internet-facing hosts";
     };
   };
 }
