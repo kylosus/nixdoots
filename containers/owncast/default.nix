@@ -27,7 +27,8 @@ in {
       -v ${./logo.png}:/src/logo.png \
       -v ${config.sops.secrets.owncast-db.path}:/src/owncast.db \
       -v ${volume}:/dest alpine \
-      sh -c "cp ./src/* /dest/;\
+      sh -c "rm /dest/owncast.db*;\
+      cp -rf ./src/* /dest/;\
       chown ${user} -R /dest;\
       chmod 700 -R /dest"
     '';
