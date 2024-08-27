@@ -22,7 +22,7 @@ in {
       enable = true;
       settings = {
         server = {
-          http_addr = "127.0.0.1";
+          http_addr = "0.0.0.0";
           http_port = lib.toInt grafanaPort;
         };
 
@@ -34,12 +34,26 @@ in {
       };
     };
 
+    sops.secrets.geoip-db = {
+      format = "binary";
+      sopsFile = ../../../secrets/files/GeoLite2-City.mmdb;
+      path = "${config.systemd.services.endlessh-go.serviceConfig.RootDirectory}/geoip-db";
+    };
+
     services.endlessh-go = {
       prometheus = {
-        enable = true;
+        enable = false;
         port = 9003;
       };
+
+      extraOptions = [
+        "-geoip_supplier=max-mind-db"
+        "-max_mind_db=/geoip-db"
+      ];
     };
+
+    # Fix for /run
+    systemd.services.endlessh-go.serviceConfig.PrivateTmp = lib.mkForce false;
 
     services.prometheus = {
       enable = true;
