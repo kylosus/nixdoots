@@ -6,6 +6,7 @@
 }: let
   cfg = config.host.monitoring;
   grafanaPort = "3000";
+  prometheusPort = "9001";
 in {
   options = {
     host.monitoring = {
@@ -32,6 +33,17 @@ in {
         #   admin_password = "admin";
         # };
       };
+
+      provision.datasources.settings = {
+        apiVersion = 1;
+        datasources = [
+          {
+            name = "Prometheus";
+            type = "prometheus";
+            url = "http://localhost:${prometheusPort}";
+          }
+        ];
+      };
     };
 
     sops.secrets.geoip-db = {
@@ -57,7 +69,7 @@ in {
 
     services.prometheus = {
       enable = true;
-      port = 9001;
+      port = lib.toInt prometheusPort;
 
       # extraFlags = ["--web.enable-admin-api"];
 
@@ -95,7 +107,7 @@ in {
     # Expose grafana port if we are the frontend
     services.nebula.networks."${vars.nebula.name}".firewall.inbound = let
       ports = [
-        "9001" # Prometheus
+        prometheusPort
         "9002" # Prometheus node exporter
         "9003" # Endlessh exporter
       ];
