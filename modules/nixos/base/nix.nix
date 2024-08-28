@@ -69,5 +69,5 @@
   };
 
   # TODO: put this in vars.nix or something
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 }

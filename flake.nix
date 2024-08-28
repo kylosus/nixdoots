@@ -5,10 +5,10 @@
     # NixOS
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Neovim in nix
-    # nixvim.url = "github:nix-community/nixvim/nixos-23.11";
+    # nixvim.url = "github:nix-community/nixvim/nixos-24.05";
 
     # Run unpatched binaries
     # nix-alien.url = "github:thiagokokada/nix-alien";

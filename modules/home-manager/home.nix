@@ -28,5 +28,5 @@
   # home.packages = lib.mkForce [];
   # home.profileDirectory = lib.mkForce "${config.home.homeDirectory}/.home-profile";
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
 }
