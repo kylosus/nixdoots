@@ -34,7 +34,7 @@
       ./syncthing.nix
 
       # Wine
-      ../../modules/nixos/features/wine.nix
+      # ../../modules/nixos/features/wine.nix
     ];
 
     # For crross-compiling. See https://github.com/nix-community/nixos-generators
