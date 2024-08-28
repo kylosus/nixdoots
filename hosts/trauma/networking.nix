@@ -5,6 +5,7 @@
   ...
 }: let
   host = secrets.hosts.trauma;
+  interface = "eth0";
 in {
   # This file was populated at runtime with the networking
   # details gathered from the active system.
@@ -15,7 +16,7 @@ in {
     defaultGateway = host.gateway;
     defaultGateway6 = {
       address = "";
-      interface = "ens3";
+      inherit interface;
     };
     dhcpcd.enable = false;
     usePredictableInterfaceNames = lib.mkForce true;
@@ -24,7 +25,13 @@ in {
         ipv4.addresses = [
           {
             address = host.ip;
-            prefixLength = 32;
+            prefixLength = 24;
+          }
+        ];
+        ipv6.addresses = [
+          {
+            address = host.ipv6;
+            prefixLength = 64;
           }
         ];
         ipv4.routes = [
@@ -37,7 +44,7 @@ in {
     };
   };
   services.udev.extraRules = ''
-    ATTR{address}=="${host.macAddress}", NAME="ens3"
+    ATTR{address}=="${host.macAddress}", NAME="${interface}"
 
   '';
 }

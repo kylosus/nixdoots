@@ -54,16 +54,16 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1720535198,
-        "narHash": "sha256-zwVvxrdIzralnSbcpghA92tWu2DV2lwv89xZc8MTrbg=",
+        "lastModified": 1724531977,
+        "narHash": "sha256-XROVLf9ti4rrNCFLr+DmXRZtPjCQTW4cYy59owTEmxk=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "205fd4226592cc83fd4c0885a3e4c9c400efabb5",
+        "rev": "2527da1ef492c495d5391f3bcf9c1dd9f4514e32",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-23.11",
+        "ref": "nixos-24.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -148,11 +148,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1715796543,
-        "narHash": "sha256-N55OYiJK5V9AZySXefvWLPPehoAlxtrS8AFNptAgCxY=",
+        "lastModified": 1724824342,
+        "narHash": "sha256-+bRE+UH1YiLnH52mpxWixfoccvpm2KWdcf8RC6ROJAI=",
         "ref": "main",
-        "rev": "00e2f0ef955cc28bcd96e7c9c935f2807be0b941",
-        "revCount": 8,
+        "rev": "1577456ce360413f8f7b87ece3f196742f26233e",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@github.com/kylosus/nixdoots-secret.git"
       },
