@@ -67,6 +67,12 @@ in {
     # Fix for /run
     systemd.services.endlessh-go.serviceConfig.PrivateTmp = lib.mkForce false;
 
+    services.caddy.globalConfig = ''
+      servers {
+        metrics
+      }
+    '';
+
     services.prometheus = {
       enable = true;
       port = lib.toInt prometheusPort;
@@ -88,6 +94,16 @@ in {
             static_configs = [
               {
                 targets = ["127.0.0.1:${builtins.toString config.services.prometheus.exporters.node.port}"];
+              }
+            ];
+          }
+        ]
+        ++ lib.optionals config.services.caddy.enable [
+          {
+            job_name = "caddy";
+            static_configs = [
+              {
+                targets = ["127.0.0.1:2019"];
               }
             ];
           }
