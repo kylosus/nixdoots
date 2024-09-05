@@ -88,7 +88,9 @@ in {
         # TODO
         isLighthouse = cfg.isLighthouse;
         inherit lighthouses;
-        staticHostMap = {"${secrets.nebula.ip}" = lighthouseIps;};
+        staticHostMap = {
+          "${secrets.nebula.ip}" = lighthouseIps;
+        };
 
         isRelay = isLighthouse;
         relays = [secrets.nebula.ip];

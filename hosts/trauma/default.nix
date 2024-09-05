@@ -12,6 +12,7 @@
   module = {
     inputs,
     lib,
+    config,
     modulesPath,
     ...
   }: {
@@ -30,6 +31,7 @@
       ../../containers/musicbot
       ../../containers/owncast
 
+      # ../../modules/nixos/services/wireguard.nix
       ../../modules/nixos/services/monitoring.nix
     ];
 
@@ -44,6 +46,15 @@
       enable = true;
       isLighthouse = true;
     };
+
+    # Wireguard
+    #sops.secrets.trauma-wireguard-key = {
+    #  format = "binary";
+    #  sopsFile = ./wireguard.key;
+    #};
+    #host.wireguard = {
+    #  privateKeyFile = toString config.sops.secrets.trauma-wireguard-key.path;
+    #};
 
     # This host has the frontend
     host.monitoring.isGrafana = true;
