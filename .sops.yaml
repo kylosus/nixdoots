@@ -19,6 +19,10 @@ creation_rules:
         - *host_emilia
         - *host_opium
         - *host_trauma
+  - path_regex: hosts/trauma/wireguard.key
+    key_groups:
+      - age:
+        - *host_trauma
   - path_regex: secrets/nebula/.*.json
     key_groups:
       - age:
