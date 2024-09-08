@@ -9,6 +9,7 @@
   services.syncthing.settings = {
     devices = {
       "Emilia" = {id = secrets.syncthing.Emilia;};
+      "Phone" = {id = secrets.syncthing.Phone;};
     };
 
     folders = {
