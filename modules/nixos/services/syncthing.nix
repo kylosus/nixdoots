@@ -9,5 +9,11 @@
     dataDir = "${config.users.users."${user}".home}/Syncthing";
     overrideDevices = true;
     overrideFolders = true;
+
+    # TODO
+    settings.gui = {
+      inherit user;
+      password = "admin";
+    };
   };
 }
