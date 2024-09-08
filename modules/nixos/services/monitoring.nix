@@ -48,8 +48,9 @@ in {
 
     sops.secrets.geoip-db = {
       format = "binary";
+      mode = "0644";
       sopsFile = ../../../secrets/files/GeoLite2-City.mmdb;
-      path = "${config.systemd.services.endlessh-go.serviceConfig.RootDirectory}/geoip-db";
+      # path = "${config.systemd.services.endlessh-go.serviceConfig.RootDirectory}/geoip-db";
     };
 
     services.endlessh-go = {
@@ -64,8 +65,22 @@ in {
       ];
     };
 
+    # Bad, bad, bad. Find a better way to do this
+    systemd.services.endlessh-go-copy-db = {
+      script = ''
+        cp -rf ${config.sops.secrets.geoip-db.path} ${config.systemd.services.endlessh-go.serviceConfig.RootDirectory}/
+      '';
+    };
+
+    systemd.services.endlessh-go = let
+      dep = [config.systemd.services.endlessh-go-copy-db.name];
+    in {
+      after = dep;
+      wants = dep;
+    };
+
     # Fix for /run
-    systemd.services.endlessh-go.serviceConfig.PrivateTmp = lib.mkForce false;
+    # systemd.services.endlessh-go.serviceConfig.PrivateTmp = lib.mkForce false;
 
     services.caddy.globalConfig = ''
       servers {
