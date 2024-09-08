@@ -105,6 +105,19 @@ in {
             host = "0.0.0.0";
             port = 53;
           };
+
+          stats = lib.mkIf cfg.isLighthouse {
+            type = "prometheus";
+            listen = "127.00.0.1:9004";
+
+            namespace = "prometheusns";
+            interval = "10s";
+            path = "/metrics";
+            subsystem = "nebula";
+
+            message_metricis = true;
+            lighthouse_metrics = true;
+          };
         };
 
         firewall.outbound = [

@@ -97,6 +97,14 @@ in {
               }
             ];
           }
+          {
+            job_name = "prometheusns-nebula";
+            static_configs = [
+              {
+                targets = ["127.0.0.1:9004"];
+              }
+            ];
+          }
         ]
         ++ lib.optionals config.services.caddy.enable [
           {
