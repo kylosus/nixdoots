@@ -3,13 +3,13 @@
   outputs,
   files,
   vars,
+  secrets,
   ...
 }: let
   mkParams = import ./params.nix {inherit files;};
 
   defaultSpecialArgs = {
-    inherit inputs outputs files vars;
-    secrets = inputs.secrets;
+    inherit inputs outputs files vars secrets;
   };
 
   # Everyone else reads from param directly, yet we have this here

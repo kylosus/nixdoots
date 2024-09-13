@@ -30,10 +30,6 @@
     # Maybe later
     # haumea.url = "github:nix-community/haumea/v0.2.2";
     # haumea.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Some "secrets"
-    # secrets.url = "git+file:////home/user/Documents/nix/nixdoots-secret";
-    secrets.url = "git+ssh://git@github.com/kylosus/nixdoots-secret.git?ref=main";
   };
 
   outputs = inputs: let
@@ -42,7 +38,8 @@
     # Static file set
     files = import ./files;
     vars = import ./vars.nix;
-    mylib = import ./lib {inherit inputs outputs files vars;};
+    secrets = import ./secrets/secrets.nix;
+    mylib = import ./lib {inherit inputs outputs files vars secrets;};
 
     allSystems = ["x86_64-linux" "aarch64-linux"];
     forAllSystems = mylib.forAllSystems allSystems;
