@@ -15,7 +15,7 @@
     folders = {
       "keepass" = {
         path = "${config.services.syncthing.dataDir}/keepass";
-        devices = ["Emilia"];
+        devices = ["Emilia" "Phone"];
       };
 
       "rclone" = {
