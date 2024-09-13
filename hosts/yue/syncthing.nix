@@ -10,12 +10,13 @@
     devices = {
       "Emilia" = {id = secrets.syncthing.Emilia;};
       "Phone" = {id = secrets.syncthing.Phone;};
+      "Seedbox" = {id = secrets.syncthing.Seedbox;};
     };
 
     folders = {
       "keepass" = {
         path = "${config.services.syncthing.dataDir}/keepass";
-        devices = ["Emilia" "Phone"];
+        devices = ["Emilia" "Phone" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
       };
 
       "rclone" = {
