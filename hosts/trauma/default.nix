@@ -33,6 +33,9 @@
 
       # ../../modules/nixos/services/wireguard.nix
       ../../modules/nixos/services/monitoring.nix
+
+      # Sites
+      ./sites.nix
     ];
 
     # Just in case
