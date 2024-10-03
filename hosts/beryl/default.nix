@@ -8,8 +8,6 @@
     fullName = "User";
 
     desktop = true;
-
-    wallpaper = ./wallpaper.png;
   };
 
   homeModule = {...}: {
