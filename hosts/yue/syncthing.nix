@@ -3,7 +3,10 @@
   params,
   secrets,
   ...
-}: {
+}: let
+  syncthingPath = config.services.syncthing.dataDir;
+  homePath = config.users.users."${params.userName}".home;
+in {
   imports = [../../modules/nixos/services/syncthing.nix];
 
   services.syncthing.settings = {
@@ -15,18 +18,23 @@
 
     folders = {
       "keepass" = {
-        path = "${config.services.syncthing.dataDir}/keepass";
+        path = "${syncthingPath}/keepass";
         devices = ["Emilia" "Phone" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
       };
 
       "rclone" = {
-        path = "${config.users.users."${params.userName}".home}/.config/rclone";
+        path = "${homePath}/.config/rclone";
         devices = ["Emilia"];
       };
 
       "ssh_hosts" = {
-        path = "${config.users.users."${params.userName}".home}/.ssh/hosts.d";
+        path = "${homePath}/.ssh/hosts.d";
         devices = ["Emilia"];
+      };
+
+      "phone" = {
+        path = "${syncthingPath}/Phone";
+        devices = ["Phone"];
       };
     };
   };
