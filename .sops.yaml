@@ -3,6 +3,7 @@ keys:
   - &host_emilia age1tcph57s2h2xz448f45fnlrw7fwakuka9xvq4fflgufpu2utjquyquphj0c
   - &host_opium age16hqvkw3yl6za6msdl76r20lf50paffqc8k3tcdjhhzgmanf6s5uq0p0msu
   - &host_trauma age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s
+  - &host_beryl age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s
 
 creation_rules:
   - path_regex: secrets/files/.*
