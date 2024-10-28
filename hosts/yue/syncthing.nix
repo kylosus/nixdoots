@@ -13,13 +13,14 @@ in {
     devices = {
       "Emilia" = {id = secrets.syncthing.Emilia;};
       "Phone" = {id = secrets.syncthing.Phone;};
+      "Phone-OP" = {id = secrets.syncthing.Phone-OP;};
       "Seedbox" = {id = secrets.syncthing.Seedbox;};
     };
 
     folders = {
       "keepass" = {
         path = "${syncthingPath}/keepass";
-        devices = ["Emilia" "Phone" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
+        devices = ["Emilia" "Phone" "Phone-OP" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
       };
 
       "rclone" = {
@@ -34,7 +35,7 @@ in {
 
       "phone" = {
         path = "${syncthingPath}/Phone";
-        devices = ["Phone"];
+        devices = ["Phone" "Phone-OP"];
       };
     };
   };
