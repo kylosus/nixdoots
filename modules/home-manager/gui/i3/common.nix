@@ -14,7 +14,7 @@ in {
         description = "Network interface name to use in Polybar";
       };
       monitors = lib.mkOption {
-        default = ["eDP"];
+        default = [];
         type = lib.types.listOf lib.types.str;
         description = "Monitors to enable";
       };
