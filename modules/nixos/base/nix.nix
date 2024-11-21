@@ -4,19 +4,14 @@
   outputs,
   lib,
   config,
+  functions,
   ...
 }: {
   # TODO: share between nixos and home-manager
-  nixpkgs = let
-    overlays = import outputs.overlays {inherit inputs lib config;};
-  in {
+  nixpkgs = {
     hostPlatform = lib.mkDefault params.system;
-    overlays = [
-      overlays.additions
-      overlays.modifications
-      overlays.unstable-packages
-      overlays.stable-packages
-    ];
+
+    overlays = functions.mkOverlays outputs.overlays {inherit inputs lib config;};
 
     config = {
       allowUnfree = true;

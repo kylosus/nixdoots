@@ -1,16 +1,13 @@
 {
+  inputs,
   config,
   outputs,
   lib,
+  functions,
   ...
 }: {
   nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-      outputs.overlays.stable-packages
-    ];
+    overlays = functions.mkOverlays outputs.overlays {inherit inputs lib config;};
 
     # Configure your nixpkgs instance
     config = {
