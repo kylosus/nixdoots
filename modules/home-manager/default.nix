@@ -53,6 +53,7 @@ in {
     ripgrep
     fd
     zstd
+    unzip
     ranger
 
     rclone

@@ -9,5 +9,19 @@
     ../../modules/home-manager/tui/applications/syncthing.nix
   ];
 
-  home.packages = with pkgs; [discord neovim];
+  # More applications
+  home.packages = with pkgs; [
+    arandr
+    bindfs
+    deluge
+    discord
+    ffmpeg
+    gimp
+    neovim
+    obsidian
+    spotify
+    ungoogled-chromium
+    unzip
+    zathura
+  ];
 }
