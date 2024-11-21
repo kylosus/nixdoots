@@ -1,5 +1,12 @@
 # This file defines overlays
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.host.global;
+in {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs {pkgs = final;};
 
@@ -28,11 +35,11 @@
     ranger =
       (prev.ranger.overrideAttrs (old: {
         propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
-        sixelPreviewSupport = false;
+        sixelPreviewSupport = cfg.desktop;
       }))
       .override {
         # For aarch64-linux
-        sixelPreviewSupport = false;
+        sixelPreviewSupport = cfg.desktop;
       };
 
     w3m = prev.w3m.override {

@@ -44,7 +44,7 @@
     allSystems = ["x86_64-linux" "aarch64-linux"];
     forAllSystems = mylib.forAllSystems allSystems;
   in rec {
-    overlays = import ./overlays {inherit inputs;};
+    overlays = ./overlays;
 
     # Format the nix code in this flake
     formatter = forAllSystems (
