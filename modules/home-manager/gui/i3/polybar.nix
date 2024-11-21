@@ -1,8 +1,11 @@
 {
+  config,
   pkgs,
   lib,
   ...
-}: {
+}: let
+  cfg = config.host.i3;
+in {
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {
@@ -301,7 +304,7 @@
         type = "internal/network";
 
         # TODO
-        interface = "wlp2s0";
+        interface = cfg.ifname;
         interval = 3;
 
         label-connected = " %downspeed%  %upspeed%";
