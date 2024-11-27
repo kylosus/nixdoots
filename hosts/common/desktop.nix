@@ -18,9 +18,9 @@
     ffmpeg
     gimp
     neovim
-    obsidian
-    spotify
-    ungoogled-chromium
+    stable.obsidian
+    stable.spotify
+    stable.ungoogled-chromium
     unzip
     zathura
   ];
