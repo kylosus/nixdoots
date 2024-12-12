@@ -76,10 +76,16 @@ in {
 
     pipewire = lib.mkIf cfg.desktop {
       enable = true;
-      wireplumber.enable = true;
       alsa.enable = true;
       pulse.enable = true;
       jack.enable = true;
+
+      wireplumber = {
+        enable = true;
+        # extraConfig."99-mute-default-sink" = {
+        #   "device.routes.default-sink-volume" = "0";
+        # };
+      };
     };
   };
 

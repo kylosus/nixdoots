@@ -74,6 +74,6 @@ in {
     keepassxc
 
     # Let's have one good font
-    (nerdfonts.override {fonts = ["Iosevka"];})
+    nerd-fonts.iosevka
   ];
 }
