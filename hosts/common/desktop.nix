@@ -15,7 +15,7 @@
     bindfs
     deluge
     discord
-    ffmpeg
+    stable.ffmpeg
     gimp
     neovim
     stable.obsidian
