@@ -11,10 +11,7 @@ in {
 
   services.syncthing.settings = {
     devices = {
-      "Emilia" = {id = secrets.syncthing.Emilia;};
-      "Phone" = {id = secrets.syncthing.Phone;};
-      "Phone-OP" = {id = secrets.syncthing.Phone-OP;};
-      "Seedbox" = {id = secrets.syncthing.Seedbox;};
+      inherit (secrets.syncthing) Emilia Phone Phone-OP Seedbox;
     };
 
     folders = {
