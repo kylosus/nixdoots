@@ -29,9 +29,6 @@
       # Hardware
       ./hardware-configuration.nix
 
-      # From nixos-infect
-      ./networking.nix
-
       ../../modules/nixos/services/monitoring.nix
 
       # Sites
