@@ -13,7 +13,7 @@ in {
     options = ["subvol=@/.snapshots/1/snapshot"] ++ btrfsOptions;
   };
 
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/9f73becc-0b35-4338-a287-7517bb0d8d19";
+  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/e377df53-f8f1-4d75-a50b-21b516b94008";
 
   # Needed when /tmp on btrfs
   boot.tmp.cleanOnBoot = true;
