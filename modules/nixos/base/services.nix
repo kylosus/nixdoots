@@ -31,12 +31,6 @@ in {
 
     blueman.enable = cfg.desktop;
 
-    # For locate and updatedb
-    locate = lib.mkIf cfg.desktop {
-      enable = false;
-      localuser = null;
-    };
-
     displayManager = lib.mkIf cfg.desktop {
       enable = true;
       defaultSession = "none+i3";
