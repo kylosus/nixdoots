@@ -10,10 +10,10 @@
   #   (modulesPath + "/profiles/all-hardware.nix")
   # ];
 
-  boot.initrd.availableKernelModules = lib.mkDefault ["xhci_pci" "nvme" "usbhid" "usb_storage"];
-  boot.kernelModules = lib.mkDefault ["kvm-amd"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage"];
+  boot.kernelModules = ["kvm-amd"];
 
-  boot.initrd.kernelModules = lib.mkDefault ["xhci_pci" "usbhid" "usb_storage"];
+  boot.initrd.kernelModules = ["xhci_pci" "usbhid" "usb_storage"];
   boot.extraModulePackages = lib.mkDefault [];
 
   boot.loader = lib.mkIf (builtins.hasAttr "bootDisk" params.fs) (lib.mkDefault {

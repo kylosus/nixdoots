@@ -29,11 +29,15 @@
       # Hardware
       ./hardware-configuration.nix
 
-      ../../modules/nixos/services/monitoring.nix
+      # ../../modules/nixos/services/monitoring.nix
+
+      ../../modules/nixos/features/luks-ssh.nix
 
       # Sites
       # ./sites.nix
     ];
+
+    networking.nameservers = ["1.1.1.1"];
 
     # Internet facing, enable endlessh
     host.global.endlessh = true;
@@ -41,7 +45,7 @@
     # Optional modules
     host.nebula = {
       enable = true;
-      isLighthouse = true;
+      isLighthouse = false;
     };
 
     host.podman.enable = true;

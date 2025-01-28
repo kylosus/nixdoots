@@ -15,6 +15,8 @@ in {
 
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/e377df53-f8f1-4d75-a50b-21b516b94008";
 
+  boot.initrd.availableKernelModules = ["e1000e" "usbnet"];
+
   # Needed when /tmp on btrfs
   boot.tmp.cleanOnBoot = true;
 
@@ -53,11 +55,6 @@ in {
     fsType = "btrfs";
     options = ["subvol=@/srv"] ++ btrfsOptions;
   };
-
-  #  fileSystems."/tmp" = {
-  #    device = "tmpfs";
-  #    fsType = "tmpfs";
-  #  };
 
   fileSystems."/tmp" = {
     device = "/dev/disk/by-uuid/3c766251-fe69-4116-8b51-e89b86463b55";
