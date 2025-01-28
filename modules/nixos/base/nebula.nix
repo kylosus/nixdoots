@@ -159,7 +159,7 @@ in {
       };
 
       # DNS
-      networking.nameservers = lighthouses;
+      # networking.nameservers = lighthouses;
 
       # Open the chosen ports
       networking.firewall.interfaces."${tunDevice}" = let
