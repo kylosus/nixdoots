@@ -1,4 +1,4 @@
-{
+rec {
   ssh = {
     port = 2525;
   };
@@ -15,5 +15,11 @@
   nebula = {
     name = "mesh";
     trustedGroup = "personal";
+  };
+
+  services = {
+    gotify = {ip = "${container.network}.0.2";};
+    owncast = {ip = "${container.network}.0.3";};
+    unbound = {ip = "${container.network}.0.4";};
   };
 }

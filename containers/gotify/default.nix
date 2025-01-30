@@ -4,7 +4,7 @@
   secrets,
   ...
 }: let
-  ip = "${vars.container.network}.0.2";
+  ip = vars.services.gotify.ip;
 in {
   sops.secrets.gotify-config = {
     format = "dotenv";
