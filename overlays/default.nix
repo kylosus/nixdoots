@@ -43,7 +43,7 @@ in {
       };
 
     w3m = prev.w3m.override {
-      graphicsSupport = false;
+      graphicsSupport = cfg.desktop;
     };
 
     # https://nixos.wiki/wiki/MPV
