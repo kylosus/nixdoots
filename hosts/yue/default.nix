@@ -46,10 +46,9 @@
     # Asus stuff
     services = {
       supergfxd.enable = true;
-      asusd = {
-        enable = true;
-        enableUserService = true;
-      };
+
+      # Buggy
+      asusd.enable = lib.mkForce false;
     };
 
     services.udisks2 = {
