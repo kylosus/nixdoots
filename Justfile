@@ -23,3 +23,5 @@ update:
     git pull
     just switch
 
+fmt:
+    nix fmt .
