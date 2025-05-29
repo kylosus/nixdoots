@@ -37,7 +37,7 @@ in {
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-curses;
   };
 
   services.mpd = {
