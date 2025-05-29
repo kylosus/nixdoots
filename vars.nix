@@ -1,4 +1,7 @@
 rec {
+  # Don't forget to update nixpkgs.stable.url in flake.nix
+  stateVersion = "25.05";
+
   ssh = {
     port = 2525;
   };

@@ -4,6 +4,7 @@
   outputs,
   lib,
   functions,
+  vars,
   ...
 }: {
   nixpkgs = {
@@ -25,5 +26,5 @@
   # home.packages = lib.mkForce [];
   # home.profileDirectory = lib.mkForce "${config.home.homeDirectory}/.home-profile";
 
-  home.stateVersion = "24.11";
+  home.stateVersion = vars.stateVersion;
 }

@@ -5,6 +5,7 @@
   lib,
   config,
   functions,
+  vars,
   ...
 }: {
   # TODO: share between nixos and home-manager
@@ -65,6 +66,5 @@
     startAgent = true;
   };
 
-  # TODO: put this in vars.nix or something
-  system.stateVersion = "24.11";
+  system.stateVersion = vars.stateVersion;
 }

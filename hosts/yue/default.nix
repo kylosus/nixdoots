@@ -43,6 +43,8 @@
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
+    programs.slock.enable = true;
+
     # Asus stuff
     services = {
       supergfxd.enable = true;
