@@ -12,7 +12,7 @@
     # Pure Home-manager compatibility
     # The wallpaper has to be a PNG...
     # lockCmd = "${lib.getExe pkgs.i3lock} --image ${params.wallpaper}";
-    lockCmd = "${lib.getExe pkgs.slock}";
+    lockCmd = "slock";
     xautolock.extraOptions = ["-lockaftersleep"];
   };
 
