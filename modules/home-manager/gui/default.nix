@@ -42,7 +42,7 @@ in {
     enable = true;
     package = pkgs.stable.ungoogled-chromium;
     # Apparently doesn't work for ungoogled
-    extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
+    # extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
   };
 
   gtk = {
