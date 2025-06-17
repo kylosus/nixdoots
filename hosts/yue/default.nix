@@ -43,6 +43,11 @@
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
+    networking = {
+      wireless.iwd.enable = true;
+      networkmanager.wifi.backend = "iwd";
+    };
+
     programs.slock.enable = true;
 
     # Asus stuff
@@ -78,7 +83,7 @@
     };
 
     host.i3 = {
-      ifname = "wlp2s0";
+      ifname = "wlan0";
       monitors = ["HDMI-A-0" "eDP"];
     };
   };
