@@ -11,7 +11,7 @@
     fs = {
       luksDisk = "/dev/disk/by-uuid/e377df53-f8f1-4d75-a50b-21b516b94008";
       rootDisk = "/dev/disk/by-uuid/3c766251-fe69-4116-8b51-e89b86463b55";
-      bootDisk = "/dev/disk/by-uuid/4935-5B64";
+      bootDisk = "/dev/disk/by-uuid/9FAA-F475";
     };
   };
 
@@ -24,7 +24,7 @@
   }: {
     imports = [
       # Profiles
-      (modulesPath + "/profiles/headless.nix")
+      # (modulesPath + "/profiles/headless.nix")
 
       # Hardware
       ./hardware-configuration.nix

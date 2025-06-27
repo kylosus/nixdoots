@@ -18,7 +18,7 @@ in {
   boot.initrd.availableKernelModules = ["e1000e" "usbnet"];
 
   # TODO: Allows login or something, move to modules
-  boot.kernelParams = ["console=tty1" "console=ttyS0,115200"];
+  # boot.kernelParams = ["console=tty1"];
 
   # Needed when /tmp on btrfs
   boot.tmp.cleanOnBoot = true;

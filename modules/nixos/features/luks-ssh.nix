@@ -3,9 +3,10 @@
   lib,
   ...
 }: {
-  boot.kernelParams = ["ip=dhcp"];
+  boot.kernelParams = ["ip=dhcp" "console=tty1"];
   boot.initrd = {
-    systemd.users.root.shell = "/bin/cryptsetup-askpass";
+    systemd.enable = true;
+    availableKernelModules = ["r8169"];
     network = {
       enable = true;
       ssh = {
@@ -13,6 +14,7 @@
         port = 22;
         authorizedKeyFiles = [files.ssh-authorized];
         hostKeys = ["/etc/secrets/initrd/id_rsa"];
+        shell = "/bin/cryptsetup-askpass";
       };
     };
   };
