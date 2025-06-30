@@ -19,6 +19,7 @@
     };
   };
 
+  # TODO: these should be in a base/ dir to share with home-manager
   nix.settings = {
     experimental-features = "nix-command flakes cgroups";
     auto-optimise-store = true;
@@ -37,6 +38,12 @@
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
   };
 
   # This will add each flake input as a registry
