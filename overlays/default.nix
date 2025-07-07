@@ -51,10 +51,6 @@ in {
       lua = final.luajit;
     };
 
-    networkmanager = prev.networkmanager.override {
-      openconnect = null;
-    };
-
     #python3Packages.dbus-python = prev.python3Packages.dbus-python.overrideAttrs(old: {
     #  # nativeBuildInputs = old.nativeBuildInputs ++ [ prev.dbus ];
     #});
