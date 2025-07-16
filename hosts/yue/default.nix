@@ -31,7 +31,7 @@
       ../common/autorandr.nix
 
       # Syncthing
-      ./syncthing.nix
+      ../common/syncthing.nix
 
       # Wine
       # ../../modules/nixos/features/wine.nix

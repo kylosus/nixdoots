@@ -67,8 +67,8 @@
       }
     );
 
-    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue ./hosts/opium ./hosts/trauma ./hosts/kagamine];
-    homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium ./hosts/trauma ./hosts/beryl ./hosts/kagamine];
+    nixosConfigurations = mylib.mkNixosSystemsAll [./hosts/yue ./hosts/opium ./hosts/trauma ./hosts/kagamine ./hosts/miku];
+    homeConfigurations = mylib.mkHomeAll [./hosts/yue ./hosts/emilia ./hosts/opium ./hosts/trauma ./hosts/beryl ./hosts/kagamine ./hosts/miku];
 
     images = {
       Opium = outputs.nixosConfigurations.Opium.config.system.build.sdImage;

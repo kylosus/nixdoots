@@ -5,6 +5,7 @@ keys:
   - &host_trauma age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s
   - &host_beryl age1l5aerk7g40huxsnkyws0xmy89gj3852w7hnn4p00h4vgtw4j5cpqntk34s
   - &host_kagamine age1mt2lsc7jhvky7ps93p5vfj66ee2s5kg7a7afas86m6nukhd9qs9s67lu8n
+  - &host_miku age1wq0mn0g4eayt0909rvycu07ytrsh7zq8t69y6hse58fuldf9jqnqr9alqf
 
 creation_rules:
   - path_regex: secrets/files/.*
@@ -15,6 +16,7 @@ creation_rules:
         - *host_opium
         - *host_trauma
         - *host_kagamine
+        - *host_miku
   - path_regex: secrets/.*.yaml
     key_groups:
       - age:
@@ -23,6 +25,7 @@ creation_rules:
         - *host_opium
         - *host_trauma
         - *host_kagamine
+        - *host_miku
   - path_regex: hosts/trauma/wireguard.key
     key_groups:
       - age:
@@ -35,6 +38,7 @@ creation_rules:
         - *host_opium
         - *host_trauma
         - *host_kagamine
+        - *host_miku
 
   - path_regex: hosts/yue/nebula/.*.json
     key_groups:
@@ -59,9 +63,16 @@ creation_rules:
         - *host_yue
         - *host_kagamine
 
+  - path_regex: hosts/miku/nebula/.*.json
+    key_groups:
+      - age:
+        - *host_yue
+        - *host_miku
+
   - path_regex: containers/*/.*
     key_groups:
       - age:
         - *host_yue
         - *host_trauma
         - *host_kagamine
+        - *host_miku
