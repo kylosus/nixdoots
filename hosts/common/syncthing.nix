@@ -17,22 +17,22 @@ in {
     folders = {
       "keepass" = {
         path = "${syncthingPath}/keepass";
-        devices = ["Miku" "Emilia" "Phone" "Phone-OP" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
+        devices = ["Miku" "Yue" "Emilia" "Phone" "Phone-OP" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
       };
 
       "rclone" = {
         path = "${homePath}/.config/rclone";
-        devices = ["Miku" "Emilia"];
+        devices = ["Miku" "Yue" "Emilia"];
       };
 
       "ssh_hosts" = {
         path = "${homePath}/.ssh/hosts.d";
-        devices = ["Miku" "Emilia"];
+        devices = ["Miku" "Yue" "Emilia"];
       };
 
       "phone" = {
         path = "${syncthingPath}/Phone";
-        devices = ["Miku" "Phone" "Phone-OP"];
+        devices = ["Miku" "Yue" "Phone" "Phone-OP"];
       };
     };
   };
