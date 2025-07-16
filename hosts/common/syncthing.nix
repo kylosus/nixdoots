@@ -11,7 +11,7 @@ in {
 
   services.syncthing.settings = {
     devices = {
-      inherit (secrets.syncthing) Miku Emilia Phone Phone-OP Seedbox;
+      inherit (secrets.syncthing) Yue Miku Emilia Phone Phone-OP Seedbox;
     };
 
     folders = {
