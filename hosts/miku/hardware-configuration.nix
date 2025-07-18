@@ -73,4 +73,3 @@ in {
     options = ["subvol=@/var"] ++ btrfsOptions;
   };
 }
-
