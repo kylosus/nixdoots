@@ -13,7 +13,8 @@
         enable = true;
         port = 22;
         authorizedKeyFiles = [files.ssh-authorized];
-        hostKeys = ["/etc/secrets/initrd/id_rsa"];
+        # ssh-keygen -t rsa -N "" -f /etc/secrets/initrd/ssh_host_rsa_key
+        hostKeys = ["/etc/secrets/initrd/ssh_host_rsa_key"];
         shell = "/bin/cryptsetup-askpass";
       };
     };

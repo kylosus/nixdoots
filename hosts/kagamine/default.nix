@@ -9,9 +9,9 @@
     desktop = false;
 
     fs = {
-      luksDisk = "/dev/disk/by-uuid/e377df53-f8f1-4d75-a50b-21b516b94008";
-      rootDisk = "/dev/disk/by-uuid/3c766251-fe69-4116-8b51-e89b86463b55";
-      bootDisk = "/dev/disk/by-uuid/9FAA-F475";
+      luksDisk = "/dev/disk/by-uuid/ce603dce-56f1-4ede-9e0f-bc95f4a25e65";
+      rootDisk = "/dev/disk/by-uuid/3c93e531-9aa1-4650-9b9d-8c6227627467";
+      bootDisk = "/dev/disk/by-uuid/3C12-0864";
     };
   };
 
@@ -31,7 +31,7 @@
 
       # ../../modules/nixos/services/monitoring.nix
 
-      ../../modules/nixos/features/luks-ssh.nix
+      # ../../modules/nixos/features/luks-ssh.nix
 
       # Sites
       # ./sites.nix
