@@ -34,6 +34,11 @@ in {
         path = "${syncthingPath}/Phone";
         devices = ["Miku" "Yue" "Phone" "Phone-OP"];
       };
+
+      "chromium-config" = {
+        path = "${homePath}/.config/chromium";
+        devices = ["Miku" "Yue"];
+      };
     };
   };
 
