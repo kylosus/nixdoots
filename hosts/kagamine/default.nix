@@ -41,7 +41,7 @@
     # Optional modules
     host.nebula = {
       enable = true;
-      isLighthouse = false;
+      isLighthouse = true;
     };
 
     host.podman.enable = true;
