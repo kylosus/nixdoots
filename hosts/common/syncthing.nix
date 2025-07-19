@@ -36,7 +36,7 @@ in {
       };
 
       "chromium-config" = {
-        path = "${homePath}/.config/chromium";
+        path = "${homePath}/.config/chromium/Default";
         devices = ["Miku" "Yue"];
       };
     };
