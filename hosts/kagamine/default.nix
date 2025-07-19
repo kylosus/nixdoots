@@ -19,13 +19,9 @@
     inputs,
     lib,
     config,
-    modulesPath,
     ...
   }: {
     imports = [
-      # Profiles
-      # (modulesPath + "/profiles/headless.nix")
-
       # Hardware
       ./hardware-configuration.nix
 
