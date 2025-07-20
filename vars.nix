@@ -24,5 +24,8 @@ rec {
     gotify = {ip = "${container.network}.0.2";};
     owncast = {ip = "${container.network}.0.3";};
     unbound = {ip = "${container.network}.0.4";};
+    atuin = {ip = "${container.network}.0.5";};
+    # Hardcoded in atuin env
+    atuin-db = {ip = "${container.network}.0.6";};
   };
 }

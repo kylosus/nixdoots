@@ -35,9 +35,6 @@
 
       # Wine
       # ../../modules/nixos/features/wine.nix
-
-      # Containers
-      ../../containers/atuin
     ];
 
     # For crross-compiling. See https://github.com/nix-community/nixos-generators
