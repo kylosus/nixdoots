@@ -24,6 +24,7 @@
       ./networking.nix
 
       # Services
+      ../../containers/atuin
       ../../containers/gotify
       ../../containers/musicbot
       ../../containers/owncast

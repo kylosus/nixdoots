@@ -28,8 +28,6 @@
       hardware.nixosModules.common-cpu-amd-raphael-igpu
       hardware.nixosModules.common-gpu-nvidia-nonprime
 
-      ../../containers/atuin
-
       # Syncthing
       ../common/syncthing.nix
     ];

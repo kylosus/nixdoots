@@ -4,8 +4,9 @@
   secrets,
   ...
 }: let
+  atuinPort = vars.services.atuin.port;
   atuinIp = vars.services.atuin.ip;
-  atuinDbIp = vars.services.atuin-db.ip; # THIS IS HARDCODED IN ENV
+  atuinDbIp = vars.services.atuin.dbIp; # THIS IS HARDCODED IN ENV
 in {
   sops.secrets.atuin-env = {
     format = "dotenv";
@@ -34,7 +35,7 @@ in {
       volumes = [
         "atuin-config:/config"
       ];
-      ports = ["8888:8888"];
+      ports = ["${atuinPort}:${atuinPort}"];
       dependsOn = ["atuin-postgres"];
       environment = {
         ATUIN_HOST = "0.0.0.0";
@@ -54,7 +55,7 @@ in {
   # Allow atuin idk
   services.nebula.networks."${vars.nebula.name}".firewall.inbound = [
     {
-      port = "8888";
+      port = atuinPort;
       proto = "tcp";
       groups = [vars.nebula.trustedGroup];
     }

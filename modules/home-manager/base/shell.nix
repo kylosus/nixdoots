@@ -3,6 +3,7 @@
   lib,
   config,
   secrets,
+  vars,
   ...
 }: let
   cfg = config.host.global;
@@ -82,27 +83,22 @@ in {
     '';
   };
 
-  # sops.secrets.atuin-key = {};
+  programs.atuin = lib.mkIf cfg.desktop {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      search_mode = "fuzzy";
+      style = "compact";
+      inline_height = 10;
 
-  # Atuin only on desktop systems (TODO)
-  # programs.atuin = lib.mkIf cfg.desktop {
-  #   enable = true;
-  #   enableFishIntegration = true;
-  #   settings = {
-  #     search_mode = "fuzzy";
-  #     style = "compact";
-  #     inline_height = 10;
-  #
-  #     auto_sync = true;
-  #     sync_frequency = "5m";
-  #     sync_address = "http://${secrets.nebula.ip}:8888";
-  #
-  #     key_path = config.sops.secrets.atuin-key.path;
-  #   };
-  #   flags = [
-  #     "--disable-up-arrow"
-  #   ];
-  # };
+      auto_sync = true;
+      sync_frequency = "5m";
+      sync_address = "http://${secrets.nebula.nebula-hosts.trauma.nebula-ip}:${vars.services.atuin.port}";
+    };
+    flags = [
+      "--disable-up-arrow"
+    ];
+  };
 
   programs.fzf = {
     enable = true;
