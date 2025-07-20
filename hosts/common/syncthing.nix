@@ -39,6 +39,11 @@ in {
         path = "${homePath}/.config/chromium/Default";
         devices = ["Miku" "Yue"];
       };
+
+      "fish-history" = {
+        path = "${homePath}/.local/share/fish";
+        devices = ["Miku" "Yue"];
+      };
     };
   };
 
