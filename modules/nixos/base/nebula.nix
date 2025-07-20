@@ -59,8 +59,6 @@ in {
       inherit owner;
     };
 
-    lighthouses = [secrets.nebula.ip];
-
     accumulatePorts = acc: item: let
       proto = item.proto;
       port = item.port;
@@ -87,13 +85,17 @@ in {
         enable = true;
         # TODO
         isLighthouse = cfg.isLighthouse;
-        inherit lighthouses;
-        staticHostMap = {
-          "${secrets.nebula.ip}" = lighthouseIps;
-        };
+
+        lighthouses = map (x: x.nebula-ip) secrets.nebula.lighthouses;
+
+        staticHostMap = builtins.listToAttrs (map (lh: {
+            name = lh.nebula-ip;
+            value = [lh.routable-ip];
+          })
+          secrets.nebula.lighthouses);
 
         isRelay = isLighthouse;
-        relays = [secrets.nebula.ip];
+        relays = map (x: x.nebula-ip) secrets.nebula.relays;
 
         tun = {
           # disable = lib.mkForce true;
@@ -159,7 +161,7 @@ in {
       };
 
       # DNS
-      networking.nameservers = lighthouses;
+      # networking.nameservers = lighthouses;
 
       # Open the chosen ports
       networking.firewall.interfaces."${tunDevice}" = let

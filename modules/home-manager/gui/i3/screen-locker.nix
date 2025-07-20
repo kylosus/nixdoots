@@ -1,15 +1,18 @@
 {
   lib,
   pkgs,
+  params,
   ...
 }: {
-  home.packages = with pkgs; [i3lock];
+  home.packages = with pkgs; [slock];
 
   services.screen-locker = {
     enable = true;
     inactiveInterval = 5;
     # Pure Home-manager compatibility
-    lockCmd = "i3lock";
+    # The wallpaper has to be a PNG...
+    # lockCmd = "${lib.getExe pkgs.i3lock} --image ${params.wallpaper}";
+    lockCmd = "slock";
     xautolock.extraOptions = ["-lockaftersleep"];
   };
 

@@ -17,9 +17,6 @@
     ...
   }: {
     imports = [
-      # Profiles
-      (modulesPath + "/profiles/headless.nix")
-
       # Hardware
       ./hardware-configuration.nix
 
@@ -33,6 +30,9 @@
 
       # ../../modules/nixos/services/wireguard.nix
       ../../modules/nixos/services/monitoring.nix
+
+      # Sites
+      ./sites.nix
     ];
 
     # Just in case

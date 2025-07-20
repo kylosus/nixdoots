@@ -42,7 +42,7 @@ in {
     enable = true;
     package = pkgs.stable.ungoogled-chromium;
     # Apparently doesn't work for ungoogled
-    extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
+    # extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
   };
 
   gtk = {
@@ -74,6 +74,6 @@ in {
     keepassxc
 
     # Let's have one good font
-    (nerdfonts.override {fonts = ["Iosevka"];})
+    nerd-fonts.iosevka
   ];
 }

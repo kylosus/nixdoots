@@ -31,12 +31,6 @@ in {
 
     blueman.enable = cfg.desktop;
 
-    # For locate and updatedb
-    locate = lib.mkIf cfg.desktop {
-      enable = false;
-      localuser = null;
-    };
-
     displayManager = lib.mkIf cfg.desktop {
       enable = true;
       defaultSession = "none+i3";
@@ -76,10 +70,16 @@ in {
 
     pipewire = lib.mkIf cfg.desktop {
       enable = true;
-      wireplumber.enable = true;
       alsa.enable = true;
       pulse.enable = true;
       jack.enable = true;
+
+      wireplumber = {
+        enable = true;
+        # extraConfig."99-mute-default-sink" = {
+        #   "device.routes.default-sink-volume" = "0";
+        # };
+      };
     };
   };
 

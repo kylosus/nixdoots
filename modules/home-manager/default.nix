@@ -5,6 +5,7 @@
   lib,
   config,
   pkgs,
+  vars,
   ...
 }: let
   cfg = config.host.global;
@@ -37,7 +38,7 @@ in {
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-curses;
   };
 
   services.mpd = {
@@ -53,6 +54,7 @@ in {
     ripgrep
     fd
     zstd
+    unzip
     ranger
 
     rclone
@@ -62,5 +64,5 @@ in {
   ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
+  home.stateVersion = vars.stateVersion;
 }

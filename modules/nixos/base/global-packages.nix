@@ -5,6 +5,7 @@
 
     # essential
     git
+    git-crypt
     wget
     curl
     vim

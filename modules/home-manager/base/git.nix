@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  programs.git = {
+  programs.git = lib.mkDefault {
     enable = true;
     userName = "kylosus";
     userEmail = "jokersus.cava@gmail.com";

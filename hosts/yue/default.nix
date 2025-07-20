@@ -1,7 +1,7 @@
 {hardware, ...}: {
   params = {
     system = "x86_64-linux";
-    timeZone = "America/Los_Angeles";
+    timeZone = "CST6CDT";
 
     hostName = "Yue";
     userName = "user";
@@ -31,7 +31,7 @@
       ../common/autorandr.nix
 
       # Syncthing
-      ./syncthing.nix
+      ../common/syncthing.nix
 
       # Wine
       # ../../modules/nixos/features/wine.nix
@@ -46,13 +46,22 @@
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
+    networking = {
+      wireless.iwd = {
+        enable = true;
+        settings.Settings.AutoConnect = true;
+      };
+      networkmanager.wifi.backend = "iwd";
+    };
+
+    programs.slock.enable = true;
+
     # Asus stuff
     services = {
       supergfxd.enable = true;
-      asusd = {
-        enable = true;
-        enableUserService = true;
-      };
+
+      # Buggy
+      asusd.enable = lib.mkForce false;
     };
 
     services.udisks2 = {
@@ -80,6 +89,7 @@
     };
 
     host.i3 = {
+      ifname = "wlan0";
       monitors = ["HDMI-A-0" "eDP"];
     };
   };

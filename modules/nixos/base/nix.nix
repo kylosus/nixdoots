@@ -4,23 +4,22 @@
   outputs,
   lib,
   config,
+  functions,
+  vars,
   ...
 }: {
   # TODO: share between nixos and home-manager
   nixpkgs = {
     hostPlatform = lib.mkDefault params.system;
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-      outputs.overlays.stable-packages
-    ];
+
+    overlays = functions.mkOverlays outputs.overlays {inherit inputs lib config;};
 
     config = {
       allowUnfree = true;
     };
   };
 
+  # TODO: these should be in a base/ dir to share with home-manager
   nix.settings = {
     experimental-features = "nix-command flakes cgroups";
     auto-optimise-store = true;
@@ -39,6 +38,12 @@
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
   };
 
   # This will add each flake input as a registry
@@ -68,6 +73,5 @@
     startAgent = true;
   };
 
-  # TODO: put this in vars.nix or something
-  system.stateVersion = "24.05";
+  system.stateVersion = vars.stateVersion;
 }

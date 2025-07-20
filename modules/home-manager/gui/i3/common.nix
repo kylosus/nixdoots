@@ -8,8 +8,13 @@
 in {
   options = {
     host.i3 = {
+      ifname = lib.mkOption {
+        default = "ens0";
+        type = lib.types.str;
+        description = "Network interface name to use in Polybar";
+      };
       monitors = lib.mkOption {
-        default = ["eDP"];
+        default = [];
         type = lib.types.listOf lib.types.str;
         description = "Monitors to enable";
       };

@@ -1,8 +1,11 @@
 {
+  config,
   pkgs,
   lib,
   ...
-}: {
+}: let
+  cfg = config.host.i3;
+in {
   services.polybar = {
     enable = true;
     package = pkgs.polybar.override {
@@ -34,7 +37,7 @@
         fixed-center = true;
 
         # monitor = "\${env:MONITOR:}";
-        monitor = "eDP";
+        monitor = lib.lists.last cfg.monitors;
         # https://en.wikipedia.org/wiki/Thin_space
         separator = "|";
         inherit background foreground;
@@ -134,10 +137,9 @@
         type = "internal/battery";
         full-at = 99;
 
-        inherit (batteryConfig) adapter battery;
-
-        #adapter = systemBattery.0;
-        # battery = systemBattery.1;
+        # TODO: disable this module if no battery is present
+        adapter = batteryConfig.adapter or "ACAD";
+        battery = batteryConfig.battery or "BATT";
 
         time-format = "%H:%M";
         format-charging = "<animation-charging> <label-charging>";
@@ -301,7 +303,7 @@
         type = "internal/network";
 
         # TODO
-        interface = "wlp2s0";
+        interface = cfg.ifname;
         interval = 3;
 
         label-connected = " %downspeed%  %upspeed%";

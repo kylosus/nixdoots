@@ -5,7 +5,7 @@
 }: {
   home.packages = with pkgs; [
     # (rxvt-unicode.overrideAttrs { emojiSupport = true; })
-    (nerdfonts.override {fonts = ["DejaVuSansMono"];})
+    nerd-fonts.dejavu-sans-mono
   ];
 
   programs.urxvt = {
