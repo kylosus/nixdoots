@@ -14,6 +14,9 @@ in {
       "tmp"
       "usr/local"
       "var"
+      "var/lib/portables"
+      "var/lib/machines"
+      "var/tmp"
     ];
   };
 }
