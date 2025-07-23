@@ -20,6 +20,8 @@ in {
         plugins = lib.mkForce [];
       };
 
+      nameservers = lib.mkDefault ["1.1.1.1"];
+
       firewall = {
         enable = lib.mkForce true;
         # 22 for the tarpit

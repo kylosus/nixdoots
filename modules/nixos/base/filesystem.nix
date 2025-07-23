@@ -10,13 +10,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  # swapDevices = [
-  #   {
-  #     device = "/var/lib/swapfile";
-  #     size = params.fs.swapSize;
-  #   }
-  # ];
-
   fileSystems."/" = lib.mkDefault {
     device = params.fs.rootDisk;
     fsType = "ext4";
@@ -27,4 +20,11 @@
     device = params.fs.bootDisk;
     fsType = "vfat";
   });
+
+  boot.initrd.luks.devices."cryptroot" = lib.mkIf (builtins.hasAttr "luksDisk" params.fs) {
+    device = params.fs.luksDisk;
+  };
+
+  # Needed when /tmp on btrfs
+  boot.tmp.cleanOnBoot = true;
 }

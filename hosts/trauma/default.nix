@@ -17,9 +17,6 @@
     ...
   }: {
     imports = [
-      # Profiles
-      (modulesPath + "/profiles/headless.nix")
-
       # Hardware
       ./hardware-configuration.nix
 
