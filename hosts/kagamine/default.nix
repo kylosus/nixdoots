@@ -29,6 +29,8 @@
       # ../../modules/nixos/services/monitoring.nix
 
       ../../modules/nixos/features/luks-ssh.nix
+
+      ../../modules/nixos/features/libvirt.nix
     ];
 
     host.nebula = {

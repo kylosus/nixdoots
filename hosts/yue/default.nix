@@ -35,9 +35,6 @@
 
       # Wine
       # ../../modules/nixos/features/wine.nix
-
-      # Home assistant
-      ../../modules/nixos/features/libvirt.nix
     ];
 
     # For crross-compiling. See https://github.com/nix-community/nixos-generators
