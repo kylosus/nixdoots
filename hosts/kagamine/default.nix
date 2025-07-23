@@ -24,21 +24,13 @@
     imports = [
       # Hardware
       ./hardware-configuration.nix
+      hardware.nixosModules.common-cpu-intel
 
       # ../../modules/nixos/services/monitoring.nix
 
-      # ../../modules/nixos/features/luks-ssh.nix
-
-      # Sites
-      # ./sites.nix
+      ../../modules/nixos/features/luks-ssh.nix
     ];
 
-    networking.nameservers = ["1.1.1.1"];
-
-    # Internet facing, enable endlessh
-    host.global.endlessh = true;
-
-    # Optional modules
     host.nebula = {
       enable = true;
       isLighthouse = true;
