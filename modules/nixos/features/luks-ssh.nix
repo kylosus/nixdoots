@@ -5,8 +5,7 @@
 }: {
   boot.kernelParams = ["ip=dhcp" "console=tty1"];
   boot.initrd = {
-    systemd.enable = true;
-    availableKernelModules = ["r8169"];
+    availableKernelModules = ["r8169" "e1000e"];
     network = {
       enable = true;
       ssh = {
