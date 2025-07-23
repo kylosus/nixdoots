@@ -31,6 +31,7 @@
       ../../modules/nixos/features/luks-ssh.nix
 
       ../../modules/nixos/features/libvirt.nix
+      ./homeassistant.nix
     ];
 
     host.nebula = {
