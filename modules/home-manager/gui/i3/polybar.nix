@@ -71,6 +71,7 @@ in {
           "pulseaudio"
           "network"
           "battery"
+          "filesystem"
           "memory"
           "cpu"
           "temperature"
@@ -387,6 +388,16 @@ in {
         # click-right = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
         scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +1%";
         scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -1%";
+      };
+
+      "module/filesystem" = rec {
+        type = "internal/fs";
+        mount-0 = "/";
+
+        format-mounted-prefix = " ";
+        format-mounted-prefix-foreground = foreground-alt;
+
+        label-mounted = "%mountpoint% %percentage_free%%";
       };
 
       "module/temperature" = rec {
