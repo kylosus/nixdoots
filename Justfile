@@ -25,3 +25,6 @@ update:
 
 fmt:
     nix fmt .
+
+tree tree_hostname=hostname:
+    nix-tree --derivation .#nixosConfigurations.{{ tree_hostname }}.config.system.build.toplevel --impure
