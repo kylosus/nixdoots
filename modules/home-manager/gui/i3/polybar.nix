@@ -397,7 +397,7 @@ in {
         format-mounted-prefix = " ";
         format-mounted-prefix-foreground = foreground-alt;
 
-        label-mounted = "%mountpoint% %percentage_free%%";
+        label-mounted = "%mountpoint% %percentage_used%%";
       };
 
       "module/temperature" = rec {
