@@ -1,7 +1,7 @@
 {hardware, ...}: {
   params = {
     system = "x86_64-linux";
-    timeZone = "CST6CDT";
+    timeZone = "Europe/Istanbul";
 
     hostName = "Yue";
     userName = "user";
