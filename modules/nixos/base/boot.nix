@@ -11,7 +11,7 @@
   # ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage"];
-  boot.kernelModules = ["kvm-amd"];
+  boot.kernelModules = lib.mkDefault ["kvm-amd"];
 
   boot.initrd.kernelModules = ["xhci_pci" "usbhid" "usb_storage"];
   boot.extraModulePackages = lib.mkDefault [];

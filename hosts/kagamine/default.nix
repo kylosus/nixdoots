@@ -24,19 +24,18 @@
     imports = [
       # Hardware
       ./hardware-configuration.nix
-      hardware.nixosModules.common-cpu-intel
 
       # ../../modules/nixos/services/monitoring.nix
 
       ../../modules/nixos/features/luks-ssh.nix
     ];
 
+    boot.crashDump.enable = true;
+
     host.nebula = {
       enable = true;
       isLighthouse = true;
     };
-
-    host.podman.enable = true;
   };
 
   homeModule = {...}: {
