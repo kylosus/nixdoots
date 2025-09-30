@@ -56,19 +56,18 @@
   };
 
   services = {
-    # TODO: qtwebengine compile
-    #  flameshot = {
-    #    enable = true;
-    #    settings = {
-    #      General = {
-    #        showStartupLaunchMessage = false;
-    #        savePath = "${config.xdg.userDirs.pictures}/Screenshots";
-    #      };
-    #      Shortcuts = {
-    #        TYPE_COPY = "Return";
-    #      };
-    #    };
-    #  };
+    flameshot = {
+      enable = true;
+      settings = {
+        General = {
+          showStartupLaunchMessage = false;
+          savePath = "${config.xdg.userDirs.pictures}/Screenshots";
+        };
+        Shortcuts = {
+          TYPE_COPY = "Return";
+        };
+      };
+    };
     picom = {
       enable = true;
       vSync = false;
@@ -127,7 +126,7 @@
         Install.WantedBy = ["i3-session.target"];
       };
 
-      # flameshot.Install.WantedBy = lib.mkForce ["i3-session.target"]; # TODO: qtwebengine compile
+      flameshot.Install.WantedBy = lib.mkForce ["i3-session.target"];
       picom = {
         Unit.After = ["xrandr.service"];
         Install.WantedBy = lib.mkForce ["i3-session.target"];
