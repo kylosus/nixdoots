@@ -78,7 +78,7 @@
     };
 
     host.i3 = {
-      ifname = "wlan0";
+      ifname = "wlp2s0";
       monitors = ["HDMI-A-0" "eDP"];
     };
   };
