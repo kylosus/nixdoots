@@ -37,7 +37,7 @@ in {
           "${modifier}+k" = "focus up";
           "${modifier}+l" = "focus right";
           "${modifier}+x" = "exec --no-startup-id ${config.services.screen-locker.lockCmd}";
-          "${modifier}+Print" = execSpawn "${lib.getBin pkgs.flameshot}/bin/flameshot gui";
+          "${modifier}+Print" = execSpawn "${lib.getBin pkgs.stable.flameshot}/bin/flameshot gui"; # TODO: qtwebengine compile
 
           "Mod1+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
           "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminal} -cd "{}"'';

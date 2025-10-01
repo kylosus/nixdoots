@@ -58,6 +58,7 @@
   services = {
     flameshot = {
       enable = true;
+      package = pkgs.stable.flameshot; # TODO: qtwebengine compile
       settings = {
         General = {
           showStartupLaunchMessage = false;
