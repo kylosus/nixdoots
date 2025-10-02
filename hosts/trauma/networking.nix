@@ -21,7 +21,7 @@ in {
     dhcpcd.enable = false;
     usePredictableInterfaceNames = lib.mkForce true;
     interfaces = {
-      ens3 = {
+      "${interface}" = {
         ipv4.addresses = [
           {
             address = host.ip;
