@@ -4,9 +4,16 @@
 
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
-    controlMaster = "no";
-    controlPersist = "10m";
+    enableDefaultConfig = false;
+
+    matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+        controlMaster = "no";
+        controlPersist = "10m";
+      };
+    };
+
     extraConfig = ''
       # include ${config.sops.secrets.ssh-hosts.path}
       include ${config.home.homeDirectory}/.ssh/hosts.d/hosts
