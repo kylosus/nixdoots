@@ -18,6 +18,23 @@ in {
     # ...
     # });
 
+    # TODO:
+    xss-lock = prev.xss-lock.overrideAttrs (old: {
+      postPatch = ''
+        substituteInPlace CMakeLists.txt --replace-fail \
+          "cmake_minimum_required(VERSION 2.8)" \
+          "cmake_minimum_required(VERSION 3.10)"
+      '';
+    });
+
+    discord-rpc = prev.discord-rpc.overrideAttrs (old: {
+      postPatch = ''
+        substituteInPlace CMakeLists.txt --replace-fail \
+          "cmake_minimum_required (VERSION 3.2.0)" \
+          "cmake_minimum_required (VERSION 3.10)"
+      '';
+    });
+
     pywal = prev.pywal.overrideAttrs (old: {
       src = prev.fetchFromGitHub {
         owner = "dylanaraps";
