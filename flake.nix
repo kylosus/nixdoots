@@ -15,8 +15,6 @@
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/master";
-    # PR merged from this https://github.com/nix-community/home-manager/pull/4801
-    # home-manager.url = "github:kylosus/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Hardware configs

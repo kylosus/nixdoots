@@ -16,7 +16,7 @@
     deluge
     discord
     stable.ffmpeg
-    # gimp
+    stable.gimp
     neovim
     stable.obsidian
     stable.spotify
