@@ -7,7 +7,7 @@
 in {
   imports = [
     ./boot.nix
-    # ./dns.nix
+    ./dns.nix
     ./filesystem.nix
     ./global-packages.nix
     ./nebula.nix
