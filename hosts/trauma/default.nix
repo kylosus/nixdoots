@@ -59,7 +59,7 @@
     # This host has the frontend
     host.monitoring.isGrafana = true;
 
-    host.podman.enable = true;
+    host.container.enable = true;
   };
 
   homeModule = {...}: {

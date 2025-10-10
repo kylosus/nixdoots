@@ -7,10 +7,10 @@
   vars,
   ...
 }: let
-  cfg = config.host.podman;
+  cfg = config.host.container;
 in {
   options = {
-    host.podman = {
+    host.container = {
       enable = lib.mkOption {
         default = false;
         type = lib.types.bool;
