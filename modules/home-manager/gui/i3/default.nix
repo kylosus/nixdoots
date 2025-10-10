@@ -121,7 +121,7 @@
           After = ["xrandr.service" "picom.service"];
         };
         Service = {
-          ExecStart = "${pkgs.pywal}/bin/wal -a 90 -i ${params.wallpaper}";
+          ExecStart = "${config.programs.pywal.package}/bin/wal -a 90 -i ${params.wallpaper}";
           Type = "oneshot";
         };
         Install.WantedBy = ["i3-session.target"];

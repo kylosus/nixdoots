@@ -9,6 +9,7 @@
 
   programs.pywal = {
     enable = true;
+    package = pkgs.pywal16;
   };
 
   # systemd.user.services.dunst.Service.Environment = lib.mkForce "${config.xdg.cacheHome}/wal/colors.sh";
