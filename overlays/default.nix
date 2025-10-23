@@ -17,16 +17,6 @@ in {
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
-
-    # TODO:
-    discord-rpc = prev.discord-rpc.overrideAttrs (old: {
-      postPatch = ''
-        substituteInPlace CMakeLists.txt --replace-fail \
-          "cmake_minimum_required (VERSION 3.2.0)" \
-          "cmake_minimum_required (VERSION 3.10)"
-      '';
-    });
-
     ranger =
       (prev.ranger.overrideAttrs (old: {
         propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];
