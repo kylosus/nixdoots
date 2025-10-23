@@ -71,7 +71,7 @@
     };
 
     host.i3 = {
-      ifname = "wlan0";
+      ifname = "enp9s0";
       monitors = ["DP-4"];
     };
   };
