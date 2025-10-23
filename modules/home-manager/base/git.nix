@@ -5,8 +5,10 @@
 }: {
   programs.git = lib.mkDefault {
     enable = true;
-    userName = "kylosus";
-    userEmail = "jokersus.cava@gmail.com";
+    settings = {
+      user.name = "kylosus";
+      user.email = "jokersus.cava@gmail.com";
+    };
     signing = {
       key = "3F20398966883CBB154D52FBAAB80482FD6F2154";
       signByDefault = true;
