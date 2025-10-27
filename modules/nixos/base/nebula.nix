@@ -44,7 +44,6 @@ in {
     };
   };
 
-  # config = lib.mkIf (cfg.enable) {
   config = let
     name = vars.nebula.name;
     tunDevice = "nebula.${name}";

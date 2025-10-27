@@ -18,7 +18,6 @@
     "${params.userName}" = {
       description = params.fullName;
       shell = pkgs.fish;
-      # hashedPasswordFile = config.sops.secrets.hashedPassword.path;
       hashedPassword = secrets.hashedPassword;
       isNormalUser = true;
       openssh.authorizedKeys.keyFiles = [files.ssh-authorized];

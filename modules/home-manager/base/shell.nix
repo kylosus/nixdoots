@@ -20,11 +20,6 @@ in {
       cp = "${lib.getExe pkgs.rsync} -azhvP";
     };
 
-    #    shellAbbrs = {
-    #      hm-switch = "home-manager switch --flake $HOME/docs/dots/machines/asus-ga401#mkti@jassas";
-    #      nixos-switch = "sudo nixos-rebuild switch --flake $HOME/docs/dots/machines/asus-ga401#jassas";
-    #    };
-
     plugins = [
       {
         name = "theme-agnoster";
@@ -53,15 +48,6 @@ in {
           sha256 = "sha256-s1o188TlwpUQEN3X5MxUlD/2CFCpEkWu83U9O+wg3VU";
         };
       }
-      #rec {
-      #  name = "fish-async-prompt";
-      #  src = pkgs.fetchFromGitHub {
-      #    owner = "acomagu";
-      #    repo = name;
-      #    rev = "v1.2.0";
-      #    sha256 = "sha256-B7Ze0a5Zp+5JVsQUOv97mKHh5wiv3ejsDhJMrK7YOx4=";
-      #  };
-      #}
     ];
 
     shellInit = ''

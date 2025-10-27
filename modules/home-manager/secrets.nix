@@ -19,12 +19,8 @@
       keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
       generateKey = true;
     };
-    # defaultSymlinkPath = "/run/user/1000/secrets";
-    # defaultSecretsMountPoint = "/run/user/1000/secrets.d";
     secrets = {
       common = {};
-      # hashedPassword = {};
-      # ssh-hosts = {};
     };
   };
 }

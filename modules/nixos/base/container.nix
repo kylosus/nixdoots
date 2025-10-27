@@ -25,8 +25,6 @@ in {
     };
   };
 
-  # imports = [inputs.arion.nixosModules.arion];
-
   config = lib.mkIf cfg.enable {
     virtualisation.containers.enable = true;
     virtualisation.oci-containers.backend = cfg.backend;
@@ -41,7 +39,7 @@ in {
       group = vars.container.user;
     };
 
-    # WHY IS NIXOS LIKE THIS
+    # TODO:
     # https://github.com/NixOS/nixpkgs/issues/259770
     # https://github.com/NixOS/nixpkgs/issues/207050
 
@@ -61,15 +59,6 @@ in {
       dockerSocket.enable = true;
     };
 
-    # More arion stuff
-    # virtualisation.arion = lib.mkIf cfg.enableArion {
-    #   backend =
-    #     if cfg.backend == "podman"
-    #     then "podman-socket"
-    #     else "docker";
-    # };
-    # users.extraUsers."${params.userName}".extraGroups = lib.mkIf (cfg.enableArion && cfg.backend == "podman") ["podman"];
-
     # https://nixos.wiki/wiki/Docker
     virtualisation.docker = lib.mkIf (cfg.backend == "docker") {
       enable = true;
@@ -82,7 +71,6 @@ in {
 
     # TODO: this is root?
     # https://discourse.nixos.org/t/how-to-create-docker-network-in-nixos-configuration-correctly/16945/2
-    # I don't even know if this works btw
     system.activationScripts.mkContainerNetwork = let
       docker = config.virtualisation.oci-containers.backend;
       dockerBin = "${pkgs.${docker}}/bin/${docker}";
@@ -92,8 +80,6 @@ in {
       ${dockerBin} network inspect ${networkName} >/dev/null 2>&1 || ${dockerBin} network create ${networkName} --subnet ${networkSubnet}
     '';
 
-    # users.extraGroups.docker.members = [params.userName];
-
     environment.systemPackages = with pkgs; [
       dive # look into docker image layers
       podman-tui # status of containers in the terminal
@@ -101,26 +87,5 @@ in {
 
       docker
     ];
-    # ++ (
-    #   if cfg.enableArion
-    #   then [
-    #     # https://docs.hercules-ci.com/arion/
-    #     # pkgs.arion
-    #     # pkgs.docker-client
-    #   ]
-    #   else []
-    # );
-
-    # Example Arion:
-    #     {...}: {
-    #       virtualisation.arion.projects = {
-    #         "gotify".settings.services."gotify".service = {
-    #           image = "gotify/server:latest";
-    #           restart = "unless-stopped";
-    #           volumes = ["gotify-data:/app/data"];
-    #           environment = {POSTGRESS_PASSWORD = "password";};
-    #         };
-    #       };
-    #     }
   };
 }

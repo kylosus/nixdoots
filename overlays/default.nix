@@ -17,6 +17,7 @@ in {
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+
     ranger =
       (prev.ranger.overrideAttrs (old: {
         propagatedBuildInputs = old.propagatedBuildInputs ++ [final.screen];

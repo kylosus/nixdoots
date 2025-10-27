@@ -22,12 +22,7 @@
     hardware.inputs.nixpkgs.follows = "nixpkgs";
 
     # Secrets
-    # agenix.url = "github:ryantm/agenix";
     sops-nix.url = "github:Mic92/sops-nix";
-
-    # Maybe later
-    # haumea.url = "github:nix-community/haumea/v0.2.2";
-    # haumea.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let

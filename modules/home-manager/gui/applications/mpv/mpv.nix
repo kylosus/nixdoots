@@ -74,7 +74,7 @@
 
       ###Subs###
       demuxer-mkv-subtitle-preroll = "yes";
-      sub-ass-vsfilter-blur-compat = "no";
+      sub-ass-use-video-data = "all";
       # Don't select subs with the same language as the audio
       subs-with-matching-audio = "no";
       sub-fix-timing = "yes";

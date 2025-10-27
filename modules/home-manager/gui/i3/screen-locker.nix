@@ -9,9 +9,6 @@
   services.screen-locker = {
     enable = true;
     inactiveInterval = 5;
-    # Pure Home-manager compatibility
-    # The wallpaper has to be a PNG...
-    # lockCmd = "${lib.getExe pkgs.i3lock} --image ${params.wallpaper}";
     lockCmd = "slock";
     xautolock.extraOptions = ["-lockaftersleep"];
   };

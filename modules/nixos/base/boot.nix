@@ -5,11 +5,6 @@
   config,
   ...
 }: {
-  # Import it if you need it
-  # imports = [
-  #   (modulesPath + "/profiles/all-hardware.nix")
-  # ];
-
   boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage"];
   boot.kernelModules = lib.mkDefault ["kvm-amd"];
 

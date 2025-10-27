@@ -36,14 +36,6 @@
     hardware.nvidia.open = true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
-    networking = {
-      wireless.iwd = {
-        enable = true;
-        settings.Settings.AutoConnect = true;
-      };
-      networkmanager.wifi.backend = "iwd";
-    };
-
     programs.slock.enable = true;
 
     services.udisks2 = {
