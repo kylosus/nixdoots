@@ -10,7 +10,7 @@
       enable = true;
       ssh = {
         enable = true;
-        port = 22;
+        port = 2222;
         authorizedKeyFiles = [files.ssh-authorized];
         # ssh-keygen -t rsa -N "" -f /etc/secrets/initrd/ssh_host_rsa_key
         hostKeys = ["/etc/secrets/initrd/ssh_host_rsa_key"];
