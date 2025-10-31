@@ -107,7 +107,7 @@ in {
             port = 53;
           };
 
-	  # TODO
+          # TODO
           # stats = lib.mkIf cfg.isLighthouse {
           #   type = "prometheus";
           #   listen = "127.00.0.1:9004";
