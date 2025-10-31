@@ -14,7 +14,7 @@
 
     # utils
     ripgrep
-    du-dust
+    dust
     fd
 
     # monitoring
