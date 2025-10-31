@@ -18,8 +18,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Hardware configs
-    hardware.url = "github:nixos/nixos-hardware";
-    hardware.inputs.nixpkgs.follows = "nixpkgs";
+    hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Secrets
     sops-nix.url = "github:Mic92/sops-nix";
