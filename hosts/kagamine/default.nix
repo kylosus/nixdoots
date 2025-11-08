@@ -30,6 +30,11 @@
       ../../modules/nixos/features/luks-ssh.nix
     ];
 
+    # ZFS stuff
+    boot.supportedFilesystems = ["zfs"];
+    # This is random
+    networking.hostId = "6f1b942e";
+
     boot.crashDump.enable = true;
 
     host.nebula = {
