@@ -102,10 +102,12 @@ in {
         };
 
         settings = {
-          lighthouse.dns = lib.mkIf cfg.isLighthouse {
-            host = "0.0.0.0";
-            port = 53;
-          };
+          # lighthouse.dns = lib.mkIf cfg.isLighthouse {
+          #  host = "0.0.0.0";
+          #  port = 53;
+          #};
+
+          lighthouse.dns = lib.mkForce false;
 
           # TODO
           # stats = lib.mkIf cfg.isLighthouse {
