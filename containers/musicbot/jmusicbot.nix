@@ -5,11 +5,10 @@
 }:
 stdenv.mkDerivation rec {
   name = "JMusicBot";
-  version = "0.4.2";
+  version = "0.4.3";
   src = fetchurl {
     url = "https://github.com/jagrosh/MusicBot/releases/download/${version}/${name}-${version}.jar";
-    # sha256 = "sha256-JSVrzyCqAp3V5OZ+KJczhWGolPkdaHsPmiqfmhapQMs"; # 0.4.0 is broken
-    sha256 = "sha256-Jg6/ju3ADBd7fc3njRzoEDVjIL4SzAzlTc02I4Q9hz4=";
+    sha256 = "sha256-7CHFc94Fe6ip7RY+XJR9gWpZPKM5JY7utHp8C3paU9s=";
   };
 
   buildInputs = [jdk11_headless];
