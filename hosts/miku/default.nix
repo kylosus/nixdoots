@@ -46,7 +46,7 @@
     host.nebula.enable = true;
     host.container = {
       enable = true;
-      backend = "podman";
+      backend = "docker";
     };
   };
 

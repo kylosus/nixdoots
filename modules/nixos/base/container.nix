@@ -69,6 +69,9 @@ in {
       };
     };
 
+    # Enable CUDA if we have NVIDIA
+    hardware.nvidia-container-toolkit.enable = config.hardware.nvidia.enabled;
+
     # TODO: this is root?
     # https://discourse.nixos.org/t/how-to-create-docker-network-in-nixos-configuration-correctly/16945/2
     system.activationScripts.mkContainerNetwork = let
