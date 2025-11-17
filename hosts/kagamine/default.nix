@@ -39,7 +39,7 @@
 
     host.nebula = {
       enable = true;
-      isLighthouse = false;
+      isLighthouse = true;
     };
   };
 
