@@ -37,7 +37,7 @@ in {
         fixed-center = true;
 
         # monitor = "\${env:MONITOR:}";
-        monitor = lib.lists.last cfg.monitors;
+        monitor = lib.lists.head cfg.monitors;
         # https://en.wikipedia.org/wiki/Thin_space
         separator = "|";
         inherit background foreground;
