@@ -45,14 +45,6 @@
 
     programs.slock.enable = true;
 
-    # Asus stuff
-    services = {
-      supergfxd.enable = true;
-
-      # Buggy
-      asusd.enable = lib.mkForce false;
-    };
-
     services.udisks2 = {
       enable = true;
     };
