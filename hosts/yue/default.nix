@@ -35,6 +35,8 @@
 
       # Wine
       # ../../modules/nixos/features/wine.nix
+
+      ../common/wireguard.nix
     ];
 
     # For crross-compiling. See https://github.com/nix-community/nixos-generators
