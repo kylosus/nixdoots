@@ -39,9 +39,6 @@
       ../common/wireguard.nix
     ];
 
-    # For crross-compiling. See https://github.com/nix-community/nixos-generators
-    boot.binfmt.emulatedSystems = ["aarch64-linux"];
-
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
@@ -78,7 +75,6 @@
 
     host.i3 = {
       ifname = "wlp2s0";
-      # monitors = ["HDMI-A-0" "eDP"];
       monitors = ["eDP" "HDMI-A-0"];
     };
   };
