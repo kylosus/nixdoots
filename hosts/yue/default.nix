@@ -43,6 +43,17 @@
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
+    # Suspend and lid close
+    hardware.nvidia.powerManagement = {
+      enable = true;
+    };
+
+    services.logind = {
+      settings.Login = {
+        HandleLidSwitch = "ignore";
+      };
+    };
+
     programs.slock.enable = true;
 
     services.udisks2 = {
