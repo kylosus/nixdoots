@@ -56,12 +56,6 @@
       };
     };
 
-    programs.slock.enable = true;
-
-    services.udisks2 = {
-      enable = true;
-    };
-
     # Optional modules
     host.nebula.enable = true;
     host.container = {

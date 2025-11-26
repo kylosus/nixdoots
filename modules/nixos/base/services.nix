@@ -13,6 +13,11 @@ in {
     enable = true;
   };
 
+  # Screen lock
+  programs = {
+    slock.enable = cfg.desktop;
+  };
+
   services = {
     # SSH tarpit
     endlessh-go = lib.mkIf cfg.endlessh {
@@ -30,6 +35,8 @@ in {
     };
 
     blueman.enable = cfg.desktop;
+
+    udisks2.enable = cfg.desktop;
 
     displayManager = lib.mkIf cfg.desktop {
       enable = true;
