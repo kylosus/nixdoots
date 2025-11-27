@@ -48,6 +48,31 @@ in {
         });
       };
     };
+
+    # TODO: Some OpenSSH apps break when config file is a symlink
+    # See https://github.com/nix-community/home-manager/issues/322#issuecomment-1178614454
+    openssh-patched = prev.openssh.overrideAttrs (old: {
+      patches =
+        (old.patches or [])
+        ++ [
+          (builtins.toFile "openssh-ssh-config.patch"
+            ''              diff --git a/readconf.h b/readconf.h
+                            index ded13c9..94f489e 100644
+                            --- a/readconf.h
+                            +++ b/readconf.h
+                            @@ -203,7 +203,7 @@ typedef struct {
+                            #define SESSION_TYPE_SUBSYSTEM	1
+                            #define SESSION_TYPE_DEFAULT	2
+
+                            -#define SSHCONF_CHECKPERM	1  /* check permissions on config file */
+                            +#define SSHCONF_CHECKPERM	0  /* check permissions on config file */
+                            #define SSHCONF_USERCONF	2  /* user provided config file not system */
+                            #define SSHCONF_FINAL		4  /* Final pass over config, after canon. */
+                            #define SSHCONF_NEVERMATCH	8  /* Match/Host never matches; internal only */
+            '')
+        ];
+      doCheck = false;
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
