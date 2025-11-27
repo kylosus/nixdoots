@@ -9,7 +9,9 @@
 in {
   # This file was populated at runtime with the networking
   # details gathered from the active system.
+  # WITH manual additions
   networking = {
+    nat.externalInterface = interface;
     nameservers = [
       "8.8.8.8"
     ];

@@ -30,6 +30,7 @@
 
       # ../../modules/nixos/services/wireguard.nix
       ../../modules/nixos/services/monitoring.nix
+      ../../modules/nixos/services/reverse-ssh.nix
 
       # Sites
       ./sites.nix
