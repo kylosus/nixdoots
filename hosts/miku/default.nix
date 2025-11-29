@@ -1,7 +1,7 @@
 {hardware, ...}: {
   params = {
     system = "x86_64-linux";
-    timeZone = "CST6CDT";
+    timeZone = "Europe/Istanbul";
 
     hostName = "Miku";
     userName = "user";
@@ -30,6 +30,8 @@
 
       # Syncthing
       ../common/syncthing.nix
+
+      ../common/wireguard.nix
     ];
 
     # TODO
@@ -66,7 +68,7 @@
 
     host.i3 = {
       ifname = "enp9s0";
-      monitors = ["DP-4"];
+      monitors = ["HDMI-0"];
     };
   };
 }
