@@ -38,6 +38,7 @@ in {
 
         # monitor = "\${env:MONITOR:}";
         monitor = lib.lists.head cfg.monitors;
+        monitor-fallback = lib.lists.tail cfg.monitors;
         # https://en.wikipedia.org/wiki/Thin_space
         separator = "|";
         inherit background foreground;
