@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  params,
+  osConfig ? null,
   ...
 }: {
   home.packages = with pkgs; [slock];
@@ -9,7 +9,8 @@
   services.screen-locker = {
     enable = true;
     inactiveInterval = 5;
-    lockCmd = "slock";
+    # TODO: standardize this
+    lockCmd = lib.optionalString (osConfig != null) "/run/wrappers/bin/" + "slock";
     xautolock.extraOptions = ["-lockaftersleep"];
   };
 

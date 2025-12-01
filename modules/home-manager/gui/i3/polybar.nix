@@ -236,7 +236,7 @@ in {
         menu-2-0 = "power off";
         menu-2-0-exec = "poweroff";
         menu-2-1 = "hybernate";
-        menu-2-1-exec = "i3lock && systemctl suspend";
+        menu-2-1-exec = "systemctl suspend";
       };
 
       "module/i3" = rec {

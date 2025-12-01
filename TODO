@@ -1,3 +1,4 @@
+- lib.getBin -> lib.getExe
 - gpg
 - Chromium config and history
 - Rofi history
