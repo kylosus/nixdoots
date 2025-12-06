@@ -67,8 +67,8 @@
     services.polybar.config."module/temperature".hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
 
     host.i3 = {
-      ifname = "enp9s0";
-      monitors = ["HDMI-0"];
+      ifname = "wlp8s0";
+      monitors = ["DP-4"];
     };
   };
 }
