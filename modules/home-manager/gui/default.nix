@@ -35,7 +35,6 @@ in {
   };
 
   fonts.fontconfig.enable = true;
-  programs.vscode.enable = true;
 
   # Should be inn gui
   programs.chromium = {
