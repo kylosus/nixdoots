@@ -17,7 +17,6 @@ in {
       hostName = params.hostName;
       networkmanager = {
         enable = lib.mkDefault true;
-        plugins = lib.mkForce [];
       };
 
       nameservers = lib.mkDefault ["1.1.1.1"];
