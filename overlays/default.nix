@@ -49,6 +49,10 @@ in {
       };
     };
 
+    # TODO: annoying packages
+    gtk4 = final.stable.gtk4;
+    ffmpeg = final.stable.ffmpeg;
+
     # TODO: Some OpenSSH apps break when config file is a symlink
     # See https://github.com/nix-community/home-manager/issues/322#issuecomment-1178614454
     openssh-patched = prev.openssh.overrideAttrs (old: {
