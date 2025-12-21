@@ -72,6 +72,10 @@ in {
     firefox
     keepassxc
 
+    # CJK fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+
     # Let's have one good font
     nerd-fonts.iosevka
   ];
