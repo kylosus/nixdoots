@@ -28,6 +28,9 @@
       # ../../modules/nixos/services/monitoring.nix
 
       ../../modules/nixos/features/luks-ssh.nix
+
+      # Additional nebula config
+      ./nebula-lab
     ];
 
     # ZFS stuff
