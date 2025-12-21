@@ -14,7 +14,8 @@
     trustedGroup = "ssh";
 
     lighthouseIp = "10.31.0.1";
-    lighthouseRoutableIp = [secrets.nebula.nebula-hosts.kagamine.routable-ip];
+    lighthousePort = "4243";
+    lighthouseRoutableIp = "${secrets.hosts.kagamine.ip}:${lighthousePort}";
 
     sopsCa = "${name}-nebula-ca";
     sopsKey = "${params.hostName}-${name}-nebula-key";
@@ -48,14 +49,16 @@
       enable = true;
       isLighthouse = true;
 
-      lighthouses = lighthouseRoutableIp;
+      listen.port = lib.toIntBase10 lighthousePort;
+
+      lighthouses = [lighthouseIp];
 
       staticHostMap = {
         "${lighthouseIp}" = [lighthouseRoutableIp];
       };
 
       isRelay = true;
-      relays = [lighthouseRoutableIp];
+      relays = [lighthouseIp];
       tun = {
         device = tunDevice;
       };
