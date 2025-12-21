@@ -76,3 +76,10 @@ creation_rules:
         - *host_trauma
         - *host_kagamine
         - *host_miku
+
+  - path_regex: hosts/kagamine/nebula-lab/.*
+    key_groups:
+      - age:
+        - *host_kagamine
+        - *host_yue
+        - *host_miku
