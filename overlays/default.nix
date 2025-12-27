@@ -37,17 +37,13 @@ in {
       lua = final.luajit;
     };
 
-    #python3Packages.dbus-python = prev.python3Packages.dbus-python.overrideAttrs(old: {
-    #  # nativeBuildInputs = old.nativeBuildInputs ++ [ prev.dbus ];
-    #});
-
-    python3 = prev.python3.override {
-      packageOverrides = self: super: {
-        dbus-python = super.dbus-python.overrideAttrs (oldAttrs: {
-          nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [prev.dbus];
-        });
-      };
-    };
+    # python3 = prev.python3.override {
+    #   packageOverrides = self: super: {
+    #     dbus-python = super.dbus-python.overrideAttrs (oldAttrs: {
+    #       nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [prev.dbus];
+    #     });
+    #   };
+    # };
 
     # TODO: annoying packages
     gtk4 = final.stable.gtk4;
