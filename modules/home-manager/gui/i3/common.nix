@@ -70,10 +70,20 @@ in {
 
       # This language is awful
       workspaceOutputAssign = let
-        monitors = lib.zipLists cfg.monitors [
-          ((lib.range 1 5) ++ (lib.range 11 15))
-          ((lib.range 6 10) ++ (lib.range 16 20))
-        ];
+        numMonitors = builtins.length cfg.monitors;
+
+        # TODO: Ugly hack hardcoded for 1 and 2 monitors
+        # I could make this dynamic but it's too much effort
+        # and I don't have any setups with > 2 monirots at the moment
+        allWorkspaces =
+          if (numMonitors > 1)
+          then [
+            ((lib.range 1 5) ++ (lib.range 11 15))
+            ((lib.range 6 10) ++ (lib.range 16 20))
+          ]
+          else [(lib.range 1 20)];
+
+        monitors = lib.zipLists cfg.monitors allWorkspaces;
         mkWorkspace = monitor: range:
           map (x: {
             workspace = builtins.toString x;
