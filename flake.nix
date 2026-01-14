@@ -17,11 +17,15 @@
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # nixvim
+    # nixvim.url = "github:nix-community/nixvim";
+
     # Hardware configs
     hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Secrets
     sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let
