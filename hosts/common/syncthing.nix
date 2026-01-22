@@ -35,10 +35,10 @@ in {
         devices = ["Miku" "Yue" "Phone" "Phone-OP"];
       };
 
-      "fish-history" = {
-        path = "${homePath}/.local/share/fish";
-        devices = ["Miku" "Yue"];
-      };
+      # "fish-history" = {
+      #   path = "${homePath}/.local/share/fish";
+      #   devices = ["Miku" "Yue"];
+      # };
     };
   };
 
