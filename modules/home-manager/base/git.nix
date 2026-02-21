@@ -10,7 +10,7 @@
       user.email = "jokersus.cava@gmail.com";
     };
     signing = {
-      key = "3F20398966883CBB154D52FBAAB80482FD6F2154";
+      key = "23F41BA2C877E4A3";
       signByDefault = true;
     };
 
