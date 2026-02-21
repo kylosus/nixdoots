@@ -52,7 +52,7 @@
 
   # TODO: This can be better
   xdg.userDirs.extraConfig = {
-    XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
+    SCREENSHOTS = "${config.xdg.userDirs.pictures}/Screenshots";
   };
 
   services = {
