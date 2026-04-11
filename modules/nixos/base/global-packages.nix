@@ -3,6 +3,9 @@
     # The most important
     fish
 
+    # Other terminal utilities
+    screen
+
     # essential
     git
     git-crypt
