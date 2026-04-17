@@ -88,12 +88,16 @@ in {
           notification = false;
         }
         {
+          command = "${pkgs.systemd}/bin/systemctl --user restart feh";
+          always = true;
+          notification = false;
+        }
+        {
           command = "${pkgs.systemd}/bin/systemctl --user restart polybar";
           always = true;
           notification = false;
         }
         {
-          # command = "${pkgs.systemd}/bin/systemctl --user restart feh";
           command = "${pkgs.systemd}/bin/systemctl --user restart pywal";
           always = true;
           notification = false;
