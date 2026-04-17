@@ -1,53 +1,164 @@
 {
+  config,
   params,
   pkgs,
+  lib,
   ...
-}: {
-  home.packages = with pkgs; [
-    # (rxvt-unicode.overrideAttrs { emojiSupport = true; })
-    nerd-fonts.dejavu-sans-mono
-  ];
+}: let
+  cfg = config.host.terminal;
+  font = config.host.terminalFont;
+in {
+  options.host = {
+    terminal = lib.mkOption {
+      default = "ghostty";
+      type = lib.types.enum ["urxvt" "ghostty" "kitty"];
+      description = "Terminal emulator to use";
+    };
 
-  programs.urxvt = {
-    enable = true;
+    terminalFont = {
+      name = lib.mkOption {
+        default = "JetBrainsMono Nerd Font";
+        type = lib.types.str;
+        description = "Terminal font family name";
+      };
+      package = lib.mkOption {
+        default = pkgs.nerd-fonts.jetbrains-mono;
+        type = lib.types.package;
+        description = "Terminal font package to install";
+      };
+      size = lib.mkOption {
+        default = 11;
+        type = lib.types.int;
+        description = "Terminal font size";
+      };
+    };
+  };
 
-    package = pkgs.rxvt-unicode-unwrapped-emoji;
-
-    fonts = [
-      # "xft:Iosevka Nerd font Mono:size=12"
-      "xft:DejaVuSansM Nerd Font:style=Regular:size=12"
+  config = {
+    home.packages = [
+      font.package
     ];
 
-    scroll = {
-      bar.enable = false;
-      lines = 1000000;
+    programs.urxvt = lib.mkIf (cfg == "urxvt") {
+      enable = true;
+
+      package = pkgs.rxvt-unicode-unwrapped-emoji;
+
+      fonts = [
+        "xft:${font.name}:style=Regular:size=${toString font.size}"
+      ];
+
+      scroll = {
+        bar.enable = false;
+        lines = 1000000;
+      };
+
+      shading = 20;
+
+      keybindings = {
+        "Home" = "\\033[1~";
+        "End" = "\\033[4~";
+        "Control-Up" = "\\033[1;5A";
+        "Control-Down" = "\\033[1;5B";
+        "Control-Left" = "\\033[1;5D";
+        "Control-Right" = "\\033[1;5C";
+      };
+
+      extraConfig = {
+        internalBorder = 16;
+        letterSpace = -1;
+        scrollTtyOutput = false;
+        scrollWithBuffer = false;
+        scrollTtyKeypress = false;
+
+        underlineURLs = true;
+
+        print-pipe = "cat > /dev/null";
+        geometry = "80x-1";
+
+        "perl-ext-common" = "resize-font";
+        #      "perl-lib": "${config.home.profileDirectory}/lib/urxvt/perl"
+      };
     };
 
-    shading = 20;
+    programs.ghostty = lib.mkIf (cfg == "ghostty") {
+      enable = true;
 
-    keybindings = {
-      "Home" = "\\033[1~";
-      "End" = "\\033[4~";
-      "Control-Up" = "\\033[1;5A";
-      "Control-Down" = "\\033[1;5B";
-      "Control-Left" = "\\033[1;5D";
-      "Control-Right" = "\\033[1;5C";
+      package = pkgs.stable.ghostty;
+
+      enableFishIntegration = true;
+
+      # enableVimSyntax = true;
+
+      settings = {
+        # Colors
+        config-file = "${config.xdg.cacheHome}/wal/ghostty.conf";
+
+        font-family = font.name;
+        font-size = font.size;
+        adjust-cell-width = -1;
+
+        # Get rid of the ugly window deco and use i3's defaults
+        window-padding-x = 8;
+        window-padding-y = 8;
+        window-decoration = "server";
+        gtk-titlebar = false;
+        background-opacity = 0.9;
+
+        # Multiple windows
+        quit-after-last-window-closed = false;
+        window-inherit-working-directory = false;
+
+        # Qol
+        scrollback-limit = 1000000;
+        link-url = true;
+        copy-on-select = true;
+
+        shell-integration-features = ["no-path"];
+      };
     };
 
-    extraConfig = {
-      internalBorder = 16;
-      letterSpace = -1;
-      scrollTtyOutput = false;
-      scrollWithBuffer = false;
-      scrollTtyKeypress = false;
+    programs.kitty = lib.mkIf (cfg == "kitty") {
+      enable = true;
 
-      underlineURLs = true;
+      font = {
+        name = font.name;
+        size = font.size;
+      };
 
-      print-pipe = "cat > /dev/null";
-      geometry = "80x-1";
+      settings = {
+        # Window — use X11 so i3 handles borders/decorations
+        linux_display_server = "x11";
+        window_padding_width = 8;
+        background_opacity = "0.9";
+        confirm_os_window_close = 0;
 
-      "perl-ext-common" = "resize-font";
-      #      "perl-lib": "${config.home.profileDirectory}/lib/urxvt/perl"
+        # Makes fonts not bold
+        text_composition_strategy = "legacy";
+
+        # Qol
+        scrollback_lines = 1000000;
+        copy_on_select = true;
+        detect_urls = true;
+
+        # Fast startup
+        single_instance = true;
+      };
+
+      keybindings = {
+        "print_screen" = "discard_event";
+        "shift+print_screen" = "discard_event";
+        # "scroll_lock" = "discard_event";
+        # "pause" = "discard_event";
+        # "insert" = "discard_event";
+
+        # Scope zoom to current window only
+        "ctrl+shift+equal" = "change_font_size current +1.0";
+        "ctrl+shift+minus" = "change_font_size current -1.0";
+        "ctrl+shift+backspace" = "change_font_size current 0";
+      };
+
+      shellIntegration.enableFishIntegration = false;
     };
   };
 }

@@ -100,7 +100,7 @@
         Install.WantedBy = ["i3-session.target"];
       };
 
-      urxvtd = {
+      urxvtd-daemon = lib.mkIf (config.host.terminal == "urxvt") {
         Unit = {
           Description = "rxvt daemon";
           PartOf = ["i3-session.target"];
@@ -109,6 +109,32 @@
         Service = {
           ExecStart = "${config.programs.urxvt.package}/bin/urxvtd -o -q";
           # RemainAfterExit = true;
+          Type = "simple";
+        };
+        Install.WantedBy = ["i3-session.target"];
+      };
+
+      ghostty-daemon = lib.mkIf (config.host.terminal == "ghostty") {
+        Unit = {
+          Description = "ghostty terminal (headless)";
+          PartOf = ["i3-session.target"];
+          After = ["xrandr.service" "picom.target"];
+        };
+        Service = {
+          ExecStart = "${lib.getExe config.programs.ghostty.package} --gtk-single-instance=true --initial-window=false";
+          Type = "simple";
+        };
+        Install.WantedBy = ["i3-session.target"];
+      };
+
+      kitty-daemon = lib.mkIf (config.host.terminal == "kitty") {
+        Unit = {
+          Description = "kitty terminal (headless)";
+          PartOf = ["i3-session.target"];
+          After = ["xrandr.service" "picom.target"];
+        };
+        Service = {
+          ExecStart = "${lib.getExe config.programs.kitty.package} --single-instance --start-as=hidden";
           Type = "simple";
         };
         Install.WantedBy = ["i3-session.target"];

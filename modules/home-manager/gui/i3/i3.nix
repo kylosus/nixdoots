@@ -4,7 +4,24 @@
   pkgs,
   ...
 }: let
-  terminal = "${config.programs.urxvt.package}/bin/urxvtc";
+  ghostty = lib.getExe config.programs.ghostty.package;
+  kitty = lib.getExe config.programs.kitty.package;
+  terminal =
+    {
+      "ghostty" = "${ghostty} +new-window";
+      "kitty" = "${kitty} --single-instance";
+      "urxvt" = "${config.programs.urxvt.package}/bin/urxvtc";
+    }.${
+      config.host.terminal
+    };
+  terminalCdCmd = dir:
+    {
+      "ghostty" = ''${ghostty} +new-window --working-directory="${dir}"'';
+      "kitty" = ''${kitty} --single-instance --directory "${dir}"'';
+      "urxvt" = ''${config.programs.urxvt.package}/bin/urxvtc -cd "${dir}"'';
+    }.${
+      config.host.terminal
+    };
 in {
   imports = [
     ./layouts.nix
@@ -40,7 +57,7 @@ in {
           "${modifier}+Print" = execSpawn "${lib.getBin pkgs.stable.flameshot}/bin/flameshot gui"; # TODO: qtwebengine compile
 
           "Mod1+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
-          "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminal} -cd "{}"'';
+          "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminalCdCmd "{}"} '';
 
           # Dunst stuff
           "Control+grave" = execSpawn "${lib.getBin pkgs.dunst}/bin/dunstctl history-pop";
