@@ -7,20 +7,22 @@
   configs = {
     eDP = {
       enable = true;
-      primary = true;
       mode = "1920x1080";
       position = "0x1200";
       rate = "143.98";
     };
     HDMI-A-0 = {
       enable = true;
+      primary = true;
       crtc = 1;
       mode = "1920x1200";
       position = "0x0";
     };
   };
 in {
-  services.autorandr = {
+  services.autorandr.enable = true;
+
+  programs.autorandr = {
     enable = true;
     profiles = {
       regular = {

@@ -27,9 +27,6 @@
       ./hardware-configuration.nix
       hardware.nixosModules.asus-zephyrus-ga401
 
-      # Specific config
-      ../common/autorandr.nix
-
       # Syncthing
       ../common/syncthing.nix
 
@@ -65,6 +62,7 @@
   homeModule = {...}: {
     imports = [
       ../common/desktop.nix
+      ../common/autorandr.nix
 
       # Extra features
       ../../modules/home-manager/gui/features/cursor.nix
