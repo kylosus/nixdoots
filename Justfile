@@ -11,6 +11,9 @@ switch-home:
 test:
     sudo nixos-rebuild test --flake .#{{ hostname }} {{ nix_args }}
 
+boot:
+    sudo nixos-rebuild boot --flake .#{{ hostname }} {{ nix_args }}
+
 upgrade:
     nix flake update
     just test
