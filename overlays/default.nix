@@ -52,6 +52,9 @@ in {
     pipewire = final.stable.pipewire;
     sdl3 = final.stable.sdl3;
 
+    # TODO: remove on next update
+    polybar = final.stable.polybar;
+
     # TODO: Some OpenSSH apps break when config file is a symlink
     # See https://github.com/nix-community/home-manager/issues/322#issuecomment-1178614454
     openssh-patched = prev.openssh.overrideAttrs (old: {

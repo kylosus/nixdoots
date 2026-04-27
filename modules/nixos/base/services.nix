@@ -34,7 +34,11 @@ in {
       };
     };
 
-    blueman.enable = cfg.desktop;
+    # TODO: remove after update
+    blueman = {
+      enable = cfg.desktop;
+      withApplet = false;
+    };
 
     udisks2.enable = cfg.desktop;
 
