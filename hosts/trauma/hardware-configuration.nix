@@ -23,7 +23,7 @@
   };
 
   fileSystems."/" = {
-    device = "/dev/vda3";
+    device = "/dev/disk/by-uuid/ce1e50b7-51ad-4707-a483-8003a82ef2a1";
     fsType = "xfs";
   };
 
