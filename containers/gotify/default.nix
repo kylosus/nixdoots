@@ -19,7 +19,9 @@ in {
   virtualisation.oci-containers.containers = {
     gotify = {
       autoStart = true;
-      image = "docker.io/gotify/server:latest";
+      # NOTE: :latest doesn't update with the rest of nix/nixos
+      # We need to manually update the tag
+      image = "docker.io/gotify/server:2.9";
       volumes = [
         "gotify-data:/app/data"
         "${config.sops.secrets.gotify-db.path}:/app/data/gotify.db"
