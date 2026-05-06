@@ -11,17 +11,10 @@
 
   # More applications
   home.packages = with pkgs; [
-    arandr
-    bindfs
     deluge
-    discord
     stable.ffmpeg
-    stable.gimp
     neovim
     stable.obsidian
-    stable.spotify
-    stable.ungoogled-chromium
-    unzip
     zathura
   ];
 }

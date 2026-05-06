@@ -20,6 +20,7 @@
   home.file.".xinitrc".source = ./xinitrc;
 
   home.packages = with pkgs; [
+    arandr
     xclip
     xsel
     nautilus
