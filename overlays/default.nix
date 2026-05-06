@@ -85,15 +85,15 @@ in {
   # be accessible through 'pkgs.unstable'
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
-      stdenv.hostPlatform.system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
-    nix-alien = inputs.nix-alien.packages.${final.system}.nix-alien;
+    # nix-alien = inputs.nix-alien.packages.${final.system}.nix-alien;
   };
 
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
-      stdenv.hostPlatform.system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };

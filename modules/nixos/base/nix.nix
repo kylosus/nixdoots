@@ -12,7 +12,7 @@
   nixpkgs = {
     hostPlatform = lib.mkDefault params.system;
 
-    overlays = functions.mkOverlays outputs.overlays {inherit inputs lib config;};
+    overlays = functions.mkOverlays outputs.overlaysPath {inherit inputs lib config;};
 
     config = {
       allowUnfree = true;

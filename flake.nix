@@ -40,7 +40,7 @@
     allSystems = ["x86_64-linux" "aarch64-linux"];
     forAllSystems = mylib.forAllSystems allSystems;
   in rec {
-    overlays = ./overlays;
+    overlaysPath = ./overlays;
 
     # Format the nix code in this flake
     formatter = forAllSystems (
