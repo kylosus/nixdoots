@@ -25,5 +25,6 @@
     };
   };
 
-  users.users.root.hashedPassword = secrets.hashedPassword;
+  # No root login
+  users.users.root.hashedPassword = "!";
 }
