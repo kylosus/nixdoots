@@ -3,48 +3,23 @@
   lib,
   pkgs,
   ...
-}: let
-  ghostty = lib.getExe config.programs.ghostty.package;
-  kitty = lib.getExe config.programs.kitty.package;
-  terminal =
-    {
-      "ghostty" = "${ghostty} +new-window";
-      "kitty" = "${kitty} --single-instance";
-      "urxvt" = "${config.programs.urxvt.package}/bin/urxvtc";
-    }.${
-      config.host.terminal
-    };
-  terminalCdCmd = dir:
-    {
-      "ghostty" = ''${ghostty} +new-window --working-directory="${dir}"'';
-      "kitty" = ''${kitty} --single-instance --directory "${dir}"'';
-      "urxvt" = ''${config.programs.urxvt.package}/bin/urxvtc -cd "${dir}"'';
-    }.${
-      config.host.terminal
-    };
-in {
+}: {
   imports = [
     ./layouts.nix
   ];
 
-  # Needed because we don't use pkgs.rofi below
-  home.packages = with pkgs; [rofi];
-
   xsession.windowManager.i3 = {
     enable = true;
-    # package = pkgs.i3-gaps;
     config = {
       keybindings = let
         execSpawn = cmd: "exec --no-startup-id ${cmd}";
-        rofiSort = "rofi -dmenu -sorting-method fzf -i -sort -refilter-timeout-limit 999999";
-        inherit (config.xsession.windowManager.i3.config) modifier terminal;
+        inherit (config.xsession.windowManager.i3.config) modifier;
       in
         lib.mkOptionDefault {
-          "${modifier}+Return" = execSpawn terminal;
+          "${modifier}+Return" = execSpawn config.host.terminal.cmd.spawn;
           # This is necessary on Arch. System applications don't show up otherwise
-          "${modifier}+d" = execSpawn "rofi -show drun";
-          # "${modifier}+d" = execSpawn "${lib.getExe pkgs.rofi} -show drun";
-          "${modifier}+Shift+d" = execSpawn "rofi -show window";
+          "${modifier}+d" = execSpawn config.host.launcher.cmd.launcher;
+          "${modifier}+Shift+d" = execSpawn config.host.launcher.cmd.windows;
           "${modifier}+Shift+h" = "move left";
           "${modifier}+Shift+j" = "move down";
           "${modifier}+Shift+k" = "move up";
@@ -53,21 +28,22 @@ in {
           "${modifier}+j" = "focus down";
           "${modifier}+k" = "focus up";
           "${modifier}+l" = "focus right";
-          "${modifier}+x" = "exec --no-startup-id ${config.services.screen-locker.lockCmd}";
-          "${modifier}+Print" = execSpawn "${lib.getBin pkgs.stable.flameshot}/bin/flameshot gui"; # TODO: qtwebengine compile
+          "${modifier}+x" = execSpawn config.host.lock.command;
+          "${modifier}+Print" = execSpawn config.host.screenshot.command;
 
-          "Mod1+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
-          "Mod1+Shift+d" = execSpawn ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${terminalCdCmd "{}"} '';
+          "Mod1+d" = execSpawn config.host.launcher.cmd.fd;
+          "Mod1+Shift+d" = execSpawn config.host.launcher.cmd.fdDirs;
 
-          # Dunst stuff
-          "Control+grave" = execSpawn "${lib.getBin pkgs.dunst}/bin/dunstctl history-pop";
+          # Notification history (dunst on i3, mako on Hyprland)
+          "Control+grave" = execSpawn config.host.notifications.historyCommand;
 
           # Pulse Audio controls
-          "XF86AudioRaiseVolume" = execSpawn "${lib.getBin pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-          "XF86AudioLowerVolume" = execSpawn "${lib.getBin pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-          "XF86AudioMute" = execSpawn "${lib.getBin pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-          "XF86AudioMicMute" = execSpawn "${lib.getBin pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+          "XF86AudioRaiseVolume" = execSpawn "${config.host.audio.cmd.volumeUp}";
+          "XF86AudioLowerVolume" = execSpawn "${config.host.audio.cmd.volumeDown}";
+          "XF86AudioMute" = execSpawn "${config.host.audio.cmd.mute}";
+          "XF86AudioMicMute" = execSpawn "${config.host.audio.cmd.micMute}";
 
+          # TODO
           # bindsym XF86AudioPlay exec "mpc toggle"
           # bindsym XF86AudioStop exec "mpc stop"
           # bindsym XF86AudioNext exec "mpc next"
@@ -88,25 +64,18 @@ in {
           notification = false;
         }
         {
-          command = "${pkgs.systemd}/bin/systemctl --user restart feh";
-          always = true;
-          notification = false;
-        }
-        {
-          command = "${pkgs.systemd}/bin/systemctl --user restart polybar";
-          always = true;
-          notification = false;
-        }
-        {
           command = "${pkgs.systemd}/bin/systemctl --user restart pywal";
+          always = true;
+          notification = false;
+        }
+        {
+          command = "${pkgs.systemd}/bin/systemctl --user restart feh";
           always = true;
           notification = false;
         }
       ];
 
-      # terminal = "${lib.getExe config.programs.kitty.package} -1";
-      # terminal = "${config.programs.urxvt.package}/bin/urxvtc";
-      inherit terminal;
+      terminal = config.host.terminal.cmd.spawn;
 
       window.commands = [
         {

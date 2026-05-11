@@ -8,6 +8,7 @@
     fullName = "Userly user 2";
 
     desktop = true;
+    windowManager = "hyprland";
 
     fs = {
       luksDisk = "/dev/disk/by-uuid/9f73becc-0b35-4338-a287-7517bb0d8d19";
@@ -68,13 +69,25 @@
       ../../modules/home-manager/gui/features/cursor.nix
     ];
 
-    services.udiskie = {
-      enable = true;
+    host.hyprland = {
+      ifname = "wlp2s0";
+      monitors = [
+        {
+          name = "HDMI-A-0";
+          mode = "1920x1200";
+          position = "0x0";
+        }
+        {
+          name = "eDP";
+          mode = "1920x1080@143.98";
+          position = "0x1200";
+        }
+      ];
     };
 
-    host.i3 = {
-      ifname = "wlp2s0";
-      monitors = ["HDMI-A-0" "eDP"];
+    host.bar.battery = {
+      adapter = "AC0";
+      battery = "BAT0";
     };
   };
 }

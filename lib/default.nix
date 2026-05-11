@@ -15,7 +15,10 @@
   };
 
   # Everyone else reads from param directly, yet we have this here
-  desktopConfigModule = {params, ...}: {host.global.desktop = params.desktop;};
+  desktopConfigModule = {params, ...}: {
+    host.global.desktop = params.desktop;
+    host.global.windowManager = params.windowManager;
+  };
 
   # For both nixos, and home-manager
   globalModules = [../modules desktopConfigModule];

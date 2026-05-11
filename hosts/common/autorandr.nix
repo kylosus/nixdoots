@@ -1,4 +1,8 @@
-{...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   fingerprints = {
     eDP = "00ffffffffffff004d10231500000000351e0104a51f117807de50a3544c99260f5054000000010101010101010101010101010101015a8780a070384d403020350035ae10000018653880a070384d403020350035ae10000018000000fd003090a7a7230100000000000000000000fc004c513134304d314a5734390a200077";
     HDMI-A-0 = "00ffffffffffff0022f056290101010122160103803420782afc81a4554d9d25125054210800d1c081c0814081809500a940b3000101283c80a070b023403020360006442100001a000000fd00183c185011000a202020202020000000fc004850205a5232343430770a2020000000ff00434e34323334303251420a2020016602031ff14c901f0514041303020706120165030c0010002309070783010000023a801871382d40582c450006442100001e023a80d072382d40102c458006442100001e011d007251d01e206e28550006442100001e011d00bc52d01e20b828554006442100001e8c0ad08a20e02d10103e9600064421000018000000000000c1";
@@ -20,26 +24,24 @@
     };
   };
 in {
-  services.autorandr.enable = true;
+  config = lib.mkIf (config.host.global.windowManager == "i3") {
+    services.autorandr.enable = true;
 
-  programs.autorandr = {
-    enable = true;
-    profiles = {
-      regular = {
-        fingerprint = {inherit (fingerprints) eDP;};
-        config.eDP = {
-          enable = true;
-          primary = true;
+    programs.autorandr = {
+      enable = true;
+      profiles = {
+        regular = {
+          fingerprint = {inherit (fingerprints) eDP;};
+          config.eDP = {
+            enable = true;
+            primary = true;
+          };
+        };
+        work = {
+          fingerprint = {inherit (fingerprints) eDP HDMI-A-0;};
+          config = configs;
         };
       };
-      work = {
-        fingerprint = {inherit (fingerprints) eDP HDMI-A-0;};
-        config = configs;
-      };
     };
-
-    # hooks = {
-    #   postswitch = {};
-    # };
   };
 }

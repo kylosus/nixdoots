@@ -27,6 +27,11 @@ in {
     # alt
     altModifier = "Mod1";
   in {
+    host.bar = {
+      monitors = cfg.monitors;
+      ifname = cfg.ifname;
+    };
+
     xsession.windowManager.i3.config = rec {
       inherit modifier;
 

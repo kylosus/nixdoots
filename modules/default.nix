@@ -15,6 +15,13 @@
       description = "Enable graphical stuff";
     };
 
+    # TODO: support multiple in the future
+    windowManager = lib.mkOption {
+      default = "i3";
+      type = lib.types.enum ["i3" "hyprland"];
+      description = "Which window manager / compositor to use when desktop is enabled";
+    };
+
     # Probably shouldn't be "global"
     endlessh = lib.mkOption {
       default = false;

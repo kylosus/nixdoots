@@ -7,15 +7,23 @@
   ...
 }: let
   cfg = config.host.global;
+  isI3 = cfg.windowManager == "i3";
+  isHypr = cfg.windowManager == "hyprland";
 in {
   # TODO: for now
   hardware.bluetooth = lib.mkIf cfg.desktop {
     enable = true;
   };
 
-  # Screen lock
   programs = {
-    slock.enable = cfg.desktop;
+    # X11 only
+    slock.enable = cfg.desktop && isI3;
+
+    hyprland = lib.mkIf (cfg.desktop && isHypr) {
+      enable = true;
+      withUWSM = true;
+      xwayland.enable = true;
+    };
   };
 
   services = {
@@ -46,26 +54,22 @@ in {
 
     displayManager = lib.mkIf cfg.desktop {
       enable = true;
-      defaultSession = "none+i3";
+      ly.enable = true;
+      defaultSession =
+        if isHypr
+        then "hyprland-uwsm"
+        else "none+i3";
     };
 
-    xserver = lib.mkIf cfg.desktop {
+    # X11 only
+    xserver = lib.mkIf (cfg.desktop && isI3) {
       enable = true;
       videoDrivers = ["nvidia"];
       deviceSection = ''Option "TearFree" "true"'';
 
-      desktopManager = lib.mkIf cfg.desktop {
-        xterm.enable = false;
-      };
+      desktopManager.xterm.enable = false;
 
-      displayManager = lib.mkIf cfg.desktop {
-        startx.enable = true;
-      };
-
-      # TODO: Is this this duplicated with home-manager?
-      windowManager.i3 = lib.mkIf cfg.desktop {
-        enable = true;
-      };
+      windowManager.i3.enable = true;
     };
 
     libinput = lib.mkIf cfg.desktop {
@@ -89,9 +93,24 @@ in {
 
       wireplumber = {
         enable = true;
-        # extraConfig."99-mute-default-sink" = {
-        #   "device.routes.default-sink-volume" = "0";
-        # };
+      };
+    };
+  };
+
+  # Polkit + portals + Wayland stuff for the desktop session.
+  security.polkit.enable = lib.mkIf cfg.desktop true;
+
+  xdg.portal = lib.mkIf cfg.desktop {
+    enable = true;
+    extraPortals =
+      [pkgs.xdg-desktop-portal-gtk]
+      ++ lib.optional isHypr pkgs.xdg-desktop-portal-hyprland;
+    config = lib.mkIf isHypr {
+      common.default = ["gtk"];
+      hyprland = {
+        default = ["hyprland" "gtk"];
+        "org.freedesktop.impl.portal.Screencast" = ["hyprland"];
+        "org.freedesktop.impl.portal.ScreenShot" = ["hyprland"];
       };
     };
   };

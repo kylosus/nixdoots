@@ -5,6 +5,7 @@
   userName ? "user",
   fullName ? "User",
   desktop ? false,
+  windowManager ? "i3",
   wallpaper ? files.wallpaper,
   fs ? {},
 }: {
@@ -15,6 +16,7 @@
   inherit userName;
   inherit fullName;
   inherit desktop;
+  inherit windowManager;
   inherit wallpaper;
 
   inherit fs;

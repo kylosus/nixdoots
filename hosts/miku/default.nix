@@ -8,6 +8,10 @@
     fullName = "John Kler";
 
     desktop = true;
+    windowManager = "hyprland";
+
+    # Source: https://drive.google.com/drive/folders/1NpAVu1q77hG4sJWQRPaMqEms5SECMxXm
+    wallpaper = ./wallpaper.png;
 
     fs = {
       luksDisk = "/dev/disk/by-uuid/dd127f93-cc9f-44de-9400-145b2fac9fae";
@@ -38,8 +42,6 @@
     hardware.nvidia.open = true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 
-    programs.slock.enable = true;
-
     services.udisks2 = {
       enable = true;
     };
@@ -63,15 +65,17 @@
       ../../modules/home-manager/gui/features/cursor.nix
     ];
 
-    services.udiskie = {
-      enable = true;
-    };
-
     services.polybar.config."module/temperature".hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
 
-    host.i3 = {
+    host.hyprland = {
       ifname = "wlp8s0";
-      monitors = ["DP-4"];
+      monitors = [
+        {
+          name = "DP-5";
+          mode = "2560x1440@180";
+          position = "0x0";
+        }
+      ];
     };
   };
 }

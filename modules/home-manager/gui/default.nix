@@ -1,15 +1,20 @@
 {
   pkgs,
   config,
+  params,
   lib,
   ...
 }: let
   cfg = config.host.global;
+  wm = params.windowManager or "i3";
 in {
-  imports = [
-    ./i3
-    ./terminal.nix
-  ];
+  imports =
+    [
+      ./shared
+      ./terminal.nix
+    ]
+    ++ lib.optional (wm == "i3") ./i3
+    ++ lib.optional (wm == "hyprland") ./hyprland;
 
   assertions = [
     {
@@ -58,15 +63,10 @@ in {
     };
   };
 
-  # Now symlink the `~/.config/gtk-4.0/` folder declaratively:
-  xdg.configFile = {
-    "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-    "gtk-4.0/gtk.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-    "gtk-4.0/gtk-dark.css".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
-  };
-
   services = {
-    blueman-applet.enable = true;
+    blueman-applet = {
+      enable = true;
+    };
   };
 
   home.packages = with pkgs; [

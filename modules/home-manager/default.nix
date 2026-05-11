@@ -41,6 +41,21 @@ in {
     pinentry.package = pkgs.pinentry-curses;
   };
 
+  programs.ranger = {
+    enable = true;
+    settings = {
+      preview_images = true;
+      preview_images_method = "kitty";
+    };
+  };
+
+  services.udiskie = lib.mkIf cfg.desktop {
+    enable = true;
+    automount = false;
+    notify = true;
+    tray = "always";
+  };
+
   services.mpd = {
     enable = false;
     musicDirectory = "${config.xdg.userDirs.music}";
