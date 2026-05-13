@@ -45,18 +45,15 @@ in {
     #   };
     # };
 
-    # TODO: annoying packages
-    networkmanager = final.stable.networkmanager;
+    # Slow compilation fixes. Check on next update
     gtk4 = final.stable.gtk4;
-    ffmpeg = final.stable.ffmpeg;
-    pipewire = final.stable.pipewire;
-    sdl3 = final.stable.sdl3;
-
-    # TODO: remove on next update
-    polybar = final.stable.polybar;
-
+    nvidia-vaapi-driver = final.stable.nvidia-vaapi-driver;
+    gst_all_1 = final.stable.gst_all_1;
+    mesa = final.stable.mesa;
     qt6 = final.stable.qt6;
     kdePackages = final.stable.kdePackages;
+    networkmanager = final.stable.networkmanager;
+    sdl3 = final.stable.sdl3;
 
     # TODO: Some OpenSSH apps break when config file is a symlink
     # See https://github.com/nix-community/home-manager/issues/322#issuecomment-1178614454
