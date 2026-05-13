@@ -139,7 +139,7 @@ in {
           link-url = true;
           copy-on-select = true;
 
-          shell-integration-features = ["no-path"];
+          shell-integration-features = ["no-path" "ssh-env" "ssh-terminfo"];
         };
       };
 
