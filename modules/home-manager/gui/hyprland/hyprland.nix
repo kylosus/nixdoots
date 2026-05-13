@@ -74,6 +74,9 @@ in {
 
         # Animations
         animation = "global, 1, 1, default";
+
+        # Gestures
+        gesture = "3, horizontal, workspace";
       };
 
       decoration = {
@@ -99,7 +102,12 @@ in {
         touchpad = {
           natural_scroll = true;
           middle_button_emulation = true;
+          disable_while_typing = false;
         };
+      };
+
+      gestures = {
+        workspace_swipe_create_new = true;
       };
 
       misc = {

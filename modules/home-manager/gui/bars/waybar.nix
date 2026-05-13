@@ -28,7 +28,9 @@ in {
       spacing = 4;
 
       modules-center = [
+        "custom/split"
         "mpris"
+        "custom/split"
       ];
 
       modules-left = lib.intersperse "custom/split" [
@@ -72,12 +74,13 @@ in {
 
       pulseaudio = {
         format = "{icon} {volume}%";
-        format-muted = " {volume}%";
+        format-muted = " {volume}%";
         format-icons = {
-          default = ["" "" ""];
+          default = ["" "" ""];
         };
-        scroll-step = 1;
-        on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+        scroll-step = 3;
+        on-click = "${config.host.audio.cmd.mute}";
+        on-click-middle = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
 
       network = {
@@ -95,7 +98,7 @@ in {
         interval = 30;
         full-at = 99;
         format = "{icon} {capacity}%";
-        format-charging = " {capacity}%";
+        format-charging = " {capacity}%";
         format-icons = ["" "" "" "" ""];
         states = {
           warning = 30;
@@ -123,7 +126,7 @@ in {
         critical-threshold = 80;
         interval = 2;
         format = "{icon} {temperatureC}°C";
-        format-icons = ["" "" ""];
+        format-icons = ["" "" ""];
       };
 
       clock = {

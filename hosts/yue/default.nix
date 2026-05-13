@@ -73,12 +73,12 @@
       ifname = "wlp2s0";
       monitors = [
         {
-          name = "HDMI-A-0";
+          name = "HDMI-A-1";
           mode = "1920x1200";
           position = "0x0";
         }
         {
-          name = "eDP";
+          name = "eDP-1";
           mode = "1920x1080@143.98";
           position = "0x1200";
         }
