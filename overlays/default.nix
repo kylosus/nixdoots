@@ -47,9 +47,9 @@ in {
 
     # Slow compilation fixes. Check on next update
     gtk4 = final.stable.gtk4;
-    nvidia-vaapi-driver = final.stable.nvidia-vaapi-driver;
-    gst_all_1 = final.stable.gst_all_1;
-    mesa = final.stable.mesa;
+    # nvidia-vaapi-driver = final.stable.nvidia-vaapi-driver;
+    # gst_all_1 = final.stable.gst_all_1;
+    # mesa = final.stable.mesa;
     qt6 = final.stable.qt6;
     kdePackages = final.stable.kdePackages;
     networkmanager = final.stable.networkmanager;
