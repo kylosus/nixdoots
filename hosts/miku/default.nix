@@ -71,7 +71,7 @@
       ifname = "wlp8s0";
       monitors = [
         {
-          name = "DP-5";
+          name = "desc:Microstep MAG 274QF CE4H095700438";
           mode = "2560x1440@180";
           position = "0x0";
         }
