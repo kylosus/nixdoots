@@ -9,6 +9,7 @@
     nautilus
   ];
 
+  xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
     "image/bmp" = lib.mkForce "feh.desktop";
     "image/gif" = lib.mkForce "feh.desktop";
