@@ -19,4 +19,9 @@ in {
       "var/tmp"
     ];
   };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+  };
 }
