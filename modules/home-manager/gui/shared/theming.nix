@@ -81,7 +81,7 @@
     #!/bin/sh
     ${pkgs.systemd}/bin/systemctl --user --no-block try-restart dunst.service polybar.service 2>/dev/null || true
 
-    ${pkgs.systemd}/bin/systemctl --user --no-block try-restart mako.service 2>/dev/null || true
+    ${pkgs.systemd}/bin/systemctl --user --no-block try-restart mako.service waybar.service 2>/dev/null || true
 
     if command -v hyprctl >/dev/null 2>&1; then
       hyprctl reload 2>/dev/null || true
@@ -119,6 +119,7 @@ in {
     Unit = {
       Description = "pywal: render wallpaper palette and deploy theming [templates:${templatesHash}]";
       PartOf = ["${config.host.session.target}"];
+      After = ["${config.host.session.target}"];
     };
     Service = {
       Type = "oneshot";

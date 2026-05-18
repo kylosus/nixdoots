@@ -160,7 +160,7 @@ in {
         };
 
         settings = {
-          # Window — use X11 so i3 handles borders/decorations
+          # Allow i3 to handle borders/decorations
           linux_display_server = "x11";
           window_padding_width = 8;
           background_opacity = "0.9";

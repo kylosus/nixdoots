@@ -49,7 +49,8 @@ in {
     # Breaks things
     # package = pkgs.stable.hyprland;
 
-    systemd.enable = true;
+    # For uwsm
+    systemd.enable = false;
     xwayland.enable = true;
 
     settings = {
@@ -131,7 +132,7 @@ in {
         "SDL_VIDEODRIVER,wayland"
         "GDK_BACKEND,wayland,x11"
         # Extra
-        "_GL_GSYNC_ALLOWED"
+        "_GL_GSYNC_ALLOWED,1"
         "LIBVA_DRIVER_NAME,nvidia"
         "__GLX_VENDOR_LIBRARY_NAME,nvidia"
         "ELECTRON_OZONE_PLATFORM_HINT,auto"
@@ -236,10 +237,7 @@ in {
         "SUPER, mouse:273, resizewindow"
       ];
 
-      exec-once = [
-        # Polkit agent (KeePassXC, GParted, etc.)
-        "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
-      ];
+      exec-once = [];
     };
 
     submaps = {
@@ -257,8 +255,4 @@ in {
       };
     };
   };
-
-  home.packages = with pkgs; [
-    hyprpolkitagent
-  ];
 }

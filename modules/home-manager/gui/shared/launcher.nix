@@ -3,7 +3,11 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  isHypr = config.host.global.windowManager == "hyprland";
+
+  appLauncherPrefix = lib.optionalString isHypr "${pkgs.uwsm}/bin/uwsm-app -- ";
+in {
   options.host.launcher = {
     name = lib.mkOption {
       default = "rofi";
@@ -61,11 +65,13 @@
 
     host.launcher.cmd = let
       rofiSort = "${pkgs.rofi}/bin/rofi -dmenu -sorting-method fzf -i -sort -refilter-timeout-limit 999999";
+      # Tell rofi's drun mode to wrap each launched .desktop entry in uwsm-app.
+      runCommand = lib.optionalString isHypr " -run-command '${pkgs.uwsm}/bin/uwsm-app -- {cmd}'";
     in {
-      launcher = "${lib.getExe pkgs.rofi} -show drun";
+      launcher = "${lib.getExe pkgs.rofi} -show drun${runCommand}";
       windows = "${lib.getExe pkgs.rofi} -show window";
 
-      fd = ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
+      fd = ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${appLauncherPrefix}${lib.getBin pkgs.xdg-utils}/bin/xdg-open "{}"'';
       fdDirs = ''${lib.getExe pkgs.fd} --max-depth 7 --one-file-system --type d . ~/ | ${rofiSort} | ${lib.getBin pkgs.findutils}/bin/xargs -I {} ${config.host.terminal.cmd.cd "{}"}'';
     };
   };
