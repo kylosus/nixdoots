@@ -22,12 +22,13 @@ in {
 
     plugins = [
       {
+        # TODO: replace after merged maybe
         name = "theme-agnoster";
         src = pkgs.fetchFromGitHub {
-          owner = "oh-my-fish";
+          owner = "kylosus";
           repo = "theme-agnoster";
-          rev = "4c5518c89ebcef393ef154c9f576a52651400d27";
-          sha256 = "sha256-OFESuesnfqhXM0aij+79kdxjp4xgCt28YwTrcwQhFMU=";
+          rev = "f906894f5101e1cf560c60e9b92ef3c026db1a8a";
+          sha256 = "sha256-dqXCLRe7ZQ5gVvAraBf0P5Tc/NPcq5qMAk+GjQnjkek=";
         };
       }
       {
