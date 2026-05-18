@@ -37,6 +37,11 @@
       ../common/wireguard.nix
     ];
 
+    # Nix builds without hammering the CPU
+    systemd.services.nix-daemon.serviceConfig = {
+      CPUQuota = "400%";
+    };
+
     hardware.nvidia.prime.offload.enable = lib.mkForce true;
     hardware.nvidia.forceFullCompositionPipeline = lib.mkForce true;
 

@@ -58,6 +58,17 @@
   nix.daemonIOSchedClass = lib.mkDefault "idle";
   nix.daemonIOSchedPriority = lib.mkDefault 7;
 
+  # For more responsive system during builds
+  systemd.services.nix-daemon.serviceConfig = {
+    # CPUQuota = "400%";
+    CPUWeight = 20;
+    IOWeight = 20;
+    MemoryHigh = "70%";
+    MemoryMax = "85%";
+    MemorySwapMax = "0";
+    OOMScoreAdjust = 500;
+  };
+
   environment.etc =
     lib.mapAttrs'
     (name: value: {
