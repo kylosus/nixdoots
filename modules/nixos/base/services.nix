@@ -15,6 +15,8 @@ in {
     enable = true;
   };
 
+  hardware.graphics.enable32Bit = false;
+
   programs = {
     # X11 only
     slock.enable = cfg.desktop && isI3;

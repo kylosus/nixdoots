@@ -90,8 +90,8 @@ in {
         settings = {
           general = {
             lock_cmd = "${lib.getExe pkgs.hyprlock}";
-            #  before_sleep_cmd = "${pkgs.systemd}/bin/loginctl lock-session";
-            #  after_sleep_cmd = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+            before_sleep_cmd = "${pkgs.systemd}/bin/loginctl lock-session";
+            after_sleep_cmd = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
           };
 
           listener = [
