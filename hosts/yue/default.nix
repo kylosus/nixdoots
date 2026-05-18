@@ -78,7 +78,7 @@
       ifname = "wlp2s0";
       monitors = [
         {
-          name = "HDMI-A-1";
+          name = "desc:Hewlett Packard HP ZR2440w CN423402QB";
           mode = "1920x1200";
           position = "0x0";
         }
