@@ -93,7 +93,6 @@ in {
         # 0 = follow mouse, 1 = always to the left, 2 = always to the right.
         # 2 mimics i3-layouts autosplit's "new on the right" behavior.
         force_split = 2;
-        pseudotile = true;
       };
 
       input = {
@@ -114,7 +113,6 @@ in {
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
-        vfr = true;
         focus_on_activate = false;
       };
 
