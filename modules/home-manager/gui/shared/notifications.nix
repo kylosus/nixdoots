@@ -24,7 +24,7 @@ in {
         Unit = {
           Description = "Dunst notification daemon";
           PartOf = ["${config.host.session.target}"];
-          After = ["pywal.service"];
+          After = ["${config.host.session.target}" "pywal.service"];
           Wants = ["pywal.service"];
         };
         Service = {
@@ -47,7 +47,7 @@ in {
         Unit = {
           Description = "Mako notification daemon";
           PartOf = ["${config.host.session.target}"];
-          After = ["pywal.service"];
+          After = ["${config.host.session.target}" "pywal.service"];
           Wants = ["pywal.service"];
         };
         Service = {

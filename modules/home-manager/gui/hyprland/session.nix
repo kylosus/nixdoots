@@ -12,7 +12,7 @@
       Unit = {
         Description = "${config.host.terminal.name} terminal (single-instance daemon)";
         PartOf = [config.host.session.target];
-        After = lib.mkAfter ["pywal.service"];
+        After = [config.host.session.target "pywal.service"];
       };
       Service = {
         ExecStart = "${pkgs.uwsm}/bin/uwsm-app -- ${config.host.terminal.cmd.daemon}";
