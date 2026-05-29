@@ -49,6 +49,9 @@ in {
     # Breaks things
     # package = pkgs.stable.hyprland;
 
+    # TODO: the keybinds are broken with lua
+    configType = "hyprlang";
+
     # For uwsm
     systemd.enable = false;
     xwayland.enable = true;
