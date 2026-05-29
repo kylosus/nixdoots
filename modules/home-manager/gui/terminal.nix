@@ -135,7 +135,6 @@ in {
           window-inherit-working-directory = false;
 
           # Qol
-          # scrollback-limit = 1000000;
           link-url = true;
           copy-on-select = true;
 

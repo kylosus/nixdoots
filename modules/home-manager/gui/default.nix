@@ -7,6 +7,7 @@
 }: let
   cfg = config.host.global;
   wm = params.windowManager or "i3";
+  isWayland = wm == "hyprland";
 in {
   imports =
     [
@@ -41,12 +42,11 @@ in {
 
   fonts.fontconfig.enable = true;
 
-  # Should be inn gui
   programs.chromium = {
     enable = true;
     package = pkgs.stable.ungoogled-chromium;
-    # Apparently doesn't work for ungoogled
-    # extensions = ["cjpalhdlnbpafiamejdnhcphjbkeiagm"];
+
+    commandLineArgs = lib.mkIf isWayland ["--ozone-platform=wayland"];
   };
 
   gtk = {

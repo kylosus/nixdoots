@@ -43,7 +43,31 @@
     "ALT, ${nStr}, workspace, ${altWs}"
     "ALT SHIFT, ${nStr}, movetoworkspace, ${altWs}"
   ]) (lib.range 1 9));
+
+  sessionEnv = [
+    "XCURSOR_THEME,Fuchsia-Pop"
+    "XCURSOR_SIZE,24"
+    "HYPRCURSOR_THEME,Fuchsia-Pop"
+    "HYPRCURSOR_SIZE,24"
+    "_JAVA_AWT_WM_NONREPARENTING,1"
+    "NIXOS_OZONE_WL,1"
+    "MOZ_ENABLE_WAYLAND,1"
+    "QT_QPA_PLATFORM,wayland;xcb"
+    "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+    "SDL_VIDEODRIVER,wayland"
+    "GDK_BACKEND,wayland,x11"
+    # Extra
+    "_GL_GSYNC_ALLOWED,1"
+    "LIBVA_DRIVER_NAME,nvidia"
+    "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+    "ELECTRON_OZONE_PLATFORM_HINT,auto"
+    "NVD_BACKEND,direct"
+  ];
+  sessionEnvNames = map (e: lib.head (lib.splitString "," e)) sessionEnv;
 in {
+  # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#nixos-uwsm
+  xdg.configFile."uwsm/env".source = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+
   wayland.windowManager.hyprland = {
     enable = true;
     # Breaks things
@@ -120,25 +144,7 @@ in {
       };
 
       # XWayland cursor sizing + Wayland-app conformance.
-      env = [
-        "XCURSOR_THEME,Fuchsia-Pop"
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_THEME,Fuchsia-Pop"
-        "HYPRCURSOR_SIZE,24"
-        "_JAVA_AWT_WM_NONREPARENTING,1"
-        "NIXOS_OZONE_WL,1"
-        "MOZ_ENABLE_WAYLAND,1"
-        "QT_QPA_PLATFORM,wayland;xcb"
-        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-        "SDL_VIDEODRIVER,wayland"
-        "GDK_BACKEND,wayland,x11"
-        # Extra
-        "_GL_GSYNC_ALLOWED,1"
-        "LIBVA_DRIVER_NAME,nvidia"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-        "ELECTRON_OZONE_PLATFORM_HINT,auto"
-        "NVD_BACKEND,direct"
-      ];
+      env = sessionEnv;
 
       # # Window rules for scratchpad and stuff
       # Deprecated
@@ -238,7 +244,9 @@ in {
         "SUPER, mouse:273, resizewindow"
       ];
 
-      exec-once = [];
+      exec-once = [
+        "${pkgs.uwsm}/bin/uwsm finalize ${lib.concatStringsSep " " sessionEnvNames}"
+      ];
     };
 
     submaps = {

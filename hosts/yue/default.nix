@@ -74,6 +74,11 @@
       ../../modules/home-manager/gui/features/cursor.nix
     ];
 
+    programs.chromium = {
+      # on this AMD iGPU + NVIDIA hybrid the default ANGLE backend breaks video playback.
+      commandLineArgs = ["--ozone-platform=wayland" "--use-angle=vulkan"];
+    };
+
     host.hyprland = {
       ifname = "wlp2s0";
       monitors = [
