@@ -1,6 +1,6 @@
 hostname := `uname -n` 
 
-nix_args := "--verbose --option eval-cache false --impure"
+nix_args := "--verbose --option eval-cache false"
 
 switch:
     sudo nixos-rebuild switch --flake .#{{ hostname }} {{ nix_args }}
