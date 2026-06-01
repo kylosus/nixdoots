@@ -1,3 +1,4 @@
 secrets/secrets.nix filter=git-crypt diff=git-crypt
 hosts/trauma/sites.nix filter=git-crypt diff=git-crypt
+hosts/trauma/dns.nix filter=git-crypt diff=git-crypt
 hosts/common/wireguard.nix filter=git-crypt diff=git-crypt

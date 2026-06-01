@@ -32,6 +32,10 @@
       ../../modules/nixos/services/monitoring.nix
       ../../modules/nixos/services/reverse-ssh.nix
 
+      # Unused because porkbun is more convenient
+      # ../../modules/nixos/services/dns.nix
+      # ./dns.nix
+
       # Sites
       ./sites.nix
     ];
