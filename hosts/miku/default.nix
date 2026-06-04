@@ -21,6 +21,7 @@
   };
 
   module = {
+    pkgs,
     lib,
     modules,
     params,
@@ -37,6 +38,9 @@
 
       ../common/wireguard.nix
     ];
+
+    boot.kernelModules = ["v4l2loopback"];
+    boot.extraModulePackages = [pkgs.linuxPackages.v4l2loopback];
 
     # TODO
     hardware.nvidia.open = true;
