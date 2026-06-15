@@ -61,6 +61,10 @@ in {
       #  variant = "macchiato";
       # };
     };
+
+    # WAR[dpi] ghostty "gtk-xft-dpi has invalid value (-1)" warning fix
+    gtk3.extraConfig.gtk-xft-dpi = 98304;
+    gtk4.extraConfig.gtk-xft-dpi = 98304;
   };
 
   services = {

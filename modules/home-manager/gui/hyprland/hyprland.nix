@@ -73,6 +73,9 @@ in {
     # Breaks things
     # package = pkgs.stable.hyprland;
 
+    # Set in modules/nixos/base/services.nix
+    portalPackage = null;
+
     # TODO: the keybinds are broken with lua
     configType = "hyprlang";
 
