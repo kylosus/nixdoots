@@ -67,6 +67,12 @@ in {
     gtk4.extraConfig.gtk-xft-dpi = 98304;
   };
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      gtk-enable-primary-paste = true;
+    };
+  };
+
   services = {
     blueman-applet = {
       enable = true;
