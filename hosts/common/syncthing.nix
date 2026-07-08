@@ -11,28 +11,28 @@ in {
 
   services.syncthing.settings = {
     devices = {
-      inherit (secrets.syncthing) Yue Miku Emilia Phone Phone-OP Seedbox;
+      inherit (secrets.syncthing) Yue Miku Luka Emilia Phone Phone-OP Seedbox;
     };
 
     folders = {
       "keepass" = {
         path = "${syncthingPath}/keepass";
-        devices = ["Miku" "Yue" "Emilia" "Phone" "Phone-OP" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
+        devices = ["Miku" "Luka" "Yue" "Emilia" "Phone" "Phone-OP" "Seedbox"]; # TODO: https://github.com/NixOS/nixpkgs/issues/121286
       };
 
       "rclone" = {
         path = "${homePath}/.config/rclone";
-        devices = ["Miku" "Yue" "Emilia"];
+        devices = ["Miku" "Luka" "Yue" "Emilia"];
       };
 
       "ssh_hosts" = {
         path = "${homePath}/.ssh/hosts.d";
-        devices = ["Miku" "Yue" "Emilia"];
+        devices = ["Miku" "Luka" "Yue" "Emilia"];
       };
 
       "phone" = {
         path = "${syncthingPath}/Phone";
-        devices = ["Miku" "Yue" "Phone" "Phone-OP"];
+        devices = ["Miku" "Luka" "Yue" "Phone" "Phone-OP"];
       };
 
       # "fish-history" = {
