@@ -14,7 +14,7 @@
     deluge
     stable.ffmpeg
     neovim
-    obsidian
+    stable.obsidian
     zathura
   ];
 }

@@ -92,8 +92,6 @@ in {
 
       workspace = workspaceAssignments;
 
-      # Mirrors i3 visual: gaps_in 12, no titlebars, 2px borders, no rounding,
-      # no animations/blur.
       general = {
         gaps_in = 12;
         gaps_out = 0;
