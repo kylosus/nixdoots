@@ -19,7 +19,9 @@
 
   boot.loader.grub = {
     enable = true;
-    devices = ["/dev/vda"];
+    # It breaks sometimes
+    # devices = ["/dev/vda"];
+    devices = ["/dev/sda"];
   };
 
   fileSystems."/" = {
