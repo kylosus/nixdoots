@@ -27,11 +27,11 @@ in {
           http_port = lib.toInt grafanaPort;
         };
 
-        # security = {
-        #   disable_initial_admin_creation = true;
-        #   admin_user = "admin";
-        #   admin_password = "admin";
-        # };
+        security = {
+          disable_initial_admin_creation = true;
+          # TODO
+          secret_key = "123123123";
+        };
       };
 
       provision.datasources.settings = {
