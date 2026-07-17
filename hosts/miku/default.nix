@@ -1,7 +1,7 @@
 {hardware, ...}: {
   params = {
     system = "x86_64-linux";
-    timeZone = "Europe/Istanbul";
+    timeZone = "Asia/Baku";
 
     hostName = "Miku";
     userName = "user";
@@ -36,7 +36,7 @@
       # Syncthing
       ../common/syncthing.nix
 
-      ../common/wireguard.nix
+      # ../common/wireguard.nix
     ];
 
     boot.kernelModules = ["v4l2loopback"];
@@ -72,12 +72,17 @@
     services.polybar.config."module/temperature".hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
 
     host.hyprland = {
-      ifname = "wlp8s0";
+      ifname = "enp9s0";
       monitors = [
         {
           name = "desc:Microstep MAG 274QF CE4H095700438";
           mode = "2560x1440@180";
-          position = "0x0";
+          position = "auto-left";
+        }
+        {
+          name = "desc:BNQ BenQ GW2780 4CJ0161901Q";
+          mode = "1920x1080@60.00";
+          position = "auto-right";
         }
       ];
     };
