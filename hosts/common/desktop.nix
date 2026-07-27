@@ -11,6 +11,7 @@
 
   # More applications
   home.packages = with pkgs; [
+    firefox
     deluge
     stable.ffmpeg
     neovim
