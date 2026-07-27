@@ -96,4 +96,11 @@ in {
     enableBashIntegration = false;
     enableFishIntegration = true;
   };
+
+  programs.screen = {
+    enable = true;
+    screenrc = ''
+      termcapinfo xterm* ti@:te@
+    '';
+  };
 }
