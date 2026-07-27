@@ -17,6 +17,7 @@
       ../common/desktop.nix
       ({pkgs, ...}: {
         home.pointerCursor = {
+          enable = true;
           name = "Vanilla-DMZ";
           package = pkgs.vanilla-dmz;
           size = 64;
