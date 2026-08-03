@@ -53,7 +53,7 @@ in {
     enable = true;
     theme = {
       name = "Dracula";
-      package = pkgs.dracula-theme;
+      package = pkgs.catppuccin-gtk;
       # package = pkgs.catppuccin-gtk.override {
       #   accents = ["pink"];
       #   size = "compact";
