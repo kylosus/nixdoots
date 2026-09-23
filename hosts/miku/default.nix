@@ -39,6 +39,8 @@
       # ../common/wireguard.nix
     ];
 
+    host.secureBoot.enable = true;
+
     boot.kernelModules = ["v4l2loopback"];
     boot.extraModulePackages = [pkgs.linuxPackages.v4l2loopback];
 
