@@ -41,9 +41,9 @@ in {
   config = {
     programs.rofi = {
       enable = true;
-      font = "source code pro medium 10";
-      terminal = lib.getExe config.programs.kitty.package;
-      extraConfig = {
+      settings = {
+        font = "source code pro medium 10";
+        terminal = lib.getExe config.programs.kitty.package;
         modi = "drun";
         show-icons = true;
         case-sensitive = false;

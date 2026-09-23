@@ -21,7 +21,7 @@
 
   # TODO: these should be in a base/ dir to share with home-manager
   nix.settings = {
-    experimental-features = "nix-command flakes cgroups";
+    experimental-features = ["nix-command" "flakes" "cgroups"];
     auto-optimise-store = true;
     log-lines = lib.mkDefault 25;
 
