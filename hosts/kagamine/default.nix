@@ -30,6 +30,13 @@
       ../../modules/nixos/features/luks-ssh.nix
     ];
 
+    # nvram sometimes resets on this machine
+    host.secureBoot.enable = true;
+    boot.loader = {
+      efi.canTouchEfiVariables = lib.mkForce false;
+      limine.efiInstallAsRemovable = lib.mkForce true;
+    };
+
     # ZFS stuff
     boot.supportedFilesystems = ["zfs"];
     # This is random
