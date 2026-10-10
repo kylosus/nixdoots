@@ -8,10 +8,15 @@
 }: let
   functions = import ./functions.nix {};
 
+  containerLib = import ./container.nix {
+    lib = inputs.nixpkgs.lib;
+    inherit vars;
+  };
+
   mkParams = import ./params.nix {inherit files;};
 
   defaultSpecialArgs = {
-    inherit inputs outputs files vars secrets functions;
+    inherit inputs outputs files vars secrets functions containerLib;
   };
 
   # Everyone else reads from param directly, yet we have this here
