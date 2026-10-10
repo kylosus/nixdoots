@@ -28,6 +28,9 @@
       # ../../modules/nixos/services/monitoring.nix
 
       ../../modules/nixos/features/luks-ssh.nix
+
+      # Containers
+      (import ../../containers/jellyfin (import ./jellyfin-media.nix))
     ];
 
     # nvram sometimes resets on this machine
@@ -48,6 +51,8 @@
       enable = true;
       isLighthouse = true;
     };
+
+    networking.nftables.enable = true;
   };
 
   homeModule = {...}: {

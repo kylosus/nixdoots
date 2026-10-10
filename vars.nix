@@ -15,6 +15,18 @@ rec {
     networkName = "container-private-network";
   };
 
+  # NixOS containers: one veth pair per container, 10.71.N.1 (host) <-> 10.71.N.2
+  nixContainer = rec {
+    network = "10.71";
+
+    services = {
+      jellyfin = {
+        hostAddress = "${network}.0.1";
+        localAddress = "${network}.0.2";
+      };
+    };
+  };
+
   nebula = {
     name = "mesh";
     trustedGroup = "personal";
