@@ -58,6 +58,7 @@
     host.container = {
       enable = true;
       backend = "docker";
+      enableCUDA = false;
     };
 
     # TODO: https://github.com/NixOS/nixpkgs/issues/180175

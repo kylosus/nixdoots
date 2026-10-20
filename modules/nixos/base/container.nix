@@ -22,10 +22,23 @@ in {
         type = lib.types.str;
         description = "Container backend to use (podman or docker)";
       };
+
+      enableCUDA = lib.mkOption {
+        default = false;
+        type = lib.types.bool;
+        description = "Enables CUDA (nvidia-container-toolkit)";
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = cfg.enableCUDA -> config.hardware.nvidia.enabled;
+        message = "`config.hardware.nvidia.enabled` must be set when `host.container.enableCUDA` is set.";
+      }
+    ];
+
     virtualisation.containers.enable = true;
     virtualisation.oci-containers.backend = cfg.backend;
 
@@ -70,7 +83,7 @@ in {
     };
 
     # Enable CUDA if we have NVIDIA
-    hardware.nvidia-container-toolkit.enable = config.hardware.nvidia.enabled;
+    hardware.nvidia-container-toolkit.enable = cfg.enableCUDA;
 
     # TODO: this is root?
     # https://discourse.nixos.org/t/how-to-create-docker-network-in-nixos-configuration-correctly/16945/2
