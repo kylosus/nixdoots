@@ -41,8 +41,9 @@
 
     host.secureBoot.enable = true;
 
-    boot.kernelModules = ["v4l2loopback"];
-    boot.extraModulePackages = [pkgs.linuxPackages.v4l2loopback];
+    # TODO: #575851
+    # boot.kernelModules = ["v4l2loopback"];
+    # boot.extraModulePackages = [pkgs.linuxPackages.v4l2loopback];
 
     # TODO
     hardware.nvidia.open = true;

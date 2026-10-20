@@ -34,7 +34,7 @@ in {
 
     # https://nixos.wiki/wiki/MPV
     mpv-unwrapped = prev.mpv-unwrapped.override {
-      lua = final.luajit;
+      lua5_2_compat = final.luajit;
     };
 
     # python3 = prev.python3.override {
@@ -47,6 +47,11 @@ in {
 
     # TODO: bug fixes
     eza = final.stable.eza;
+
+    # TODO: remove after #575801
+    pywal16 = prev.pywal16.overridePythonAttrs (_old: {
+      makeWrapperArgs = ["--prefix" "PATH" ":" (lib.makeBinPath [final.imagemagick])];
+    });
 
     # Slow compilation fixes. Check on next update
     # gtk4 = final.stable.gtk4;
