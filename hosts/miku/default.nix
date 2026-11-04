@@ -33,6 +33,9 @@
       hardware.nixosModules.common-cpu-amd-raphael-igpu
       hardware.nixosModules.common-gpu-nvidia-nonprime
 
+      # Remote unlock
+      ../../modules/nixos/features/luks-ssh.nix
+
       # Syncthing
       ../common/syncthing.nix
 

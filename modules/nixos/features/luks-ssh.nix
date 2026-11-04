@@ -12,8 +12,9 @@
         enable = true;
         port = 2222;
         authorizedKeyFiles = [files.ssh-authorized];
-        # ssh-keygen -t rsa -N "" -f /etc/secrets/initrd/ssh_host_rsa_key
-        hostKeys = ["/etc/secrets/initrd/ssh_host_rsa_key"];
+        # mkdir -p /etc/secrets/initrd
+        # ssh-keygen -t ed25519 -N "" -f /etc/secrets/initrd/ssh_host_key
+        hostKeys = ["/etc/secrets/initrd/ssh_host_key"];
       };
     };
   };
