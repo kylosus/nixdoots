@@ -44,7 +44,7 @@ in {
 
   programs.chromium = {
     enable = true;
-    package = pkgs.stable.ungoogled-chromium;
+    package = pkgs.unstable.ungoogled-chromium;
 
     commandLineArgs = lib.mkIf isWayland ["--ozone-platform=wayland"];
   };
