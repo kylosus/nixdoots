@@ -19,7 +19,8 @@ in {
 
   programs.waybar = {
     enable = true;
-    package = pkgs.stable.waybar;
+    # TODO: remove after upstreamed
+    package = pkgs.master.waybar;
     systemd.enable = true;
 
     settings.mainBar = {
