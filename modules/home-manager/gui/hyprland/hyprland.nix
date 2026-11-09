@@ -6,6 +6,21 @@
 }: let
   cfg = config.host.hyprland;
 
+  inherit (lib.generators) mkLuaInline;
+  toLua' = lib.generators.toLua {multiline = false;};
+
+  # Lua helpers for the HM `settings` DSL (see wayland.windowManager.hyprland.settings).
+  # `dsp "window.move" [{ workspace = 3; }]` -> hl.dsp.window.move({ ["workspace"] = 3 })
+  dsp = name: args: mkLuaInline "hl.dsp.${name}(${lib.concatMapStringsSep ", " toLua' args})";
+  exec = cmd: dsp "exec_cmd" [cmd];
+  # Several dispatchers on one key: wrap them in a function that runs each in order.
+  dspSeq = dispatchers:
+    mkLuaInline "function()\n${lib.concatMapStrings (d: "  hl.dispatch(${d.expr})\n") dispatchers}end";
+
+  # `bind "SUPER + d" (exec "rofi")` -> hl.bind("SUPER + d", hl.dsp.exec_cmd("rofi"))
+  bind = keys: dispatcher: {_args = [keys dispatcher];};
+  bindWith = opts: keys: dispatcher: {_args = [keys dispatcher opts];};
+
   # Workspace -> monitor distribution: same logic as i3/common.nix.
   numMonitors = builtins.length cfg.monitors;
   workspaceGroups =
@@ -17,53 +32,69 @@
     else [(lib.range 1 20)];
 
   # Pre-assign each workspace to a monitor so it spawns there on first use.
-  # `persistent:true` shows up all of them in the bar
-  workspaceAssignments = lib.flatten (
+  workspaceRules = lib.flatten (
     lib.zipListsWith
-    (monitor: ids: map (id: "${toString id}, monitor:${monitor.name}") ids)
+    (monitor: ids:
+      map (id: {
+        workspace = toString id;
+        monitor = monitor.name;
+      })
+      ids)
     cfg.monitors
     workspaceGroups
   );
 
-  # Build monitor strings.
-  monitorEntries = map (m:
-    if !m.enabled
-    then "${m.name},disable"
-    else "${m.name},${m.mode},${m.position},${toString m.scale},transform,${toString m.transform}")
-  cfg.monitors;
+  monitorRules =
+    map (m:
+      {
+        output = m.name;
+        inherit (m) mode position scale transform;
+        disabled = !m.enabled;
+      }
+      // lib.optionalAttrs (m.bitdepth != null) {inherit (m) bitdepth;}
+      // m.extraSettings)
+    cfg.monitors
+    # Catch-all for anything not declared above.
+    ++ [
+      {
+        output = "";
+        mode = "preferred";
+        position = "auto";
+        scale = 1;
+      }
+    ];
 
   # Workspace number-key bindings:
-  # SUPER+n: 0 -> 10, ALT+n 11 -> 20
-  numKeyBinds = lib.flatten (map (n: let
-    nStr = toString n;
-    altWs = toString (n + 10);
+  # SUPER+n: 1..10, ALT+n: 11..20 (key 0 -> 10/20)
+  numKeyBinds = lib.concatMap (n: let
+    key = toString (lib.mod n 10);
+    altWs = n + 10;
   in [
-    "SUPER, ${nStr}, workspace, ${nStr}"
-    "SUPER SHIFT, ${nStr}, movetoworkspace, ${nStr}"
-    "ALT, ${nStr}, workspace, ${altWs}"
-    "ALT SHIFT, ${nStr}, movetoworkspace, ${altWs}"
-  ]) (lib.range 1 9));
+    (bind "SUPER + ${key}" (dsp "focus" [{workspace = n;}]))
+    (bind "SUPER + SHIFT + ${key}" (dsp "window.move" [{workspace = n;}]))
+    (bind "ALT + ${key}" (dsp "focus" [{workspace = altWs;}]))
+    (bind "ALT + SHIFT + ${key}" (dsp "window.move" [{workspace = altWs;}]))
+  ]) (lib.range 1 10);
 
-  sessionEnv = [
-    "XCURSOR_THEME,Fuchsia-Pop"
-    "XCURSOR_SIZE,24"
-    "HYPRCURSOR_THEME,Fuchsia-Pop"
-    "HYPRCURSOR_SIZE,24"
-    "_JAVA_AWT_WM_NONREPARENTING,1"
-    "NIXOS_OZONE_WL,1"
-    "MOZ_ENABLE_WAYLAND,1"
-    "QT_QPA_PLATFORM,wayland;xcb"
-    "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-    "SDL_VIDEODRIVER,wayland"
-    "GDK_BACKEND,wayland,x11"
+  sessionEnv = {
+    XCURSOR_THEME = "Fuchsia-Pop"; # TODO
+    XCURSOR_SIZE = "24";
+    HYPRCURSOR_THEME = "Fuchsia-Pop";
+    HYPRCURSOR_SIZE = "24";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+    NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    SDL_VIDEODRIVER = "wayland";
+    GDK_BACKEND = "wayland,x11";
     # Extra
-    "_GL_GSYNC_ALLOWED,1"
-    "LIBVA_DRIVER_NAME,nvidia"
-    "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-    "ELECTRON_OZONE_PLATFORM_HINT,auto"
-    "NVD_BACKEND,direct"
-  ];
-  sessionEnvNames = map (e: lib.head (lib.splitString "," e)) sessionEnv;
+    _GL_GSYNC_ALLOWED = "1";
+    LIBVA_DRIVER_NAME = "nvidia"; # TODO
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+    NVD_BACKEND = "direct";
+  };
 in {
   # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#nixos-uwsm
   xdg.configFile."uwsm/env".source = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
@@ -76,194 +107,250 @@ in {
     # Set in modules/nixos/base/services.nix
     portalPackage = null;
 
-    # TODO: the keybinds are broken with lua
-    configType = "hyprlang";
+    configType = "lua";
 
     # For uwsm
     systemd.enable = false;
     xwayland.enable = true;
 
+    # pywal palette with defaults
+    extraLuaFiles.wal = ''
+      local fallback = { color1 = "rgb(cccccc)", color8 = "rgb(595959)" }
+      local ok, palette = pcall(dofile, "${config.xdg.cacheHome}/wal/colors-hyprland.lua")
+      if not ok or type(palette) ~= "table" then
+        return fallback
+      end
+      return setmetatable(palette, { __index = fallback })
+    '';
+
     settings = {
-      # Pull pywal-rendered $background/$foreground/$color*
-      source = ["${config.xdg.cacheHome}/wal/colors-hyprland.conf"];
+      # local wal = require("wal")
+      wal._var = mkLuaInline ''require("wal")'';
 
-      # Each declared monitor first; `,preferred,auto,1` catches anything else.
-      monitor = monitorEntries ++ [",preferred,auto,1"];
+      monitor = monitorRules;
 
-      workspace = workspaceAssignments;
+      workspace_rule = workspaceRules;
 
-      general = {
-        gaps_in = 12;
-        gaps_out = 0;
-        border_size = 2;
-        layout = "dwindle";
-        "col.active_border" = "$color1";
-        "col.inactive_border" = "$color8";
-        allow_tearing = false;
+      config = {
+        general = {
+          gaps_in = 12;
+          gaps_out = 0;
+          border_size = 2;
+          layout = "dwindle";
+          col = {
+            active_border = mkLuaInline "wal.color1";
+            inactive_border = mkLuaInline "wal.color8";
+          };
+          allow_tearing = false;
+        };
 
-        # Animations
-        animation = "global, 1, 1, default";
+        decoration = {
+          rounding = 0;
+          shadow.enabled = false;
+          blur.enabled = false;
+          active_opacity = 1.0;
+          inactive_opacity = 1.0;
+        };
 
-        # Gestures
-        gesture = "3, horizontal, workspace";
-      };
+        dwindle = {
+          preserve_split = true;
+          # 0 = follow mouse, 1 = always to the left, 2 = always to the right.
+          # 2 mimics i3-layouts autosplit's "new on the right" behavior.
+          force_split = 2;
+        };
 
-      decoration = {
-        rounding = 0;
-        shadow.enabled = false;
-        blur.enabled = false;
-        active_opacity = 1.0;
-        inactive_opacity = 1.0;
-      };
+        input = {
+          kb_layout = "us";
+          follow_mouse = 1;
+          accel_profile = "adaptive";
+          touchpad = {
+            natural_scroll = true;
+            middle_button_emulation = true;
+            disable_while_typing = false;
+          };
+        };
 
-      dwindle = {
-        preserve_split = true;
-        # 0 = follow mouse, 1 = always to the left, 2 = always to the right.
-        # 2 mimics i3-layouts autosplit's "new on the right" behavior.
-        force_split = 2;
-      };
+        gestures = {
+          workspace_swipe_create_new = true;
+        };
 
-      input = {
-        kb_layout = "us";
-        follow_mouse = 1;
-        accel_profile = "adaptive";
-        touchpad = {
-          natural_scroll = true;
-          middle_button_emulation = true;
-          disable_while_typing = false;
+        misc = {
+          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
+          focus_on_activate = false;
+          initial_workspace_tracking = 2;
+        };
+
+        render = {
+          # Don't flip the output into HDR when a fullscreen client asks for it.
+          # TODO: might flip this maybe. Right now it blacks out the screen for a second
+          # or two on chromium
+          cm_auto_hdr = false;
         };
       };
 
-      gestures = {
-        workspace_swipe_create_new = true;
+      animation = {
+        leaf = "global";
+        enabled = true;
+        speed = 1;
+        bezier = "default";
       };
 
-      misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-        focus_on_activate = false;
-        initial_workspace_tracking = 2;
+      gesture = {
+        fingers = 3;
+        direction = "horizontal";
+        action = "workspace";
       };
 
       # XWayland cursor sizing + Wayland-app conformance.
-      env = sessionEnv;
+      env = lib.mapAttrsToList (name: value: {_args = [name value];}) sessionEnv;
 
       # # Window rules for scratchpad and stuff
-      # Deprecated
-      # windowrulev2 = [
+      # window_rule = [
       #   # Picture-in-Picture: float + sticky.
-      #   "float, title:^(Picture-in-Picture)$"
-      #   "pin, title:^(Picture-in-Picture)$"
+      #   { match.title = "^(Picture-in-Picture)$"; float = true; pin = true; }
       #   # 1Password Lock Screen: float + sticky + 800x800.
-      #   "float, class:^(1Password)$, title:.*Lock Screen.*"
-      #   "size 800 800, class:^(1Password)$, title:.*Lock Screen.*"
-      #   "pin, class:^(1Password)$, title:.*Lock Screen.*"
+      #   { match = { class = "^(1Password)$"; title = ".*Lock Screen.*"; }; float = true; pin = true; size = "800 800"; }
       #   # Sharing Indicator: float + sticky.
-      #   "float, title:.*Sharing Indicator.*"
-      #   "pin, title:.*Sharing Indicator.*"
+      #   { match.title = ".*Sharing Indicator.*"; float = true; pin = true; }
       #   # Plexamp: float.
-      #   "float, title:^(Plexamp)$"
+      #   { match.title = "^(Plexamp)$"; float = true; }
       #   # feh: float (parity with the i3 rule).
-      #   "float, class:^(feh)$"
+      #   { match.class = "^(feh)$"; float = true; }
       # ];
 
       bind =
         [
           # Application launchers
-          "SUPER, Return, exec, ${config.host.terminal.cmd.spawn}"
-          "SUPER, d, exec, ${config.host.launcher.cmd.launcher}"
-          "SUPER SHIFT, d, exec, ${config.host.launcher.cmd.windows}"
+          (bind "SUPER + Return" (exec config.host.terminal.cmd.spawn))
+          (bind "SUPER + d" (exec config.host.launcher.cmd.launcher))
+          (bind "SUPER + SHIFT + d" (exec config.host.launcher.cmd.windows))
 
           # fd + rofi pipelines
-          "ALT, d, exec, ${config.host.launcher.cmd.fd}"
-          "ALT SHIFT, d, exec, ${config.host.launcher.cmd.fdDirs}"
+          (bind "ALT + d" (exec config.host.launcher.cmd.fd))
+          (bind "ALT + SHIFT + d" (exec config.host.launcher.cmd.fdDirs))
 
           # Focus
-          "SUPER, left, movefocus, l"
-          "SUPER, down, movefocus, d"
-          "SUPER, up, movefocus, u"
-          "SUPER, right, movefocus, r"
+          (bind "SUPER + left" (dsp "focus" [{direction = "left";}]))
+          (bind "SUPER + down" (dsp "focus" [{direction = "down";}]))
+          (bind "SUPER + up" (dsp "focus" [{direction = "up";}]))
+          (bind "SUPER + right" (dsp "focus" [{direction = "right";}]))
 
           # Move
-          "SUPER SHIFT, left, movewindow, l"
-          "SUPER SHIFT, down, movewindow, d"
-          "SUPER SHIFT, up, movewindow, u"
-          "SUPER SHIFT, right, movewindow, r"
+          (bind "SUPER + SHIFT + left" (dsp "window.move" [{direction = "left";}]))
+          (bind "SUPER + SHIFT + down" (dsp "window.move" [{direction = "down";}]))
+          (bind "SUPER + SHIFT + up" (dsp "window.move" [{direction = "up";}]))
+          (bind "SUPER + SHIFT + right" (dsp "window.move" [{direction = "right";}]))
 
-          # # Resize (defined in submap below)
-          "SUPER, r, submap, resize"
+          # Resize (defined in submap below)
+          (bind "SUPER + r" (dsp "submap" ["resize"]))
 
           # Workspace cycling
-          "SUPER, comma, workspace, e-1"
-          "SUPER, period, workspace, e+1"
-          "ALT, Tab, workspace, e+1"
-          "SUPER, Tab, workspace, e-1"
-
-          # Workspace moving
-          "SUPER, 0, workspace, 10"
-          "SUPER SHIFT, 0, movetoworkspace, 10"
-          "ALT, 0, workspace, 20"
-          "ALT SHIFT, 0, movetoworkspace, 20"
+          (bind "SUPER + comma" (dsp "focus" [{workspace = "e-1";}]))
+          (bind "SUPER + period" (dsp "focus" [{workspace = "e+1";}]))
+          (bind "ALT + Tab" (dsp "focus" [{workspace = "e+1";}]))
+          (bind "SUPER + Tab" (dsp "focus" [{workspace = "e-1";}]))
 
           # Misc
-          "SUPER, x, exec, ${config.host.lock.command}"
-          "SUPER, Print, exec, ${config.host.screenshot.command}"
-          "SUPER, Print, exec, ${config.host.screenshot.command}"
-          "SUPER SHIFT, INSERT, exec, ${config.host.screenshot.command}"
-          "CTRL, grave, exec, ${config.host.notifications.historyCommand}"
+          (bind "SUPER + x" (exec config.host.lock.command))
+          (bind "SUPER + Print" (exec config.host.screenshot.command))
+          (bind "SUPER + SHIFT + Insert" (exec config.host.screenshot.command))
+          (bind "CTRL + grave" (exec config.host.notifications.historyCommand))
 
           # Window control
-          "SUPER SHIFT, q, killactive,"
-          "SUPER, f, fullscreen, 0"
-          "SUPER SHIFT, space, togglefloating,"
+          (bind "SUPER + SHIFT + q" (dsp "window.close" []))
+          (bind "SUPER + f" (dsp "window.fullscreen" [{mode = "fullscreen";}]))
+          (bind "SUPER + SHIFT + space" (dsp "window.float" []))
 
-          # Scratchpad (i3-like). Two binds on the same key fire in order:
-          # force floating, then move silently to the special workspace.
-          "SUPER SHIFT, minus, setfloating"
-          "SUPER SHIFT, minus, movetoworkspacesilent, special:scratchpad"
-          "SUPER, minus, togglespecialworkspace, scratchpad"
+          # Scratchpad (i3-like): force floating, then move silently to the special workspace.
+          (bind "SUPER + SHIFT + minus" (dspSeq [
+            (dsp "window.float" [{action = "enable";}])
+            (dsp "window.move" [
+              {
+                workspace = "special:scratchpad";
+                follow = false;
+              }
+            ])
+          ]))
+          (bind "SUPER + minus" (dsp "workspace.toggle_special" ["scratchpad"]))
 
           # Sticky. floating-only
-          "SUPER, plus, pin"
+          (bind "SUPER + plus" (dsp "window.pin" []))
+
+          # Mouse drag for floating windows.
+          (bindWith {mouse = true;} "SUPER + mouse:272" (dsp "window.drag" []))
+          (bindWith {mouse = true;} "SUPER + mouse:273" (dsp "window.resize" []))
+        ]
+        # Hardware keys (volume/brightness): repeat while held, work when locked.
+        ++ map (b:
+          bindWith {
+            repeating = true;
+            locked = true;
+          }
+          b.key (exec b.cmd)) [
+          {
+            key = "XF86AudioRaiseVolume";
+            cmd = config.host.audio.cmd.volumeUp;
+          }
+          {
+            key = "XF86AudioLowerVolume";
+            cmd = config.host.audio.cmd.volumeDown;
+          }
+          {
+            key = "XF86MonBrightnessUp";
+            cmd = "${lib.getExe pkgs.brightnessctl} set +10";
+          }
+          {
+            key = "XF86MonBrightnessDown";
+            cmd = "${lib.getExe pkgs.brightnessctl} set 10-";
+          }
+        ]
+        ++ [
+          (bindWith {locked = true;} "XF86AudioMute" (exec config.host.audio.cmd.mute))
+          (bindWith {locked = true;} "XF86AudioMicMute" (exec config.host.audio.cmd.micMute))
         ]
         ++ numKeyBinds;
 
-      # Hardware keys (volume/brightness/audio): use bindel for repeat.
-      bindel = [
-        ", XF86AudioRaiseVolume, exec, ${config.host.audio.cmd.volumeUp}"
-        ", XF86AudioLowerVolume, exec, ${config.host.audio.cmd.volumeDown}"
-        ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl} set +10"
-        ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} set 10-"
-      ];
-      bindl = [
-        ", XF86AudioMute, exec, ${config.host.audio.cmd.mute}"
-        ", XF86AudioMicMute, exec, ${config.host.audio.cmd.micMute}"
-      ];
-
-      # Mouse drag for floating windows.
-      bindm = [
-        "SUPER, mouse:272, movewindow"
-        "SUPER, mouse:273, resizewindow"
-      ];
-
-      exec-once = [
-        "${pkgs.uwsm}/bin/uwsm finalize ${lib.concatStringsSep " " sessionEnvNames}"
+      on._args = [
+        "hyprland.start"
+        (mkLuaInline ''
+          function()
+            hl.exec_cmd(${toLua' "${pkgs.uwsm}/bin/uwsm finalize ${lib.concatStringsSep " " (lib.attrNames sessionEnv)}"})
+          end'')
       ];
     };
 
-    submaps = {
-      resize.settings = {
-        bind = [
-          ", escape, submap, reset"
-        ];
-
-        binde = [
-          ", right, resizeactive, 10 0"
-          ", left, resizeactive, -10 0"
-          ", up, resizeactive, 0 -10"
-          ", down, resizeactive, 0 10"
-        ];
-      };
-    };
+    submaps.resize.settings.bind =
+      map (b: bindWith {repeating = true;} b.key (dsp "window.resize" [(b.delta // {relative = true;})])) [
+        {
+          key = "right";
+          delta = {
+            x = 10;
+            y = 0;
+          };
+        }
+        {
+          key = "left";
+          delta = {
+            x = -10;
+            y = 0;
+          };
+        }
+        {
+          key = "up";
+          delta = {
+            x = 0;
+            y = -10;
+          };
+        }
+        {
+          key = "down";
+          delta = {
+            x = 0;
+            y = 10;
+          };
+        }
+      ]
+      ++ [(bind "escape" (dsp "submap" ["reset"]))];
   };
 }

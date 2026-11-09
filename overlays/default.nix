@@ -48,11 +48,6 @@ in {
     # TODO: bug fixes
     eza = final.stable.eza;
 
-    # TODO: remove after #575801
-    pywal16 = prev.pywal16.overridePythonAttrs (_old: {
-      makeWrapperArgs = ["--prefix" "PATH" ":" (lib.makeBinPath [final.imagemagick])];
-    });
-
     # Slow compilation fixes. Check on next update
     # gtk4 = final.stable.gtk4;
     # nvidia-vaapi-driver = final.stable.nvidia-vaapi-driver;

@@ -39,6 +39,20 @@ in {
             default = 0;
             description = "Rotation/transform: 0=normal, 1=90°, 2=180°, 3=270°.";
           };
+          bitdepth = lib.mkOption {
+            type = lib.types.nullOr (lib.types.enum [8 10]);
+            default = null;
+            description = "Output bit depth. Set to 10 on wide-gamut/HDR panels so colour management can switch to wide gamut (e.g. fullscreen video). null = Hyprland default (8).";
+          };
+          extraSettings = lib.mkOption {
+            type = lib.types.attrsOf lib.types.anything;
+            default = {};
+            example = {
+              cm = "hdr";
+              sdrbrightness = 1.2;
+            };
+            description = "Extra keys merged into this monitor's hl.monitor() rule (cm, sdr_eotf, sdrbrightness, vrr, ...).";
+          };
           enabled = lib.mkOption {
             type = lib.types.bool;
             default = true;

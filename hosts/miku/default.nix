@@ -85,6 +85,11 @@
           name = "desc:Microstep MAG 274QF CE4H095700438";
           mode = "2560x1440@180";
           position = "auto-left";
+          # HDR/BT.2020-capable panel: fullscreen wide-gamut content (chromium, mpv)
+          # makes Hyprland switch to wide gamut, which needs a 10-bit output.
+          bitdepth = 10;
+          # The panel is 418 nit and HDR looks washed out.
+          extraSettings.cm = "srgb";
         }
         {
           name = "desc:BNQ BenQ GW2780 4CJ0161901Q";

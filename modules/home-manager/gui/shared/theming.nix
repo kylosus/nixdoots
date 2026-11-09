@@ -75,6 +75,16 @@
     border-color={color3}
   '';
 
+  # Lua table of the palette, `dofile`d by the Hyprland Lua config.
+  # Braces are doubled because pywal templates use Python str.format.
+  hyprlandLuaText = ''
+    return {{
+      wallpaper = "{wallpaper}",
+      background = "{background.rgba}",
+      foreground = "{foreground.rgba}",
+    ${lib.concatMapStrings (n: "  color${toString n} = \"{color${toString n}.rgba}\",\n") (lib.range 0 15)}}}
+  '';
+
   # Daemons launched with explicit -conf/--config paths into ~/.cache/wal don't
   # auto-reload when the rendered files change
   postWalScript = ''
@@ -92,7 +102,7 @@
 
   # Any change to template/hook content invalidates this hash, which flips
   # the unit Description and makes sd-switch restart pywal on hm switch.
-  templatesHash = builtins.hashString "sha256" (dunstrcText + makoConfigText + postWalScript);
+  templatesHash = builtins.hashString "sha256" (dunstrcText + makoConfigText + hyprlandLuaText + postWalScript);
 in {
   programs.pywal = {
     enable = true;
@@ -105,6 +115,9 @@ in {
 
     # mako --config <path>
     ".config/wal/templates/mako-config".text = makoConfigText;
+
+    # TODO: check for upstream pywal16 colors.lua at some point
+    ".config/wal/templates/colors-hyprland.lua".text = hyprlandLuaText;
 
     # Post-wal hook to signal daemons to reload on palette change
     # TODO: there should be a better way...
