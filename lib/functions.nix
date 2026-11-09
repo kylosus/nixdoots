@@ -9,6 +9,7 @@
   in [
     overlays.additions
     overlays.modifications
+    overlays.master-packages
     overlays.unstable-packages
     overlays.stable-packages
   ];
