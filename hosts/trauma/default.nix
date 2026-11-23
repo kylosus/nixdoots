@@ -29,6 +29,7 @@
       ../../containers/owncast
 
       # ../../modules/nixos/services/wireguard.nix
+      ../../modules/nixos/services/shadowsocks.nix
       ../../modules/nixos/services/monitoring.nix
       ../../modules/nixos/services/reverse-ssh.nix
 
@@ -49,13 +50,32 @@
     };
 
     # Wireguard
-    #sops.secrets.trauma-wireguard-key = {
-    #  format = "binary";
-    #  sopsFile = ./wireguard.key;
-    #};
-    #host.wireguard = {
-    #  privateKeyFile = toString config.sops.secrets.trauma-wireguard-key.path;
-    #};
+    # sops.secrets.trauma-wireguard-key = {
+    #   format = "binary";
+    #   sopsFile = ./wireguard.key;
+    # };
+    # host.wireguard = {
+    #   privateKeyFile = toString config.sops.secrets.trauma-wireguard-key.path;
+    # };
+
+    # networking.wireguard.interfaces.wg0 = {
+    #  peers = [
+    #     {
+    #	  name = "Phone-OP";
+    #	  publicKey = "iENbzhja/JKoCJxonufzevn2xqYxp+sDebkysNzKwAc=";
+    #	  allowedIPs = [ "10.100.0.2/32" ];
+    #	}
+    #  ];
+    # };
+
+    # Shadowsocks, in case wireguard is blocked by DPI
+    sops.secrets.trauma-shadowsocks-key = {
+      format = "binary";
+      sopsFile = ./shadowsocks.key;
+    };
+    host.shadowsocks = {
+      passwordFile = config.sops.secrets.trauma-shadowsocks-key.path;
+    };
 
     # This host has the frontend
     host.monitoring.isGrafana = true;

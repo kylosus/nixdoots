@@ -23,13 +23,14 @@ in {
 
   config = let
     externalInterface = "eth0";
+    wireguardPort = 51821;
   in {
     # enable NAT
     networking.nat.enable = true;
     networking.nat.externalInterface = externalInterface;
     networking.nat.internalInterfaces = ["wg0"];
     networking.firewall = {
-      allowedUDPPorts = [51820];
+      allowedUDPPorts = [wireguardPort];
     };
 
     networking.wireguard.interfaces = {
@@ -39,7 +40,7 @@ in {
         ips = [cfg.ip];
 
         # The port that WireGuard listens to. Must be accessible by the client.
-        listenPort = 51820;
+        listenPort = wireguardPort;
 
         # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
         # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients

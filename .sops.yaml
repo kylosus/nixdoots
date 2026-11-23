@@ -33,6 +33,10 @@ creation_rules:
     key_groups:
       - age:
         - *host_trauma
+  - path_regex: hosts/trauma/shadowsocks.key
+    key_groups:
+      - age:
+        - *host_trauma
   - path_regex: secrets/nebula/.*.json
     key_groups:
       - age:
