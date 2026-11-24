@@ -78,11 +78,13 @@
 
     services.polybar.config."module/temperature".hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
 
-    host.hyprland = {
+    host.hyprland = let
+      mainMonitor = "desc:Microstep MAG 274QF CE4H095700438";
+    in {
       ifname = "enp9s0";
       monitors = [
         {
-          name = "desc:Microstep MAG 274QF CE4H095700438";
+          name = mainMonitor;
           mode = "2560x1440@180";
           position = "auto-left";
           # HDR/BT.2020-capable panel: fullscreen wide-gamut content (chromium, mpv)
@@ -97,6 +99,15 @@
           position = "auto-right";
         }
       ];
+
+      extraSettings = {
+        device = [
+          {
+            name = "huion-huion-tablet_h640p-pen";
+            output = mainMonitor;
+          }
+        ];
+      };
     };
   };
 }

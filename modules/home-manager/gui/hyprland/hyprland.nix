@@ -123,202 +123,205 @@ in {
       return setmetatable(palette, { __index = fallback })
     '';
 
-    settings = {
-      # local wal = require("wal")
-      wal._var = mkLuaInline ''require("wal")'';
+    settings = lib.mkMerge [
+      {
+        # local wal = require("wal")
+        wal._var = mkLuaInline ''require("wal")'';
 
-      monitor = monitorRules;
+        monitor = monitorRules;
 
-      workspace_rule = workspaceRules;
+        workspace_rule = workspaceRules;
 
-      config = {
-        general = {
-          gaps_in = 12;
-          gaps_out = 0;
-          border_size = 2;
-          layout = "dwindle";
-          col = {
-            active_border = mkLuaInline "wal.color1";
-            inactive_border = mkLuaInline "wal.color8";
+        config = {
+          general = {
+            gaps_in = 12;
+            gaps_out = 0;
+            border_size = 2;
+            layout = "dwindle";
+            col = {
+              active_border = mkLuaInline "wal.color1";
+              inactive_border = mkLuaInline "wal.color8";
+            };
+            allow_tearing = false;
           };
-          allow_tearing = false;
-        };
 
-        decoration = {
-          rounding = 0;
-          shadow.enabled = false;
-          blur.enabled = false;
-          active_opacity = 1.0;
-          inactive_opacity = 1.0;
-        };
+          decoration = {
+            rounding = 0;
+            shadow.enabled = false;
+            blur.enabled = false;
+            active_opacity = 1.0;
+            inactive_opacity = 1.0;
+          };
 
-        dwindle = {
-          preserve_split = true;
-          # 0 = follow mouse, 1 = always to the left, 2 = always to the right.
-          # 2 mimics i3-layouts autosplit's "new on the right" behavior.
-          force_split = 2;
-        };
+          dwindle = {
+            preserve_split = true;
+            # 0 = follow mouse, 1 = always to the left, 2 = always to the right.
+            # 2 mimics i3-layouts autosplit's "new on the right" behavior.
+            force_split = 2;
+          };
 
-        input = {
-          kb_layout = "us";
-          follow_mouse = 1;
-          accel_profile = "adaptive";
-          touchpad = {
-            natural_scroll = true;
-            middle_button_emulation = true;
-            disable_while_typing = false;
+          input = {
+            kb_layout = "us";
+            follow_mouse = 1;
+            accel_profile = "adaptive";
+            touchpad = {
+              natural_scroll = true;
+              middle_button_emulation = true;
+              disable_while_typing = false;
+            };
+          };
+
+          gestures = {
+            workspace_swipe_create_new = true;
+          };
+
+          misc = {
+            disable_hyprland_logo = true;
+            disable_splash_rendering = true;
+            focus_on_activate = false;
+            initial_workspace_tracking = 2;
+          };
+
+          render = {
+            # Don't flip the output into HDR when a fullscreen client asks for it.
+            # TODO: might flip this maybe. Right now it blacks out the screen for a second
+            # or two on chromium
+            cm_auto_hdr = false;
           };
         };
 
-        gestures = {
-          workspace_swipe_create_new = true;
+        animation = {
+          leaf = "global";
+          enabled = true;
+          speed = 1;
+          bezier = "default";
         };
 
-        misc = {
-          disable_hyprland_logo = true;
-          disable_splash_rendering = true;
-          focus_on_activate = false;
-          initial_workspace_tracking = 2;
+        gesture = {
+          fingers = 3;
+          direction = "horizontal";
+          action = "workspace";
         };
 
-        render = {
-          # Don't flip the output into HDR when a fullscreen client asks for it.
-          # TODO: might flip this maybe. Right now it blacks out the screen for a second
-          # or two on chromium
-          cm_auto_hdr = false;
-        };
-      };
+        # XWayland cursor sizing + Wayland-app conformance.
+        env = lib.mapAttrsToList (name: value: {_args = [name value];}) sessionEnv;
 
-      animation = {
-        leaf = "global";
-        enabled = true;
-        speed = 1;
-        bezier = "default";
-      };
+        # # Window rules for scratchpad and stuff
+        # window_rule = [
+        #   # Picture-in-Picture: float + sticky.
+        #   { match.title = "^(Picture-in-Picture)$"; float = true; pin = true; }
+        #   # 1Password Lock Screen: float + sticky + 800x800.
+        #   { match = { class = "^(1Password)$"; title = ".*Lock Screen.*"; }; float = true; pin = true; size = "800 800"; }
+        #   # Sharing Indicator: float + sticky.
+        #   { match.title = ".*Sharing Indicator.*"; float = true; pin = true; }
+        #   # Plexamp: float.
+        #   { match.title = "^(Plexamp)$"; float = true; }
+        #   # feh: float (parity with the i3 rule).
+        #   { match.class = "^(feh)$"; float = true; }
+        # ];
 
-      gesture = {
-        fingers = 3;
-        direction = "horizontal";
-        action = "workspace";
-      };
+        bind =
+          [
+            # Application launchers
+            (bind "SUPER + Return" (exec config.host.terminal.cmd.spawn))
+            (bind "SUPER + d" (exec config.host.launcher.cmd.launcher))
+            (bind "SUPER + SHIFT + d" (exec config.host.launcher.cmd.windows))
 
-      # XWayland cursor sizing + Wayland-app conformance.
-      env = lib.mapAttrsToList (name: value: {_args = [name value];}) sessionEnv;
+            # fd + rofi pipelines
+            (bind "ALT + d" (exec config.host.launcher.cmd.fd))
+            (bind "ALT + SHIFT + d" (exec config.host.launcher.cmd.fdDirs))
 
-      # # Window rules for scratchpad and stuff
-      # window_rule = [
-      #   # Picture-in-Picture: float + sticky.
-      #   { match.title = "^(Picture-in-Picture)$"; float = true; pin = true; }
-      #   # 1Password Lock Screen: float + sticky + 800x800.
-      #   { match = { class = "^(1Password)$"; title = ".*Lock Screen.*"; }; float = true; pin = true; size = "800 800"; }
-      #   # Sharing Indicator: float + sticky.
-      #   { match.title = ".*Sharing Indicator.*"; float = true; pin = true; }
-      #   # Plexamp: float.
-      #   { match.title = "^(Plexamp)$"; float = true; }
-      #   # feh: float (parity with the i3 rule).
-      #   { match.class = "^(feh)$"; float = true; }
-      # ];
+            # Focus
+            (bind "SUPER + left" (dsp "focus" [{direction = "left";}]))
+            (bind "SUPER + down" (dsp "focus" [{direction = "down";}]))
+            (bind "SUPER + up" (dsp "focus" [{direction = "up";}]))
+            (bind "SUPER + right" (dsp "focus" [{direction = "right";}]))
 
-      bind =
-        [
-          # Application launchers
-          (bind "SUPER + Return" (exec config.host.terminal.cmd.spawn))
-          (bind "SUPER + d" (exec config.host.launcher.cmd.launcher))
-          (bind "SUPER + SHIFT + d" (exec config.host.launcher.cmd.windows))
+            # Move
+            (bind "SUPER + SHIFT + left" (dsp "window.move" [{direction = "left";}]))
+            (bind "SUPER + SHIFT + down" (dsp "window.move" [{direction = "down";}]))
+            (bind "SUPER + SHIFT + up" (dsp "window.move" [{direction = "up";}]))
+            (bind "SUPER + SHIFT + right" (dsp "window.move" [{direction = "right";}]))
 
-          # fd + rofi pipelines
-          (bind "ALT + d" (exec config.host.launcher.cmd.fd))
-          (bind "ALT + SHIFT + d" (exec config.host.launcher.cmd.fdDirs))
+            # Resize (defined in submap below)
+            (bind "SUPER + r" (dsp "submap" ["resize"]))
 
-          # Focus
-          (bind "SUPER + left" (dsp "focus" [{direction = "left";}]))
-          (bind "SUPER + down" (dsp "focus" [{direction = "down";}]))
-          (bind "SUPER + up" (dsp "focus" [{direction = "up";}]))
-          (bind "SUPER + right" (dsp "focus" [{direction = "right";}]))
+            # Workspace cycling
+            (bind "SUPER + comma" (dsp "focus" [{workspace = "e-1";}]))
+            (bind "SUPER + period" (dsp "focus" [{workspace = "e+1";}]))
+            (bind "ALT + Tab" (dsp "focus" [{workspace = "e+1";}]))
+            (bind "SUPER + Tab" (dsp "focus" [{workspace = "e-1";}]))
 
-          # Move
-          (bind "SUPER + SHIFT + left" (dsp "window.move" [{direction = "left";}]))
-          (bind "SUPER + SHIFT + down" (dsp "window.move" [{direction = "down";}]))
-          (bind "SUPER + SHIFT + up" (dsp "window.move" [{direction = "up";}]))
-          (bind "SUPER + SHIFT + right" (dsp "window.move" [{direction = "right";}]))
+            # Misc
+            (bind "SUPER + x" (exec config.host.lock.command))
+            (bind "SUPER + Print" (exec config.host.screenshot.command))
+            (bind "SUPER + SHIFT + Insert" (exec config.host.screenshot.command))
+            (bind "CTRL + grave" (exec config.host.notifications.historyCommand))
 
-          # Resize (defined in submap below)
-          (bind "SUPER + r" (dsp "submap" ["resize"]))
+            # Window control
+            (bind "SUPER + SHIFT + q" (dsp "window.close" []))
+            (bind "SUPER + f" (dsp "window.fullscreen" [{mode = "fullscreen";}]))
+            (bind "SUPER + SHIFT + space" (dsp "window.float" []))
 
-          # Workspace cycling
-          (bind "SUPER + comma" (dsp "focus" [{workspace = "e-1";}]))
-          (bind "SUPER + period" (dsp "focus" [{workspace = "e+1";}]))
-          (bind "ALT + Tab" (dsp "focus" [{workspace = "e+1";}]))
-          (bind "SUPER + Tab" (dsp "focus" [{workspace = "e-1";}]))
+            # Scratchpad (i3-like): force floating, then move silently to the special workspace.
+            (bind "SUPER + SHIFT + minus" (dspSeq [
+              (dsp "window.float" [{action = "enable";}])
+              (dsp "window.move" [
+                {
+                  workspace = "special:scratchpad";
+                  follow = false;
+                }
+              ])
+            ]))
+            (bind "SUPER + minus" (dsp "workspace.toggle_special" ["scratchpad"]))
 
-          # Misc
-          (bind "SUPER + x" (exec config.host.lock.command))
-          (bind "SUPER + Print" (exec config.host.screenshot.command))
-          (bind "SUPER + SHIFT + Insert" (exec config.host.screenshot.command))
-          (bind "CTRL + grave" (exec config.host.notifications.historyCommand))
+            # Sticky. floating-only
+            (bind "SUPER + plus" (dsp "window.pin" []))
 
-          # Window control
-          (bind "SUPER + SHIFT + q" (dsp "window.close" []))
-          (bind "SUPER + f" (dsp "window.fullscreen" [{mode = "fullscreen";}]))
-          (bind "SUPER + SHIFT + space" (dsp "window.float" []))
+            # Mouse drag for floating windows.
+            (bindWith {mouse = true;} "SUPER + mouse:272" (dsp "window.drag" []))
+            (bindWith {mouse = true;} "SUPER + mouse:273" (dsp "window.resize" []))
+          ]
+          # Hardware keys (volume/brightness): repeat while held, work when locked.
+          ++ map (b:
+            bindWith {
+              repeating = true;
+              locked = true;
+            }
+            b.key (exec b.cmd)) [
+            {
+              key = "XF86AudioRaiseVolume";
+              cmd = config.host.audio.cmd.volumeUp;
+            }
+            {
+              key = "XF86AudioLowerVolume";
+              cmd = config.host.audio.cmd.volumeDown;
+            }
+            {
+              key = "XF86MonBrightnessUp";
+              cmd = "${lib.getExe pkgs.brightnessctl} set +10";
+            }
+            {
+              key = "XF86MonBrightnessDown";
+              cmd = "${lib.getExe pkgs.brightnessctl} set 10-";
+            }
+          ]
+          ++ [
+            (bindWith {locked = true;} "XF86AudioMute" (exec config.host.audio.cmd.mute))
+            (bindWith {locked = true;} "XF86AudioMicMute" (exec config.host.audio.cmd.micMute))
+          ]
+          ++ numKeyBinds;
 
-          # Scratchpad (i3-like): force floating, then move silently to the special workspace.
-          (bind "SUPER + SHIFT + minus" (dspSeq [
-            (dsp "window.float" [{action = "enable";}])
-            (dsp "window.move" [
-              {
-                workspace = "special:scratchpad";
-                follow = false;
-              }
-            ])
-          ]))
-          (bind "SUPER + minus" (dsp "workspace.toggle_special" ["scratchpad"]))
-
-          # Sticky. floating-only
-          (bind "SUPER + plus" (dsp "window.pin" []))
-
-          # Mouse drag for floating windows.
-          (bindWith {mouse = true;} "SUPER + mouse:272" (dsp "window.drag" []))
-          (bindWith {mouse = true;} "SUPER + mouse:273" (dsp "window.resize" []))
-        ]
-        # Hardware keys (volume/brightness): repeat while held, work when locked.
-        ++ map (b:
-          bindWith {
-            repeating = true;
-            locked = true;
-          }
-          b.key (exec b.cmd)) [
-          {
-            key = "XF86AudioRaiseVolume";
-            cmd = config.host.audio.cmd.volumeUp;
-          }
-          {
-            key = "XF86AudioLowerVolume";
-            cmd = config.host.audio.cmd.volumeDown;
-          }
-          {
-            key = "XF86MonBrightnessUp";
-            cmd = "${lib.getExe pkgs.brightnessctl} set +10";
-          }
-          {
-            key = "XF86MonBrightnessDown";
-            cmd = "${lib.getExe pkgs.brightnessctl} set 10-";
-          }
-        ]
-        ++ [
-          (bindWith {locked = true;} "XF86AudioMute" (exec config.host.audio.cmd.mute))
-          (bindWith {locked = true;} "XF86AudioMicMute" (exec config.host.audio.cmd.micMute))
-        ]
-        ++ numKeyBinds;
-
-      on._args = [
-        "hyprland.start"
-        (mkLuaInline ''
-          function()
-            hl.exec_cmd(${toLua' "${pkgs.uwsm}/bin/uwsm finalize ${lib.concatStringsSep " " (lib.attrNames sessionEnv)}"})
-          end'')
-      ];
-    };
+        on._args = [
+          "hyprland.start"
+          (mkLuaInline ''
+            function()
+              hl.exec_cmd(${toLua' "${pkgs.uwsm}/bin/uwsm finalize ${lib.concatStringsSep " " (lib.attrNames sessionEnv)}"})
+            end'')
+        ];
+      }
+      cfg.extraSettings
+    ];
 
     submaps.resize.settings.bind =
       map (b: bindWith {repeating = true;} b.key (dsp "window.resize" [(b.delta // {relative = true;})])) [

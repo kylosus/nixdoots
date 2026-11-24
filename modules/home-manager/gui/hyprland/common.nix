@@ -63,6 +63,12 @@ in {
       default = [];
       description = "Monitor configuration. Order matters: first = primary.";
     };
+
+    extraSettings = lib.mkOption {
+      type = lib.types.attrsOf lib.types.anything;
+      default = {};
+      description = "Extra settings to expand into `wayland.windowManager.hyprland.settings`";
+    };
   };
 
   config = {
